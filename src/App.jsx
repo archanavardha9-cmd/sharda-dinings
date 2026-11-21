@@ -16,14 +16,23 @@ import ContactPage from './pages/ContactPage';
 
 function NotFoundPage() {
   return (
-    <div className="min-h-[65vh] flex items-center justify-center px-6 py-24 text-center">
-      <div className="mx-auto max-w-md">
-        <span className="eyebrow">Sharda Dinings</span>
-        <h1 className="section-title">This page isn’t on the menu.</h1>
-        <p className="section-copy mx-auto mb-6">
+    <div className="min-h-[65vh] flex items-center justify-center px-6 py-24 text-center bg-[#FFFDF8]">
+      <div className="mx-auto max-w-md space-y-5">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#6E2434]">
+          Sharda Dinings
+        </p>
+        <h1 className="font-serif text-3xl sm:text-4xl text-[#2C1D18] leading-tight">
+          This page isn’t on the menu.
+        </h1>
+        <p className="text-sm text-[#61524A] leading-relaxed">
           The requested page may have moved or been updated. Please return to Sharda Dinings home.
         </p>
-        <Link to="/" className="button">Return home</Link>
+        <Link
+          to="/"
+          className="gloss-btn inline-flex min-h-[44px] items-center justify-center px-6 py-3 bg-[#6E2434] hover:bg-[#511825] text-white text-xs font-semibold uppercase tracking-wider rounded-sm transition-colors"
+        >
+          Return home
+        </Link>
       </div>
     </div>
   );
@@ -46,13 +55,13 @@ export default function App() {
   return (
     <Router>
       <ScrollToTop />
-      <div className="min-h-screen flex flex-col bg-[#FFF9F0] text-[#2A2520]">
+      <div className="min-h-screen flex flex-col bg-[#FFFDF8] text-[#2C1D18]">
         <Navbar
           onOpenEnquiry={handleOpenEnquiry}
           onOpenVerification={handleOpenVerification}
         />
 
-        <main className="flex-1">
+        <main className="flex-1 pt-16">
           <Routes>
             <Route
               path="/"

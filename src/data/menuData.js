@@ -1,17 +1,22 @@
+import dalMakhaniImg from '../assets/images/dal_makhani_naan_1795201046179.jpg';
+import butterChickenImg from '../assets/images/butter_chicken_kulcha_1795201049476.jpg';
+import cornPizzaImg from '../assets/images/corn_margherita_pizza_1795201048660.jpg';
+import oreoShakeImg from '../assets/images/nutella_oreo_shakes_1795201048991.jpg';
+
 export const MENU_CATEGORIES = [
   { id: 'all', name: 'All Curations' },
   { id: 'soups', name: 'Soups & Shorbas' },
   { id: 'veg-starters', name: 'Vegetarian Tandoori' },
   { id: 'nonveg-starters', name: 'Non-Veg Tandoori' },
-  { id: 'oriental-veg', name: 'Chinese Veg' },
+  { id: 'oriental-veg', name: 'Chinese & Sichuan Veg' },
   { id: 'oriental-nonveg', name: 'Chinese Non-Veg' },
   { id: 'veg-mains', name: 'Vegetarian Gravies' },
   { id: 'nonveg-mains', name: 'Poultry & Meat Gravies' },
   { id: 'biryani-rice', name: 'Biryani & Pulao' },
   { id: 'breads', name: 'Tandoori Breads' },
   { id: 'noodles-rice', name: 'Noodles & Fried Rice' },
-  { id: 'cafe-continental', name: 'Olive Cafe Specials' },
-  { id: 'beverages-desserts', name: 'Beverages & Desserts' }
+  { id: 'cafe-continental', name: 'Olive Cafe Pizzas & Pastas' },
+  { id: 'beverages-desserts', name: 'Shakes, Coffees & Desserts' }
 ];
 
 export const MENU_ITEMS = [
@@ -32,7 +37,7 @@ export const MENU_ITEMS = [
     category: 'soups',
     isVeg: true,
     price: 210,
-    description: 'Silky, earthy button mushroom velouté finished with farm cream and toasted croutons.',
+    description: 'Silky button mushroom velouté finished with farm cream and toasted croutons.',
     chefSpecial: false,
     spice: 'Mild'
   },
@@ -42,7 +47,7 @@ export const MENU_ITEMS = [
     category: 'soups',
     isVeg: false,
     price: 240,
-    description: 'Classic Sichuan hot and sour broth brimming with shredded chicken, bamboo shoots, and mushrooms.',
+    description: 'Sichuan hot and sour broth brimming with shredded chicken, bamboo shoots, and mushrooms.',
     chefSpecial: false,
     spice: 'Medium'
   },
@@ -52,7 +57,7 @@ export const MENU_ITEMS = [
     category: 'soups',
     isVeg: true,
     price: 190,
-    description: 'Spiced garlic and ginger soya broth topped with a generous crown of crunchy fried noodles.',
+    description: 'Spiced garlic and ginger soya broth topped with crunchy fried noodles.',
     chefSpecial: false,
     spice: 'Medium'
   },
@@ -64,18 +69,18 @@ export const MENU_ITEMS = [
     category: 'veg-starters',
     isVeg: true,
     price: 340,
-    image: '/images/food/paneer-tikka-tandoori.webp',
-    description: 'Plump malai paneer cubes marinated in mustard oil, roasted gram flour, hung curd and Kashmiri deghi mirch, clay oven charred.',
+    image: '/images/food/tandoori-veg-platter.webp',
+    description: 'Malai paneer cubes marinated in mustard oil, hung curd, and Kashmiri deghi mirch, clay oven charred.',
     chefSpecial: true,
     spice: 'Medium'
   },
   {
     id: 'm6',
-    name: 'Paneer Ludhiyani Tikka',
+    name: 'Paneer Peshawari & Ludhiyani Tikka',
     category: 'veg-starters',
     isVeg: true,
     price: 360,
-    description: 'Special cottage cheese tikka tossed with coarse black pepper, fresh mint, and cracked roasted coriander.',
+    description: 'Cottage cheese tikka tossed with coarse black pepper, fresh mint, and roasted coriander.',
     chefSpecial: false,
     spice: 'Medium'
   },
@@ -85,7 +90,7 @@ export const MENU_ITEMS = [
     category: 'veg-starters',
     isVeg: true,
     price: 320,
-    description: 'Golden fried crispy patties crafted from sweet American corn, melted mozzarella, and fresh herbs.',
+    description: 'Crisp golden patties crafted from sweet corn, melted mozzarella, and fresh herbs.',
     chefSpecial: false,
     spice: 'Mild'
   },
@@ -95,7 +100,7 @@ export const MENU_ITEMS = [
     category: 'veg-starters',
     isVeg: true,
     price: 340,
-    description: 'Delicate hung yoghurt cutlets infused with pomegranate kernels, fresh coriander, and roasted spices.',
+    description: 'Guest-favorite hung yoghurt cutlets folded with green chillies, coriander, and roasted spices.',
     chefSpecial: true,
     spice: 'Mild'
   },
@@ -105,7 +110,7 @@ export const MENU_ITEMS = [
     category: 'veg-starters',
     isVeg: true,
     price: 330,
-    description: 'Minced button mushrooms and sweetcorn skewered and broiled over smouldering charcoal with royal garam masala.',
+    description: 'Minced button mushrooms and sweetcorn skewered and broiled over charcoal embers.',
     chefSpecial: false,
     spice: 'Medium'
   },
@@ -117,8 +122,8 @@ export const MENU_ITEMS = [
     category: 'nonveg-starters',
     isVeg: false,
     price: 390,
-    image: '/images/food/tandoori-platter-mixed.webp',
-    description: 'Whole spring chicken marinated overnight in hung curd, Kashmiri spices, garlic, and mustard oil, slow-roasted in the tandoor.',
+    image: '/images/food/sharda-dinings-food-spread-clean.webp',
+    description: 'Whole spring chicken marinated overnight in hung curd, Kashmiri spices, garlic, and slow-roasted in the tandoor.',
     chefSpecial: true,
     spice: 'Hot'
   },
@@ -128,7 +133,7 @@ export const MENU_ITEMS = [
     category: 'nonveg-starters',
     isVeg: false,
     price: 420,
-    description: 'Boneless tender chicken medallions immersed in rich cashew cream, green cardamom, cheese, and grilled to butter-soft perfection.',
+    description: 'Boneless tender chicken medallions immersed in cashew cream, green cardamom, and butter-grilled.',
     chefSpecial: true,
     spice: 'Mild'
   },
@@ -138,19 +143,20 @@ export const MENU_ITEMS = [
     category: 'nonveg-starters',
     isVeg: false,
     price: 430,
-    description: 'Melt-in-mouth chicken chunks steeped in fresh clotted cream, white pepper, royal cumin, and slow-charred.',
+    description: 'Melt-in-mouth chicken chunks steeped in fresh clotted cream, white pepper, and royal cumin.',
     chefSpecial: false,
     spice: 'Mild'
   },
   {
     id: 'm13',
-    name: 'Banjara Chicken Kabab',
+    name: 'Garlic Lemon Herb Roast Chicken',
     category: 'nonveg-starters',
     isVeg: false,
     price: 410,
-    description: 'Rustic spiced chicken kebabs coated with pounded mint, coriander, spicy green chillies, and roasted gram.',
+    image: '/images/food/garlic-lemon-herb-chicken.webp',
+    description: 'Herb-marinated boneless chicken skewers roasted with crushed garlic and citrus peel.',
     chefSpecial: false,
-    spice: 'Hot'
+    spice: 'Medium'
   },
   {
     id: 'm14',
@@ -158,7 +164,7 @@ export const MENU_ITEMS = [
     category: 'nonveg-starters',
     isVeg: false,
     price: 490,
-    description: 'Hand-pounded lamb mince mixed with shallots, mint, and secret whole spices, grilled on iron skewers.',
+    description: 'Hand-pounded lamb mince with shallots, mint, and whole spices grilled on iron skewers.',
     chefSpecial: true,
     spice: 'Medium'
   },
@@ -170,9 +176,9 @@ export const MENU_ITEMS = [
     category: 'oriental-veg',
     isVeg: true,
     price: 320,
-    image: '/images/food/crispy-paneer-chilli.webp',
-    description: 'Wok-tossed battered cottage cheese with crunchy bell peppers, onions, dark soya, and toasted sesame.',
-    chefSpecial: false,
+    image: '/images/food/shanghai-chilli-paneer.webp',
+    description: 'Wok-tossed cottage cheese with crunchy bell peppers, onions, dark soya, and sesame.',
+    chefSpecial: true,
     spice: 'Medium'
   },
   {
@@ -181,7 +187,7 @@ export const MENU_ITEMS = [
     category: 'oriental-veg',
     isVeg: true,
     price: 260,
-    description: 'Crisp hand-cut potato fingers tossed in sweet mountain honey, red chilli flakes, and roasted sesame seeds.',
+    description: 'Crisp hand-cut potato fingers glazed in honey, crushed chilli flakes, and roasted sesame.',
     chefSpecial: false,
     spice: 'Mild'
   },
@@ -191,7 +197,7 @@ export const MENU_ITEMS = [
     category: 'oriental-veg',
     isVeg: true,
     price: 280,
-    description: 'Golden minced vegetable dumplings tossed in garlic, ginger, spring onion, and tangy soya reduction.',
+    description: 'Golden vegetable dumplings tossed in garlic, ginger, spring onion, and soya reduction.',
     chefSpecial: false,
     spice: 'Medium'
   },
@@ -201,7 +207,7 @@ export const MENU_ITEMS = [
     category: 'oriental-veg',
     isVeg: true,
     price: 290,
-    description: 'Batter-fried young corn tossed with cracked pepper, bell peppers, scallions, and Chinese five-spice.',
+    description: 'Batter-fried young corn tossed with cracked pepper, scallions, and Sichuan seasoning.',
     chefSpecial: false,
     spice: 'Medium'
   },
@@ -213,8 +219,8 @@ export const MENU_ITEMS = [
     category: 'oriental-nonveg',
     isVeg: false,
     price: 380,
-    image: '/images/food/chilli-chicken-oriental.webp',
-    description: 'Crisp chicken cubes wok-seared with spicy green chillies, crushed garlic, and savory Asian soy reduction.',
+    image: '/images/food/thai-stir-fry-chicken.webp',
+    description: 'Crisp chicken cubes wok-seared with green chillies, garlic, and soy reduction.',
     chefSpecial: true,
     spice: 'Hot'
   },
@@ -224,7 +230,7 @@ export const MENU_ITEMS = [
     category: 'oriental-nonveg',
     isVeg: false,
     price: 390,
-    description: 'Frenched chicken winglets coated in spicy ginger-garlic batter, deep-fried crisp, served with hot Schezwan dip.',
+    description: 'Frenched chicken winglets coated in ginger-garlic batter, crisp-fried with hot Schezwan dip.',
     chefSpecial: false,
     spice: 'Hot'
   },
@@ -234,7 +240,7 @@ export const MENU_ITEMS = [
     category: 'oriental-nonveg',
     isVeg: false,
     price: 380,
-    description: 'Crispy chicken bites tempered with curry leaves, crushed peppercorns, dried red chillies, and yoghurt marinade.',
+    description: 'Crispy chicken bites tempered with curry leaves, crushed peppercorns, and dried chillies.',
     chefSpecial: false,
     spice: 'Hot'
   },
@@ -245,30 +251,30 @@ export const MENU_ITEMS = [
     name: 'Dal Makhani Sharda Signature',
     category: 'veg-mains',
     isVeg: true,
-    price: 310,
-    image: '/images/food/dal-makhani-special.webp',
-    description: 'Slow-simmered black lentils cooked overnight over charcoal embers, finished with churned butter and dairy cream.',
+    price: 340,
+    image: dalMakhaniImg,
+    isIllustrative: true,
+    description: 'Black lentils simmered overnight over slow heat, finished with churned butter and cream.',
     chefSpecial: true,
     spice: 'Mild'
   },
   {
     id: 'm23',
-    name: 'Paneer Lababdar',
+    name: 'Paneer Punjabi Tadka / Butter Masala',
     category: 'veg-mains',
     isVeg: true,
-    price: 370,
-    image: '/images/food/paneer-lababdar.webp',
-    description: 'Cottage cheese simmered in a luscious gravy of ripe plum tomatoes, onion relish, cashew cream, and grated paneer.',
+    price: 345,
+    description: 'Soft cottage cheese simmered in a rich tomato-cashew butter gravy tempered with kasuri methi.',
     chefSpecial: true,
-    spice: 'Medium'
+    spice: 'Mild'
   },
   {
     id: 'm24',
-    name: 'Handi Paneer Khas',
+    name: 'Paneer Lababdar / Handi Paneer',
     category: 'veg-mains',
     isVeg: true,
-    price: 360,
-    description: 'Tender paneer cubes cooked in an earthenware clay pot with whole spices, capsicum, and thick onion-tomato masala.',
+    price: 370,
+    description: 'Earthen-pot cottage cheese cooked with bell peppers, whole spices, and onion-tomato relish.',
     chefSpecial: false,
     spice: 'Medium'
   },
@@ -278,7 +284,7 @@ export const MENU_ITEMS = [
     category: 'veg-mains',
     isVeg: true,
     price: 380,
-    description: 'Dumplings of paneer and dried fruits bathed in an opulent cardamom-infused golden cashew cream gravy.',
+    description: 'Paneer and dry-fruit dumplings bathed in an opulent cardamom-infused cashew cream gravy.',
     chefSpecial: true,
     spice: 'Mild'
   },
@@ -288,7 +294,8 @@ export const MENU_ITEMS = [
     category: 'veg-mains',
     isVeg: true,
     price: 290,
-    description: 'Slow-stewed chickpeas tossed with pomegranate seed powder, dry mango, carom seeds, and green chillies.',
+    image: '/images/food/sharda-dinings-naan-and-chole.webp',
+    description: 'Slow-stewed chickpeas tossed with pomegranate seed powder, dry mango, and carom seeds.',
     chefSpecial: false,
     spice: 'Medium'
   },
@@ -300,8 +307,9 @@ export const MENU_ITEMS = [
     category: 'nonveg-mains',
     isVeg: false,
     price: 460,
-    image: '/images/food/butter-chicken-handi.webp',
-    description: 'Shredded and boneless tandoori chicken simmered in an indulgent silky tomato-makhani gravy perfumed with fenugreek leaves.',
+    image: butterChickenImg,
+    isIllustrative: true,
+    description: 'Boneless tandoori chicken simmered in velvety tomato-makhani gravy perfumed with fenugreek.',
     chefSpecial: true,
     spice: 'Mild'
   },
@@ -311,7 +319,7 @@ export const MENU_ITEMS = [
     category: 'nonveg-mains',
     isVeg: false,
     price: 470,
-    description: 'Succulent chicken pieces cooked in a coarsely textured tomato and roasted cashew gravy with bell peppers and cheese.',
+    description: 'Succulent chicken pieces in tomato-cashew gravy finished with ginger juliennes.',
     chefSpecial: false,
     spice: 'Medium'
   },
@@ -321,7 +329,7 @@ export const MENU_ITEMS = [
     category: 'nonveg-mains',
     isVeg: false,
     price: 440,
-    description: 'Tender chicken tossed in an iron wok with roasted coriander seeds, black peppercorns, onions, and crisp bell peppers.',
+    description: 'Wok-tossed chicken with roasted coriander seeds, crushed pepper, and crisp bell peppers.',
     chefSpecial: false,
     spice: 'Hot'
   },
@@ -331,7 +339,7 @@ export const MENU_ITEMS = [
     category: 'nonveg-mains',
     isVeg: false,
     price: 540,
-    description: 'Braised tender goat meat cooked in a creamy black pepper and brown onion gravy until falling off the bone.',
+    description: 'Slow-braised goat meat cooked in a cream and crushed black peppercorn sauce.',
     chefSpecial: true,
     spice: 'Medium'
   },
@@ -341,7 +349,7 @@ export const MENU_ITEMS = [
     category: 'nonveg-mains',
     isVeg: false,
     price: 450,
-    description: 'Homestyle slow-simmered poultry curry prepared with whole bay leaf, cloves, mustard oil, and caramelised onions.',
+    description: 'Homestyle poultry curry prepared with bay leaf, cloves, mustard oil, and caramelised onions.',
     chefSpecial: false,
     spice: 'Hot'
   },
@@ -353,8 +361,8 @@ export const MENU_ITEMS = [
     category: 'biryani-rice',
     isVeg: false,
     price: 410,
-    image: '/images/food/chicken-dum-biryani.webp',
-    description: 'Long-grain aged basmati rice layered with marinated chicken, saffron milk, mint, and sealed in an earthen handi for dum.',
+    image: '/images/food/sharda-dining-biryani.webp',
+    description: 'Aged basmati layered with marinated chicken, saffron milk, and mint, slow-sealed on dum.',
     chefSpecial: true,
     spice: 'Medium'
   },
@@ -363,19 +371,30 @@ export const MENU_ITEMS = [
     name: 'Veg Dum Biryani Awadhi',
     category: 'biryani-rice',
     isVeg: true,
-    price: 330,
-    description: 'Garden fresh vegetables, fragrant saffron rice, fried onions, and whole spices steamed slowly on low heat.',
+    price: 380,
+    image: '/images/food/sharda-dinings-hyderabadi-biryani.webp',
+    description: 'Fresh vegetables, saffron rice, browned shallots, and whole spices steamed gently.',
     chefSpecial: false,
     spice: 'Medium'
   },
   {
     id: 'm34',
-    name: 'Mutton Dum Biryani',
+    name: 'Chicken Tikka Biryani (4 Pcs)',
     category: 'biryani-rice',
     isVeg: false,
-    price: 520,
-    description: 'Rich spiced mutton pieces and aged basmati rice dum-cooked with rose water, kewra, and browned shallots.',
+    price: 440,
+    description: 'Smoky tandoor-charred chicken tikka folded into fragrant spiced basmati rice.',
     chefSpecial: true,
+    spice: 'Medium'
+  },
+  {
+    id: 'm34b',
+    name: 'Egg Biryani (4 Pcs)',
+    category: 'biryani-rice',
+    isVeg: false,
+    price: 380,
+    description: 'Spiced boiled eggs layered with mint, fried onions, and aromatic saffron rice.',
+    chefSpecial: false,
     spice: 'Medium'
   },
 
@@ -386,8 +405,8 @@ export const MENU_ITEMS = [
     category: 'breads',
     isVeg: true,
     price: 80,
-    image: '/images/food/assorted-breads-basket.webp',
-    description: 'Clay-oven baked refined flour bread brushed with molten butter or studded with roasted garlic and coriander.',
+    image: '/images/food/sharda-dinings-naan-and-chole.webp',
+    description: 'Clay-oven baked bread brushed with salted butter or studded with roasted garlic.',
     chefSpecial: false,
     spice: 'Mild'
   },
@@ -397,7 +416,7 @@ export const MENU_ITEMS = [
     category: 'breads',
     isVeg: true,
     price: 75,
-    description: 'Crisp multi-layered wholewheat paratha or gram flour roti infused with carom seeds and dried fenugreek.',
+    description: 'Multi-layered wholewheat paratha or gram-flour roti with carom seeds and kasuri methi.',
     chefSpecial: false,
     spice: 'Mild'
   },
@@ -405,12 +424,21 @@ export const MENU_ITEMS = [
   // Fried Rice & Noodles
   {
     id: 'm37',
+    name: 'Veg Chilli Garlic Fried Rice',
+    category: 'noodles-rice',
+    isVeg: true,
+    price: 250,
+    description: 'High-flame wok fried rice loaded with roasted garlic, crushed chilli, and crisp vegetables.',
+    chefSpecial: true,
+    spice: 'Medium'
+  },
+  {
+    id: 'm37b',
     name: 'Veg Hakka Noodles',
     category: 'noodles-rice',
     isVeg: true,
     price: 240,
-    image: '/images/food/hakka-noodles-wok.webp',
-    description: 'Classic wok-tossed noodles with shredded cabbage, carrots, bell peppers, celery, and toasted sesame oil.',
+    description: 'Classic wok-tossed noodles with cabbage, carrots, bell peppers, and sesame oil.',
     chefSpecial: false,
     spice: 'Mild'
   },
@@ -420,33 +448,45 @@ export const MENU_ITEMS = [
     category: 'noodles-rice',
     isVeg: false,
     price: 290,
-    description: 'Aromatic basmati rice tossed with shredded chicken, eggs, and piquant in-house Schezwan red pepper paste.',
+    description: 'Basmati rice tossed with shredded chicken, eggs, and in-house Schezwan chilli paste.',
     chefSpecial: false,
     spice: 'Hot'
   },
 
-  // Olive Cafe Specials
+  // Olive Cafe Pizzas & Pastas
   {
     id: 'c1',
-    name: 'Gourmet Margherita Pizza',
+    name: 'Margherita / Corn Cheese Pizza',
     category: 'cafe-continental',
     isVeg: true,
     price: 340,
-    image: '/images/cafe/woodfired-style-pizza.webp',
-    description: 'Stone-baked thin crust pizza with San Marzano style tomato concassé, torn mozzarella, and fragrant fresh basil.',
+    image: cornPizzaImg,
+    isIllustrative: true,
+    description: 'Thin-crust hand-stretched pizza topped with tomato basil sauce, sweet corn, and melted mozzarella.',
     chefSpecial: true,
     spice: 'Mild'
   },
   {
     id: 'c2',
-    name: 'Creamy Alfredo Penne',
+    name: 'Creamy White Sauce Alfredo Penne',
     category: 'cafe-continental',
     isVeg: true,
     price: 320,
-    image: '/images/cafe/creamy-alfredo-pasta.webp',
-    description: 'Al dente penne pasta smothered in rich garlic-parmesan cream sauce with sautéed mushrooms and oregano.',
-    chefSpecial: false,
+    image: '/images/olive-cafe/creamy-alfredo-pasta.webp',
+    description: 'Al dente pasta folded into velvety garlic-parmesan cream sauce with olives and garlic toast.',
+    chefSpecial: true,
     spice: 'Mild'
+  },
+  {
+    id: 'c2b',
+    name: 'Arrabbiata Red Sauce Penne',
+    category: 'cafe-continental',
+    isVeg: true,
+    price: 320,
+    image: '/images/olive-cafe/arrabita-pasta.webp',
+    description: 'Slow-simmered plum tomato, basil, and chilli flake sauce tossed with penne and toasted bread.',
+    chefSpecial: false,
+    spice: 'Medium'
   },
   {
     id: 'c3',
@@ -454,8 +494,8 @@ export const MENU_ITEMS = [
     category: 'cafe-continental',
     isVeg: true,
     price: 250,
-    image: '/images/cafe/grilled-club-sandwich.webp',
-    description: 'Triple-decker toasted bread filled with cheddar slice, seasoned veggies, cucumber relish, served with crispy fries.',
+    image: '/images/food/sharda-dinings-table-spread.webp',
+    description: 'Triple-decker toasted sandwich layered with cheddar, crisp cucumber, veggies, and mint slaw.',
     chefSpecial: false,
     spice: 'Mild'
   },
@@ -463,35 +503,46 @@ export const MENU_ITEMS = [
   // Beverages & Desserts
   {
     id: 'd1',
-    name: 'Sharda Classic Cold Coffee',
+    name: 'Classic & Caramel Cold Coffee',
     category: 'beverages-desserts',
     isVeg: true,
     price: 180,
-    image: '/images/cafe/artisan-cold-coffee.webp',
-    description: 'Chilled rich espresso blended with creamy whole milk, vanilla bean ice cream, and chocolate lace.',
+    image: '/images/olive-cafe/olive-cafe-coffee.webp',
+    description: 'Chilled brewed espresso shaken with creamy milk, caramel swirl, and vanilla ice cream.',
     chefSpecial: true,
     spice: 'Sweet'
   },
   {
     id: 'd2',
-    name: 'Nutella Oreo Thick Shake',
+    name: 'KitKat / Nutella Oreo Thick Shake',
     category: 'beverages-desserts',
     isVeg: true,
     price: 230,
-    image: '/images/cafe/nutella-oreo-shake.webp',
-    description: 'Decadent milkshake crafted with roasted hazelnut Nutella, crushed Oreo cookies, and whipped cream topping.',
+    image: oreoShakeImg,
+    isIllustrative: true,
+    description: 'Whipped dessert shake blended with roasted hazelnut Nutella, crushed Oreo, or crunchy KitKat.',
     chefSpecial: true,
     spice: 'Sweet'
   },
   {
     id: 'd3',
+    name: 'Brown Choco Fudge Sundae',
+    category: 'beverages-desserts',
+    isVeg: true,
+    price: 220,
+    image: '/images/olive-cafe/sharda-dinings-ice-cream-sundae.webp',
+    description: 'Warm chocolate brownie topped with vanilla scoops, molten dark chocolate sauce, and nuts.',
+    chefSpecial: true,
+    spice: 'Sweet'
+  },
+  {
+    id: 'd4',
     name: 'Royal Shahi Gulab Jamun (2 Pcs)',
     category: 'beverages-desserts',
     isVeg: true,
     price: 150,
-    image: '/images/food/gulab-jamun-dessert.webp',
-    description: 'Handcrafted golden khoya dumplings steeped in warm saffron-cardamom sugar nectar, garnished with pistachios.',
-    chefSpecial: true,
+    description: 'Warm saffron-cardamom khoya dumplings garnished with slivered pistachios.',
+    chefSpecial: false,
     spice: 'Sweet'
   }
 ];

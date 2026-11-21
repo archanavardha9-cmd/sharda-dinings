@@ -1,259 +1,694 @@
-import React, { useState, useMemo } from 'react';
-import { Search, Sparkles, Utensils, Download, ArrowUpRight, Check, Printer } from 'lucide-react';
+import React, { useMemo, useState } from 'react';
+import { Download, ExternalLink, MessageSquare, Printer, Search, Sparkles } from 'lucide-react';
 import { MENU_CATEGORIES, MENU_ITEMS } from '../data/menuData';
-import { SpiceStar, WheatFlourish, ArchEmblem } from '../components/DecorativeGraphics';
+import { BUSINESS_INFO } from '../data/businessInfo';
+import { EditorialImage } from '../components/SiteBlocks';
+import {
+  ContinuousImageStream,
+  OrbitalRingBackdrop,
+  ParallaxLayer,
+  Reveal,
+} from '../components/MotionBlocks';
+import { usePageSeo } from '../utils/seo';
+import dalMakhaniImg from '../assets/images/dal_makhani_naan_1795201046179.jpg';
+import butterChickenImg from '../assets/images/butter_chicken_kulcha_1795201049476.jpg';
+import cornPizzaImg from '../assets/images/corn_margherita_pizza_1795201048660.jpg';
+import oreoShakeImg from '../assets/images/nutella_oreo_shakes_1795201048991.jpg';
 
-export default function MenuPage({ onOpenEnquiry, onOpenVerification }) {
+const MENU_RIBBON = [
+  { src: '/images/food/tandoori-veg-platter.webp', label: 'Paneer Tikka & Veg Platter', shape: 'landscape' },
+  { src: dalMakhaniImg, label: 'Dal Makhani (Culinary Styling)', shape: 'square' },
+  { src: '/images/food/sharda-dinings-hyderabadi-biryani.webp', label: 'Awadhi Handi Biryani · ₹380', shape: 'landscape' },
+  { src: butterChickenImg, label: 'Butter Chicken (Culinary Styling)', shape: 'square' },
+  { src: '/images/food/shanghai-chilli-paneer.webp', label: 'Crispy Chilli Paneer · ₹320', shape: 'portrait' },
+  { src: cornPizzaImg, label: 'Corn Cheese Pizza (Culinary Styling)', shape: 'landscape' },
+  { src: oreoShakeImg, label: 'Oreo Thick Shakes (Culinary Styling)', shape: 'portrait' },
+];
+
+const CHAPTER_LAYOUTS = {
+  soups: {
+    mode: 'bistro-columns',
+    bgClass: 'bg-[#FAF7F2]',
+    subtitle: 'Clear broths, slow-roasted tomato shorbas, and crispy noodle bowls.',
+  },
+  'veg-starters': {
+    mode: 'split-photo',
+    bgClass: 'bg-[#F5ECE0]',
+    reverse: false,
+    visual: {
+      src: '/images/food/tandoori-veg-platter.webp',
+      alt: 'Vegetarian charcoal tandoori platter with mint chutney',
+      caption: 'Clay-oven charred cottage cheese, hung curd kababs & fresh herbs.',
+    },
+    subtitle: 'Charcoal-kissed cottage cheese, hung curd kababs, and sweetcorn patties.',
+  },
+  'nonveg-starters': {
+    mode: 'split-photo',
+    bgClass: 'bg-[#FAF7F2]',
+    reverse: true,
+    visual: {
+      src: '/images/food/sharda-dinings-food-spread-clean.webp',
+      alt: 'Assorted Tandoori Chicken, Malai Tikka and kebabs',
+      caption: 'Overnight marinated tandoori platters served straight from charcoal skewers.',
+    },
+    subtitle: 'Spring chicken, cashew malai tikka & hand-pounded mutton seekh.',
+  },
+  'oriental-veg': {
+    mode: 'wok-banner',
+    bgClass: 'bg-[#E8EFE9]',
+    banners: [
+      {
+        src: '/images/food/shanghai-chilli-paneer.webp',
+        alt: 'Crispy Chilli Paneer tossed with bell peppers and sesame',
+        caption: 'Crispy Chilli Paneer · ₹320',
+      },
+      {
+        src: '/images/food/sharda-dinings-spring-rolls.webp',
+        alt: 'Golden vegetable spring rolls on slate platter',
+        caption: 'Golden Vegetable Spring Rolls',
+      },
+    ],
+    subtitle: 'High-flame Sichuan wok tossing crisp paneer and garden vegetables.',
+  },
+  'oriental-nonveg': {
+    mode: 'split-photo',
+    bgClass: 'bg-[#FAF7F2]',
+    reverse: false,
+    visual: {
+      src: '/images/food/thai-stir-fry-chicken.webp',
+      alt: 'Hakka style Chicken Chilli tossed in garlic soy glaze',
+      caption: 'Sizzling garlic, crushed chillies, and rich Asian reductions.',
+    },
+    subtitle: 'Wok-seared chilli chicken, lollipops & spiced pepper morsels.',
+  },
+  'veg-mains': {
+    mode: 'split-photo',
+    bgClass: 'bg-[#FDF6E9]',
+    reverse: true,
+    visual: {
+      src: dalMakhaniImg,
+      alt: 'Editorial culinary styling of slow-simmered Dal Makhani and Paneer gravy with garlic naan',
+      caption: 'Culinary styling · Slow-simmered black lentils, paneer gravies & koftas.',
+    },
+    subtitle: 'Overnight simmered black lentils, velvety cashew paneer & chickpeas.',
+  },
+  'nonveg-mains': {
+    mode: 'split-photo',
+    bgClass: 'bg-[#FBEAE0]',
+    reverse: false,
+    visual: {
+      src: butterChickenImg,
+      alt: 'Editorial culinary styling of creamy Butter Chicken paired with flaky lachha paratha',
+      caption: 'Culinary styling · Classic makhani sauces, kadhai gravies & peppercorn curries.',
+    },
+    subtitle: 'House-classic makhani gravies, wok kadhai chicken & slow-braised mutton.',
+  },
+  'biryani-rice': {
+    mode: 'wok-banner',
+    bgClass: 'bg-[#FAF7F2]',
+    banners: [
+      {
+        src: '/images/food/sharda-dinings-hyderabadi-biryani.webp',
+        alt: 'Saffron handi dum biryani garnished with mint and ginger',
+        caption: 'Copper Handi Veg Dum Biryani · ₹380',
+      },
+      {
+        src: '/images/food/sharda-dining-biryani.webp',
+        alt: 'Chicken Dum Biryani bowl served with sirka onions and chutney',
+        caption: 'Chicken Dum Biryani · ₹410',
+      },
+    ],
+    subtitle: 'Aged basmati steamed on slow dum with saffron milk and caramelised shallots.',
+  },
+  breads: {
+    mode: 'bistro-columns',
+    bgClass: 'bg-[#F5ECE0]',
+    subtitle: 'Blistered butter naans, garlic breads, flaky lachha parathas & missi rotis.',
+  },
+  'noodles-rice': {
+    mode: 'bistro-columns',
+    bgClass: 'bg-[#EAF0F6]',
+    subtitle: 'Chilli garlic fried rice, wok-tossed noodles & spiced Schezwan bowls.',
+  },
+  'cafe-continental': {
+    mode: 'olive-showcase',
+    bgClass: 'bg-white',
+    visual: {
+      src: cornPizzaImg,
+      alt: 'Editorial culinary styling of stone-baked corn cheese pizza',
+      caption: 'Culinary styling · Crisp thin-crust pizzas baked to order.',
+    },
+    secondaryVisual: {
+      src: '/images/olive-cafe/creamy-alfredo-pasta.webp',
+      alt: 'Gratinated Creamy Alfredo Penne skillet with herbs',
+      caption: 'White Sauce Alfredo Penne · ₹320',
+    },
+    subtitle: 'Olive Cafe stone-baked thin crusts, creamy pastas & triple-decker club sandwiches.',
+  },
+  'beverages-desserts': {
+    mode: 'olive-showcase',
+    bgClass: 'bg-[#241814]',
+    dark: true,
+    visual: {
+      src: oreoShakeImg,
+      alt: 'Editorial styling of chilled Oreo and KitKat thick shakes',
+      caption: 'Culinary styling · Thick shakes (₹230) & cold coffees (₹180).',
+    },
+    secondaryVisual: {
+      src: '/images/olive-cafe/sharda-dinings-ice-cream-sundae.webp',
+      alt: 'Brown Choco Fudge Sundae served in glass coupe',
+      caption: 'Brown Choco Fudge Sundae · ₹220',
+    },
+    subtitle: 'Caramel cold coffees, Nutella & KitKat thick shakes, hot brownie sundaes & gulab jamun.',
+  },
+};
+
+function DietIndicator({ isVeg }) {
+  return (
+    <span
+      title={isVeg ? 'Vegetarian' : 'Non-Vegetarian'}
+      className={`inline-flex w-3.5 h-3.5 shrink-0 border items-center justify-center ${
+        isVeg ? 'border-[#144035]' : 'border-[#6E2434]'
+      }`}
+    >
+      <span
+        className={`w-1.5 h-1.5 rounded-full ${isVeg ? 'bg-[#144035]' : 'bg-[#6E2434]'}`}
+      />
+    </span>
+  );
+}
+
+function DishRow({ item, dark = false }) {
+  return (
+    <article className={`py-4 flex items-start justify-between gap-4 group ${dark ? 'border-white/15' : 'border-[#241814]/15'}`}>
+      <div className="flex items-start gap-3.5 min-w-0">
+        {item.image && (
+          <div className={`w-20 h-16 shrink-0 media-frame rounded-lg border hidden sm:block ${dark ? 'border-white/15' : 'border-black/10'}`}>
+            <img src={item.image} alt={item.name} referrerPolicy="no-referrer" />
+          </div>
+        )}
+        <div className="min-w-0 space-y-1">
+          <div className="flex items-center gap-2">
+            <DietIndicator isVeg={item.isVeg} />
+            <h3
+              className={`font-serif text-lg sm:text-[1.3rem] leading-snug transition-colors ${
+                dark ? 'text-white group-hover:text-[#EAB963]' : 'text-[#241814] group-hover:text-[#6E2434]'
+              }`}
+            >
+              {item.name}
+            </h3>
+          </div>
+          <p className={`text-xs sm:text-sm leading-relaxed ${dark ? 'text-[#D8C7B8]' : 'text-[#5E5049]'}`}>
+            {item.description}
+          </p>
+          <p className={`text-[11px] uppercase tracking-[0.14em] font-medium ${dark ? 'text-[#EAB963]' : 'text-[#8C5E12]'}`}>
+            {item.spice}
+            {item.chefSpecial ? ' · House Favourited' : ''}
+            {item.isIllustrative ? ' · Culinary Styling Visual' : ''}
+          </p>
+        </div>
+      </div>
+
+      <span
+        className={`font-serif text-xl sm:text-2xl font-semibold tabular-nums shrink-0 pt-0.5 ${
+          dark ? 'text-[#EAB963]' : 'text-[#6E2434]'
+        }`}
+      >
+        ₹{item.price}
+      </span>
+    </article>
+  );
+}
+
+export default function MenuPage() {
+  usePageSeo({
+    title: 'Digital Menu, Prices & Online Ordering — Sharda Dinings & Olive Cafe',
+    description:
+      'Explore the fine-dining menu of Sharda Dinings Gorakhpur: Dal Makhani, Paneer Punjabi Tadka, Handi Biryani, Sichuan starters, Olive Cafe pizzas & shakes.',
+    image: '/images/food/sharda-dinings-naan-and-chole.webp',
+  });
+
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [dietFilter, setDietFilter] = useState('all');
+  const [specialsOnly, setSpecialsOnly] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [vegOnly, setVegOnly] = useState(false);
-  const [nonVegOnly, setNonVegOnly] = useState(false);
-  const [chefSpecialsOnly, setChefSpecialsOnly] = useState(false);
 
   const filteredItems = useMemo(() => {
-    return MENU_ITEMS.filter(item => {
+    const query = searchQuery.trim().toLowerCase();
+    return MENU_ITEMS.filter((item) => {
       if (selectedCategory !== 'all' && item.category !== selectedCategory) return false;
-      if (vegOnly && !item.isVeg) return false;
-      if (nonVegOnly && item.isVeg) return false;
-      if (chefSpecialsOnly && !item.chefSpecial) return false;
-      if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase();
-        const nameMatch = item.name.toLowerCase().includes(q);
-        const descMatch = item.description.toLowerCase().includes(q);
-        if (!nameMatch && !descMatch) return false;
+      if (dietFilter === 'veg' && !item.isVeg) return false;
+      if (dietFilter === 'nonveg' && item.isVeg) return false;
+      if (specialsOnly && !item.chefSpecial) return false;
+      if (query) {
+        return (
+          item.name.toLowerCase().includes(query) ||
+          item.description.toLowerCase().includes(query)
+        );
       }
       return true;
     });
-  }, [selectedCategory, searchQuery, vegOnly, nonVegOnly, chefSpecialsOnly]);
+  }, [selectedCategory, dietFilter, specialsOnly, searchQuery]);
 
-  const handlePrintMenu = () => {
-    window.print();
+  const groupedCategories = useMemo(() => {
+    return MENU_CATEGORIES.filter((cat) => cat.id !== 'all')
+      .map((cat) => ({
+        ...cat,
+        items: filteredItems.filter((item) => item.category === cat.id),
+      }))
+      .filter((group) => group.items.length > 0);
+  }, [filteredItems]);
+
+  const handleDownloadMenu = () => {
+    const lines = [
+      'SHARDA DININGS & OLIVE CAFE — GORAKHPUR',
+      `${BUSINESS_INFO.address.line1}, ${BUSINESS_INFO.address.line2}, ${BUSINESS_INFO.address.city} ${BUSINESS_INFO.address.pincode}`,
+      `Reservations & Takeaway: ${BUSINESS_INFO.phones[0].display} | Dine-in: ${BUSINESS_INFO.timings.restaurant}`,
+      '========================================================================',
+      '',
+    ];
+
+    MENU_CATEGORIES.filter((c) => c.id !== 'all').forEach((cat) => {
+      const catItems = MENU_ITEMS.filter((item) => item.category === cat.id);
+      if (catItems.length === 0) return;
+      lines.push(cat.name.toUpperCase());
+      lines.push('-'.repeat(cat.name.length));
+      catItems.forEach((item) => {
+        const tag = item.isVeg ? '[VEG]' : '[NON-VEG]';
+        const star = item.chefSpecial ? ' *House Favourited' : '';
+        lines.push(`${item.name} ${tag}${star} — INR ${item.price}`);
+        lines.push(`  ${item.description}`);
+      });
+      lines.push('');
+    });
+
+    lines.push('NOTE: Government taxes apply. Swiggy/Zomato prices may reflect packaging fees. Inform staff of Jain or allergen requests.');
+
+    const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'Sharda-Dinings-Gorakhpur-Menu.txt';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  const resetFilters = () => {
+    setSelectedCategory('all');
+    setDietFilter('all');
+    setSpecialsOnly(false);
+    setSearchQuery('');
   };
 
   return (
-    <div className="min-h-screen bg-[#FFFDF9] text-[#241C1A]">
-      {/* ─────────────────────────────────────────────────────────────
-          SECTION 1: MENU HERO — Expressive MENU Typography & Graphic Accents
-      ───────────────────────────────────────────────────────────── */}
-      <section className="relative py-20 px-4 sm:px-6 lg:px-8 bg-[#F3E8D7] border-b border-[#E8B9A4] overflow-hidden">
-        <div className="max-w-4xl mx-auto text-center space-y-4 relative z-10">
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#FFF9F0] border border-[#B94E35] text-xs text-[#B94E35] font-bold tracking-widest uppercase">
-            <Utensils className="w-3.5 h-3.5" />
-            <span>Culinary Curations</span>
+    <div className="bg-[#FAF7F2] text-[#241814]">
+      {/* SECTION 1: DIGITAL MENU BROADSHEET MASTHEAD — Warm Champagne */}
+      <section className="relative overflow-hidden py-12 lg:py-16 bg-gradient-to-br from-[#F5ECE0] via-[#FAF5EC] to-[#FBEAE0] border-b border-[#E4D8CA]">
+        <OrbitalRingBackdrop
+          size={440}
+          opacity={0.14}
+          strokeColor="#D99B38"
+          secondaryColor="#6E2434"
+          className="hidden lg:block absolute -right-24 -top-24 w-[440px] h-[440px]"
+        />
+
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div className="lg:col-span-7 space-y-5">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8C5E12] tabular-nums">
+              Digital Restaurant Folio · {MENU_ITEMS.length} Dishes · {BUSINESS_INFO.avgCostForTwo} For Two
+            </p>
+            <h1 className="font-serif text-[clamp(2.3rem,4.2vw,3.8rem)] font-medium leading-[1.06] tracking-tight text-[#241814]">
+              A curated table ledger from <em className="italic font-normal text-[#6E2434]">charcoal embers</em> to espresso bars.
+            </h1>
+            <p className="text-sm sm:text-base text-[#5E5049] leading-relaxed max-w-lg">
+              North Indian curries, Awadhi biryanis, wok-tossed Sichuan, plus Olive Cafe thin-crust pizzas, pastas, and shakes. Open {BUSINESS_INFO.timings.restaurant}.
+            </p>
+            <div className="flex flex-wrap gap-2.5 pt-1 no-print">
+              <a
+                href={BUSINESS_INFO.ordering.zomato}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="gloss-btn min-h-[42px] px-5 py-2.5 bg-[#6E2434] hover:bg-[#511825] text-white text-xs font-semibold uppercase tracking-wider rounded-md inline-flex items-center gap-2 whitespace-nowrap"
+              >
+                <span>Zomato Order</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+              <a
+                href={BUSINESS_INFO.ordering.swiggy}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="min-h-[42px] px-5 py-2.5 bg-[#EAB963] hover:bg-[#D99B38] text-[#241814] text-xs font-semibold uppercase tracking-wider rounded-md inline-flex items-center gap-2 whitespace-nowrap"
+              >
+                <span>Swiggy / Dineout</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+              <button
+                type="button"
+                onClick={handleDownloadMenu}
+                className="min-h-[42px] px-4 py-2.5 border border-[#D8CBB8] bg-white hover:bg-[#FAF3E8] text-[#241814] text-xs font-semibold uppercase tracking-wider rounded-md inline-flex items-center gap-2 whitespace-nowrap"
+              >
+                <Download className="w-4 h-4" />
+                <span>Save Menu</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => window.print()}
+                className="min-h-[42px] px-4 py-2.5 border border-[#D8CBB8] bg-white hover:bg-[#FAF3E8] text-[#241814] text-xs font-semibold uppercase tracking-wider rounded-md inline-flex items-center gap-2 whitespace-nowrap"
+              >
+                <Printer className="w-4 h-4" />
+                <span>Print</span>
+              </button>
+            </div>
           </div>
 
-          <h1 className="text-6xl sm:text-8xl font-brand font-black tracking-tight text-[#241C1A]">
-            THE <span className="text-[#B94E35] font-display italic font-normal">Menu</span>
-          </h1>
-
-          <p className="max-w-xl mx-auto text-xs sm:text-sm text-[#79533D] font-light leading-relaxed">
-            Freshly prepared to order using cold-pressed oils, pure butter, and hand-ground spices. Verified restaurant pricing.
-          </p>
+          {/* Asymmetric 3-Plate Masthead Cluster */}
+          <div className="lg:col-span-5 grid grid-cols-12 gap-3.5 items-center max-w-md mx-auto lg:ml-auto">
+            <div className="col-span-6">
+              <EditorialImage
+                src="/images/food/sharda-dinings-naan-and-chole.webp"
+                alt="Sharda Dinings dinner menu beside stuffed garlic naan and chole"
+                frameClassName="arch-frame shadow-lg"
+                aspect="aspect-[3/4]"
+                loading="eager"
+              />
+            </div>
+            <div className="col-span-6 space-y-3.5 pt-6">
+              <ParallaxLayer speed={-10}>
+                <EditorialImage
+                  src={cornPizzaImg}
+                  alt="Culinary styling of corn mozzarella pizza"
+                  frameClassName="rounded-xl shadow-md"
+                  aspect="aspect-[4/3]"
+                  loading="eager"
+                />
+              </ParallaxLayer>
+              <EditorialImage
+                src="/images/food/sharda-dinings-beetroot-croquettes.webp"
+                alt="Crispy spiced beetroot croquettes with mint emulsion"
+                frameClassName="rounded-xl shadow-sm"
+                aspect="aspect-square"
+                loading="eager"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* ─────────────────────────────────────────────────────────────
-          SECTION 2: INTERACTIVE FOOD MENU — Filter Controls (Sticky)
-      ───────────────────────────────────────────────────────────── */}
-      <section className="sticky top-[69px] z-30 bg-[#FFF9F0]/95 backdrop-blur-md border-b border-[#E8B9A4] py-3.5 px-4 sm:px-6 lg:px-8 shadow-sm">
-        <div className="max-w-7xl mx-auto space-y-3">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-3">
-            {/* Search Input */}
-            <div className="relative w-full md:w-80">
-              <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-              <input
-                type="text"
-                placeholder="Search Paneer, Chicken, Biryani, Naan..."
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 rounded-full bg-white border border-[#E8B9A4] text-xs text-[#241C1A] placeholder-stone-400 focus:outline-none focus:border-[#B94E35]"
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-stone-400 hover:text-black"
-                >
-                  ✕
-                </button>
-              )}
-            </div>
+      {/* SECTION 2: CONTINUOUS RIGHT-TO-LEFT DISH RIBBON — Smoked Espresso */}
+      <section className="py-10 bg-[#241814] text-[#FAF7F2] no-print">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-3 flex flex-wrap items-baseline justify-between gap-2">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#EAB963]">
+            Across Twelve Kitchen Chapters
+          </p>
+          <span className="text-xs text-[#D5C3B3]">
+            Authentic kitchen photographs &amp; clearly labelled culinary stylings
+          </span>
+        </div>
+        <ContinuousImageStream items={MENU_RIBBON} speed="slow" dark />
+      </section>
 
-            {/* Veg / Non-Veg & Special Badges */}
-            <div className="flex flex-wrap items-center gap-2 text-xs w-full md:w-auto">
-              <button
-                onClick={() => {
-                  setVegOnly(!vegOnly);
-                  if (!vegOnly) setNonVegOnly(false);
-                }}
-                className={`px-3 py-1.5 rounded-full flex items-center space-x-1.5 border transition-all ${
-                  vegOnly
-                    ? 'bg-emerald-700 border-emerald-700 text-white font-bold shadow'
-                    : 'bg-white border-[#E8B9A4] text-[#79533D] hover:bg-[#F3E8D7]'
-                }`}
-              >
-                <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-                <span>Pure Veg</span>
-              </button>
-
-              <button
-                onClick={() => {
-                  setNonVegOnly(!nonVegOnly);
-                  if (!nonVegOnly) setVegOnly(false);
-                }}
-                className={`px-3 py-1.5 rounded-full flex items-center space-x-1.5 border transition-all ${
-                  nonVegOnly
-                    ? 'bg-[#B94E35] border-[#B94E35] text-white font-bold shadow'
-                    : 'bg-white border-[#E8B9A4] text-[#79533D] hover:bg-[#F3E8D7]'
-                }`}
-              >
-                <span className="w-2 h-2 rounded-full bg-red-400"></span>
-                <span>Non-Veg</span>
-              </button>
-
-              <button
-                onClick={() => setChefSpecialsOnly(!chefSpecialsOnly)}
-                className={`px-3 py-1.5 rounded-full flex items-center space-x-1.5 border transition-all ${
-                  chefSpecialsOnly
-                    ? 'bg-[#D7A84B] border-[#D7A84B] text-[#241C1A] font-bold shadow'
-                    : 'bg-white border-[#E8B9A4] text-[#79533D] hover:bg-[#F3E8D7]'
-                }`}
-              >
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Chef Specials</span>
-              </button>
-            </div>
+      {/* SECTION 3: SEARCH, DIETARY CONTROLS & STICKY CHAPTER RAIL */}
+      <div className="bg-[#FAF7F2] border-b border-[#E4D8CA] no-print">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+          <div className="relative flex-1 max-w-sm">
+            <Search className="w-4 h-4 text-[#5E5049] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <input
+              type="search"
+              aria-label="Search menu dishes"
+              placeholder="Search paneer, biryani, pizza, shakes..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full min-h-[40px] pl-9 pr-3 py-1.5 bg-white border border-[#DFD2C2] rounded-md text-sm text-[#241814] focus:border-[#6E2434] focus:outline-none"
+            />
           </div>
 
-          {/* Category Navigation Horizontal Scroll */}
-          <div className="flex items-center space-x-2 overflow-x-auto pb-1 scrollbar-none text-xs">
-            {MENU_CATEGORIES.map(cat => (
+          <div className="flex flex-wrap items-center gap-2">
+            {[
+              { id: 'all', label: 'All Diets' },
+              { id: 'veg', label: 'Pure Veg' },
+              { id: 'nonveg', label: 'Non-Veg' },
+            ].map((opt) => (
               <button
-                key={cat.id}
-                onClick={() => setSelectedCategory(cat.id)}
-                className={`whitespace-nowrap px-4 py-1.5 rounded-full font-bold transition-all ${
-                  selectedCategory === cat.id
-                    ? 'bg-[#B94E35] text-white shadow-sm'
-                    : 'bg-white text-[#79533D] border border-[#E8B9A4] hover:bg-[#F3E8D7]'
+                key={opt.id}
+                type="button"
+                onClick={() => setDietFilter(opt.id)}
+                className={`min-h-[38px] px-3.5 py-1.5 text-xs font-semibold rounded-md border transition-colors whitespace-nowrap ${
+                  dietFilter === opt.id
+                    ? 'bg-[#6E2434] text-white border-[#6E2434]'
+                    : 'bg-white text-[#5E5049] border-[#DFD2C2] hover:text-[#241814]'
                 }`}
               >
-                {cat.name}
+                {opt.label}
               </button>
             ))}
+            <button
+              type="button"
+              onClick={() => setSpecialsOnly(!specialsOnly)}
+              className={`min-h-[38px] px-3.5 py-1.5 text-xs font-semibold rounded-md border inline-flex items-center gap-1.5 transition-colors whitespace-nowrap ${
+                specialsOnly
+                  ? 'bg-[#EAB963] text-[#241814] border-[#D99B38]'
+                  : 'bg-white text-[#5E5049] border-[#DFD2C2] hover:text-[#241814]'
+              }`}
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>House Favourites</span>
+            </button>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* ─────────────────────────────────────────────────────────────
-          SECTION 2 CONT: MENU ITEMS — Editorial Layout with Dotted Dividers
-      ───────────────────────────────────────────────────────────── */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        {filteredItems.length === 0 ? (
-          <div className="py-20 text-center space-y-3">
-            <p className="text-stone-500 text-sm">No dishes found matching your current filter.</p>
+      {/* Slim Sticky Single-Line Chapter Navigation Rail */}
+      <div className="no-print sticky top-16 z-30 bg-[#FAF7F2]/95 backdrop-blur-md border-b border-[#E4D8CA]">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center gap-1.5 overflow-x-auto scrollbar-none">
+          {MENU_CATEGORIES.map((cat) => (
             <button
-              onClick={() => {
-                setSearchQuery('');
-                setSelectedCategory('all');
-                setVegOnly(false);
-                setNonVegOnly(false);
-                setChefSpecialsOnly(false);
-              }}
-              className="px-5 py-2 rounded-full bg-[#B94E35] text-white font-bold text-xs"
+              key={cat.id}
+              type="button"
+              onClick={() => setSelectedCategory(cat.id)}
+              className={`min-h-[36px] px-3.5 py-1 text-xs font-medium rounded-md whitespace-nowrap transition-colors ${
+                selectedCategory === cat.id
+                  ? 'bg-[#241814] text-[#EAB963] font-semibold'
+                  : 'text-[#5E5049] hover:text-[#241814] hover:bg-[#EFE6D8]'
+              }`}
+            >
+              {cat.name}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* SECTION 4: UNBOXED MULTI-LAYOUT FINE-DINING CHAPTER BANDS */}
+      {groupedCategories.length === 0 ? (
+        <section className="py-16 bg-[#FAF7F2]">
+          <div className="max-w-xl mx-auto px-4 text-center space-y-4">
+            <p className="font-serif text-3xl text-[#241814]">No dishes match your active filters.</p>
+            <p className="text-sm text-[#5E5049]">
+              Clear the search or reset dietary filters to restore the full digital menu.
+            </p>
+            <button
+              type="button"
+              onClick={resetFilters}
+              className="min-h-[42px] px-5 py-2.5 bg-[#6E2434] text-white text-xs font-semibold uppercase tracking-wider rounded-md"
             >
               Reset Filters
             </button>
           </div>
-        ) : (
-          <div className="space-y-8">
-            <div className="flex items-center justify-between text-xs text-[#79533D] border-b border-[#E8B9A4] pb-2">
-              <span>Showing {filteredItems.length} curated offerings</span>
-              <span>Prices in INR (Taxes extra as applicable)</span>
-            </div>
+        </section>
+      ) : (
+        <div>
+          {groupedCategories.map((group, groupIdx) => {
+            const layout = CHAPTER_LAYOUTS[group.id] || {
+              mode: 'bistro-columns',
+              bgClass: 'bg-[#FAF7F2]',
+              subtitle: '',
+            };
+            const isDark = Boolean(layout.dark);
+            const chapterNum = String(groupIdx + 1).padStart(2, '0');
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
-              {filteredItems.map(item => (
-                <div
-                  key={item.id}
-                  className="group p-5 rounded-2xl bg-white border border-[#E8B9A4] shadow-sm hover:border-[#B94E35] transition-all flex flex-col sm:flex-row gap-4"
-                >
-                  {/* Dish Image if available */}
-                  {item.image && (
-                    <div className="w-full sm:w-28 h-28 shrink-0 rounded-xl overflow-hidden border border-[#E8B9A4] relative">
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                      <span className={`absolute top-1.5 left-1.5 w-2 h-2 rounded-full ${item.isVeg ? 'bg-emerald-600' : 'bg-red-600'}`}></span>
+            return (
+              <section
+                key={group.id}
+                id={`cat-${group.id}`}
+                aria-labelledby={`heading-${group.id}`}
+                className={`scroll-mt-32 py-14 lg:py-20 border-b ${
+                  isDark ? 'border-white/12 text-[#FAF7F2]' : 'border-[#E4D8CA] text-[#241814]'
+                } ${layout.bgClass}`}
+              >
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+                  {/* Editorial Unboxed Chapter Heading */}
+                  <div
+                    className={`flex flex-col md:flex-row md:items-end justify-between gap-4 pb-5 border-b ${
+                      isDark ? 'border-white/15' : 'border-[#241814]/15'
+                    }`}
+                  >
+                    <div className="space-y-1.5">
+                      <span
+                        className={`text-[11px] font-semibold uppercase tracking-[0.22em] block ${
+                          isDark ? 'text-[#EAB963]' : 'text-[#8C5E12]'
+                        }`}
+                      >
+                        Chapter {chapterNum} · {group.items.length}{' '}
+                        {group.items.length === 1 ? 'Course' : 'Courses'}
+                      </span>
+                      <h2
+                        id={`heading-${group.id}`}
+                        className={`font-serif text-3xl sm:text-4xl font-medium ${
+                          isDark ? 'text-white' : 'text-[#241814]'
+                        }`}
+                      >
+                        {group.name}
+                      </h2>
                     </div>
+                    {layout.subtitle && (
+                      <p
+                        className={`text-xs sm:text-sm max-w-md leading-relaxed ${
+                          isDark ? 'text-[#D8C7B8]' : 'text-[#5E5049]'
+                        }`}
+                      >
+                        {layout.subtitle}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* MODE 1: TWO-COLUMN FINE-DINING PRINTED BROADSHEET LEDGER */}
+                  {layout.mode === 'bistro-columns' && (
+                    <Reveal className="grid grid-cols-1 md:grid-cols-2 gap-x-14 divide-y md:divide-y-0 divide-dotted divide-[#241814]/20">
+                      {group.items.map((item) => (
+                        <div key={item.id} className="border-b border-dotted border-[#241814]/20">
+                          <DishRow item={item} />
+                        </div>
+                      ))}
+                    </Reveal>
                   )}
 
-                  {/* Dish Info */}
-                  <div className="flex-1 space-y-1.5">
-                    <div className="flex items-baseline justify-between gap-2 border-b border-dashed border-[#E8B9A4] pb-1">
-                      <div className="flex items-center space-x-1.5">
-                        <div className={`w-3.5 h-3.5 border flex items-center justify-center p-[2px] rounded-sm ${
-                          item.isVeg ? 'border-emerald-600' : 'border-red-600'
-                        }`}>
-                          <div className={`w-1.5 h-1.5 rounded-full ${item.isVeg ? 'bg-emerald-600' : 'bg-red-600'}`}></div>
-                        </div>
-                        <h3 className="font-serif font-bold text-base text-[#241C1A] group-hover:text-[#B94E35] transition-colors">
-                          {item.name}
-                        </h3>
+                  {/* MODE 2: ASYMMETRIC SPLIT FOLIO WITH ARCHED DISH PHOTOGRAPHY */}
+                  {layout.mode === 'split-photo' && layout.visual && (
+                    <Reveal className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+                      <div className={`lg:col-span-4 ${layout.reverse ? 'lg:order-2' : ''}`}>
+                        <EditorialImage
+                          src={layout.visual.src}
+                          alt={layout.visual.alt}
+                          frameClassName="arch-frame shadow-lg"
+                          aspect="aspect-[3/4]"
+                          caption={layout.visual.caption}
+                        />
                       </div>
-                      <span className="font-serif font-bold text-base text-[#B94E35] shrink-0">
-                        ₹{item.price}
-                      </span>
-                    </div>
-
-                    <p className="text-xs text-[#79533D] leading-relaxed font-light">
-                      {item.description}
-                    </p>
-
-                    <div className="pt-1 flex items-center justify-between text-[11px] text-stone-500">
-                      <div className="flex items-center space-x-2">
-                        {item.chefSpecial && (
-                          <span className="text-[#B94E35] font-bold flex items-center space-x-1">
-                            <Sparkles className="w-3 h-3" />
-                            <span>Special</span>
-                          </span>
-                        )}
-                        <span>Spice: <strong className="text-stone-700">{item.spice}</strong></span>
-                      </div>
-                      <button
-                        onClick={() => onOpenEnquiry('restaurant')}
-                        className="text-[#B94E35] hover:underline font-bold"
+                      <div
+                        className={`lg:col-span-8 divide-y divide-dotted divide-[#241814]/20 ${
+                          layout.reverse ? 'lg:order-1' : ''
+                        }`}
                       >
-                        Reserve Table →
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </section>
+                        {group.items.map((item) => (
+                          <DishRow key={item.id} item={item} />
+                        ))}
+                      </div>
+                    </Reveal>
+                  )}
 
-      {/* ─────────────────────────────────────────────────────────────
-          SECTION 3: DOWNLOAD / PRINT MENU — Menu-Inspired Closing Block
-      ───────────────────────────────────────────────────────────── */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#F3E8D7] border-t border-[#E8B9A4]">
-        <div className="max-w-4xl mx-auto rounded-3xl bg-white border-2 border-[#B94E35] p-8 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl">
-          <div className="space-y-2 text-center sm:text-left">
-            <span className="text-xs uppercase tracking-widest text-[#B94E35] font-bold">Printable Menu</span>
-            <h3 className="text-2xl sm:text-3xl font-serif font-bold text-[#241C1A]">Take the Flavour with You</h3>
-            <p className="text-xs text-[#79533D] max-w-md">
-              Need a physical copy for family gatherings or corporate orders? Print or save the complete curated menu.
+                  {/* MODE 3: WOK & BIRYANI WIDE DIPTYCH BANNER ABOVE 2-COLUMN COURSES */}
+                  {layout.mode === 'wok-banner' && layout.banners && (
+                    <Reveal className="space-y-8">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        {layout.banners.map((ban) => (
+                          <EditorialImage
+                            key={ban.caption}
+                            src={ban.src}
+                            alt={ban.alt}
+                            frameClassName="rounded-xl shadow-md"
+                            aspect="aspect-[16/9]"
+                            caption={ban.caption}
+                          />
+                        ))}
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-14 border-t border-[#241814]/15 pt-4">
+                        {group.items.map((item) => (
+                          <div key={item.id} className="border-b border-dotted border-[#241814]/20">
+                            <DishRow item={item} />
+                          </div>
+                        ))}
+                      </div>
+                    </Reveal>
+                  )}
+
+                  {/* MODE 4: OLIVE CAFE DUAL-VISUAL SHOWCASE FOLIO (DARK / GALLERY WHITE) */}
+                  {layout.mode === 'olive-showcase' && (
+                    <Reveal className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+                      <div className="lg:col-span-7 divide-y divide-dotted divide-current/20">
+                        {group.items.map((item) => (
+                          <DishRow key={item.id} item={item} dark={isDark} />
+                        ))}
+                      </div>
+                      <div className="lg:col-span-5 grid grid-cols-2 gap-4 items-center">
+                        {layout.visual && (
+                          <EditorialImage
+                            src={layout.visual.src}
+                            alt={layout.visual.alt}
+                            frameClassName="rounded-xl shadow-lg"
+                            aspect="aspect-[3/4]"
+                            caption={layout.visual.caption}
+                            dark={isDark}
+                          />
+                        )}
+                        {layout.secondaryVisual && (
+                          <div className="pt-8">
+                            <EditorialImage
+                              src={layout.secondaryVisual.src}
+                              alt={layout.secondaryVisual.alt}
+                              frameClassName="rounded-xl shadow-md"
+                              aspect="aspect-square"
+                              caption={layout.secondaryVisual.caption}
+                              dark={isDark}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </Reveal>
+                  )}
+                </div>
+              </section>
+            );
+          })}
+        </div>
+      )}
+
+      {/* SECTION 5: ORDERING PLATFORMS & DIETARY CARE — Deep Indigo */}
+      <section className="py-14 bg-[#1D2E42] text-[#FAF7F2] border-t border-[#2C425E] no-print">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div className="space-y-2 max-w-xl">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#EAB963]">
+              Ordering Platforms &amp; Jain Customisation
+            </p>
+            <h2 className="font-serif text-2xl sm:text-3xl text-white">
+              Delivery until 9:45 PM or takeaway direct from our host desk.
+            </h2>
+            <p className="text-sm text-[#CBE0F0] leading-relaxed">
+              {BUSINESS_INFO.ordering.note} Request Jain-friendly or mild kid-friendly preparation anytime.
             </p>
           </div>
-          <button
-            onClick={handlePrintMenu}
-            className="px-7 py-3.5 rounded-full bg-[#B94E35] hover:bg-[#963822] text-white font-bold text-xs uppercase tracking-widest flex items-center space-x-2 shadow-md transition-all shrink-0"
-          >
-            <Printer className="w-4 h-4" />
-            <span>Print / Save PDF</span>
-          </button>
+          <div className="flex flex-wrap gap-3 shrink-0">
+            <a
+              href={BUSINESS_INFO.ordering.magicpin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="min-h-[42px] px-4 py-2.5 border border-[#EAB963]/50 bg-white/10 hover:bg-white/20 text-white text-xs font-semibold uppercase tracking-wider rounded-md inline-flex items-center gap-2 whitespace-nowrap"
+            >
+              <span>Magicpin</span>
+              <ExternalLink className="w-3.5 h-3.5 text-[#EAB963]" />
+            </a>
+            <a
+              href={`https://wa.me/${BUSINESS_INFO.whatsapp.number.replace('+', '')}?text=${encodeURIComponent(
+                'Hello Sharda Dinings, I would like to place a takeaway or table order from your menu.'
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="gloss-btn min-h-[42px] px-5 py-2.5 bg-[#EAB963] hover:bg-[#D99B38] text-[#241814] text-xs font-semibold uppercase tracking-wider rounded-md inline-flex items-center gap-2 whitespace-nowrap"
+            >
+              <MessageSquare className="w-4 h-4" />
+              <span>WhatsApp Order</span>
+            </a>
+          </div>
         </div>
       </section>
     </div>

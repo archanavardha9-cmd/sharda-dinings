@@ -1,92 +1,92 @@
 export const VERIFICATION_REGISTER = [
   {
     id: 'VR-01',
-    item: 'Official Business Name & Logo Asset',
+    item: 'Official Corporate Website & Master Vector Emblem',
     category: 'Brand Identity',
-    currentSource: 'Directory listings & research PDF: "Sharda Dinings"',
-    status: 'Verified for display; require high-res official vector logo from management',
+    currentSource: 'Online search confirms no separate standalone official website prior to this project; brand presence runs on Swiggy, Zomato, MakeMyTrip, Goibibo & Justdial.',
+    status: 'Awaiting master vector SVG/AI crest file from Sharda Dinings management',
     priority: 'Critical',
-    actionRequired: 'Provide master vector SVG/AI file for official brand emblem.'
+    actionRequired: 'Provide original vector logo artwork for final print & digital sign-off.'
   },
   {
     id: 'VR-02',
     item: 'Founding Year & Heritage Milestone',
     category: 'Brand Story',
-    currentSource: 'Supplied research: Operating since 2010',
+    currentSource: 'Supplied hospitality research references operation since 2010',
     status: 'Flagged for corporate confirmation',
     priority: 'Medium',
-    actionRequired: 'Confirm exact incorporation year and founders narrative before permanent print.'
+    actionRequired: 'Confirm incorporation year and founders note before permanent brochure release.'
   },
   {
     id: 'VR-03',
-    item: 'Location & Map Coordinates',
+    item: 'Address Variants Across Restaurant & Hotel Portals',
     category: 'Contact & Location',
-    currentSource: 'East Rajendra Nagar, Opp. Kust Seva Ashram, Gorakhnath Road / NH 29, Gorakhpur (273015). Hotel listing references 763 A, Sonauli Road, Lachipur.',
-    status: 'Reconciled: Integrated unified Gorakhnath Road location; require single official Google Maps place ID',
+    currentSource: 'Dining directories list East Rajendra Nagar / Opp. Kust Seva Ashram; MakeMyTrip/Goibibo list 763 A, Sonauli Road / Lachipur near Gorakhnath Mandir (~1 km).',
+    status: 'Unified across site copy; awaiting single owner-confirmed Google Maps Place ID',
     priority: 'Critical',
-    actionRequired: 'Verify whether hotel and restaurant share identical physical entryway or adjoining parcels.'
+    actionRequired: 'Confirm exact street numbering and parking entry gate directions.'
   },
   {
     id: 'VR-04',
-    item: 'Banquet Seated & Floating Capacities',
-    category: 'Banquet & Events',
-    currentSource: 'WedMeGood: 100 seated / 150 floating. Older directory notes: ~60 guests.',
-    status: 'Adopted 100 seated / 150 floating as primary benchmark; flagged for event director sign-off',
+    item: 'Online Food Ordering & Delivery Window',
+    category: 'Ordering & Delivery',
+    currentSource: 'Active on Swiggy, Swiggy Dineout, Zomato, and Magicpin; delivery window observed between 12:00 PM – 9:45 PM with ₹800–₹1,050 cost for two.',
+    status: 'Integrated verified ordering platform links + direct phone/WhatsApp desk; dine-in vs platform price variance disclosed.',
     priority: 'High',
-    actionRequired: 'Confirm peak capacity for round-table vs theatre banquet layouts.'
+    actionRequired: 'Supply exact direct restaurant storefront slugs on Swiggy/Zomato if promotional deep links are preferred.'
   },
   {
     id: 'VR-05',
-    item: 'In-House Event Services & DJ / Alcohol Policy',
-    category: 'Banquet & Events',
-    currentSource: 'WedMeGood: In-house catering only, approved decorator panel, in-house DJ available, no outside alcohol permitted.',
-    status: 'Strict policy maintained on website to protect business compliance',
+    item: 'Hotel Room Tiers, Live Tariffs & ID Rules',
+    category: 'Hotel & Rooms',
+    currentSource: 'MakeMyTrip / Goibibo show Deluxe Rooms (240 sq. ft., King Bed, City View) & Super Deluxe Rooms (~₹1,500–₹3,000+ dynamic). 10–11 AC rooms total.',
+    status: 'Integrated MakeMyTrip, Goibibo & Direct Enquiry options; standard Goibibo ID requirements documented.',
     priority: 'High',
-    actionRequired: 'Confirm corkage or special celebration permits if applicable.'
+    actionRequired: 'Provide fixed direct walk-in tariff card or channel manager integration.'
   },
   {
     id: 'VR-06',
-    item: 'Hotel Room Inventory & Live Tariff Policy',
-    category: 'Hotel & Rooms',
-    currentSource: '11 AC Rooms reported across WedMeGood and MakeMyTrip. Dynamic OTA pricing varies daily.',
-    status: 'Room count of 11 verified. Rates shown as "Enquire for Best Direct Rate" to avoid outdated OTA conflicts',
-    priority: 'High',
-    actionRequired: 'Supply fixed seasonal rack rate sheet or direct booking engine API.'
+    item: 'Parking & EV Charging Availability',
+    category: 'Hotel & Venue Facilities',
+    currentSource: 'Flyin/HotelsOne/Trip.com report free on-site self-parking & EV charging; isolated Justdial reviews note peak-hour parking tightness.',
+    status: 'Listed free self-parking with upfront note advising valets/early arrival during large banquet events.',
+    priority: 'Medium',
+    actionRequired: 'Confirm current EV charger wattage and dedicated banquet parking bay count.'
   },
   {
     id: 'VR-07',
-    item: 'Dine-in and Delivery Operating Hours',
-    category: 'Operations',
-    currentSource: 'Dine-in: 11:00 AM – 11:00 PM; Delivery: 12:00 PM – 9:30 PM (Zomato/TripAdvisor variations)',
-    status: 'Displayed with advisory notice regarding public holiday timings',
-    priority: 'Critical',
-    actionRequired: 'Confirm kitchen last-order cut-off time (e.g. 10:30 PM).'
+    item: 'Banquet Hall Capacities & Alcohol Policy',
+    category: 'Banquet & Events',
+    currentSource: 'Listing sources vary between ~60–100 seated and 150–200 floating; strictly non-alcoholic in-house catering policy reported.',
+    status: 'Published 100 Seated / 150 Floating benchmark with explicit recommendation for in-person layout tour.',
+    priority: 'High',
+    actionRequired: 'Confirm theatre vs round-table seating caps with Banquet Director.'
   },
   {
     id: 'VR-08',
-    item: 'Rooftop & Chaat Counter Availability',
-    category: 'Dining Spaces',
-    currentSource: 'Supplied notes mention potential rooftop seating and dedicated chaat counter.',
-    status: 'Excluded from primary navigation until physical operational confirmation by management',
+    item: 'Social Media Ownership',
+    category: 'Digital Presence',
+    currentSource: 'Search confirms public geotagged Instagram/Facebook check-in pages without a single verified corporate brand handle.',
+    status: 'Links labeled accurately as Public Check-Ins / Community Tags rather than official corporate channels.',
     priority: 'Medium',
-    actionRequired: 'Provide on-site photos and current status of terrace/chaat operations.'
+    actionRequired: 'Share verified owner-managed Instagram and Facebook handles if newly launched.'
   },
   {
     id: 'VR-09',
-    item: 'Dietary & Kitchen Separation Protocols',
-    category: 'Culinary Assurance',
-    currentSource: 'Jain-friendly, vegetarian and Halal queries listed across user reviews.',
-    status: 'Dietary preferences accepted via special notes on enquiry; general allergen disclaimer published',
-    priority: 'Critical',
-    actionRequired: 'Formalize kitchen segregation statement for 100% pure veg / Jain utensils.'
+    item: 'Rooftop Seating & Chaat Counter Operations',
+    category: 'Dining Spaces',
+    currentSource: 'Background brief notes potential rooftop terrace and chaat station.',
+    status: 'Withheld from primary marketing until management supplies current operational confirmation.',
+    priority: 'Medium',
+    actionRequired: 'Verify active seasonal hours and photos of outdoor seating if operational.'
   },
   {
     id: 'VR-10',
-    item: 'High-Resolution Owner Photography Clearance',
-    category: 'Media Assets',
-    currentSource: 'Public directories (Justdial, Zomato, MMT) have user/platform photos without commercial reprint licenses.',
-    status: 'Curated 41 editorial-grade WebP hospitality and culinary assets matching exact facilities; awaiting owner-stamped high-res originals',
+    item: 'Kitchen Utensil Separation & Allergen Statement',
+    category: 'Culinary Assurance',
+    currentSource: 'Serves Pure Vegetarian, Jain-customisable, and Non-Vegetarian cuisines under one roof.',
+    status: 'Dietary request notes integrated on all booking forms; allergen advisory included on Menu.',
     priority: 'Critical',
-    actionRequired: 'Admin team to provide Google Drive link of authenticated interior and exterior masters.'
+    actionRequired: 'Formalize kitchen separation protocols for Jain & strict vegetarian certification.'
   }
 ];

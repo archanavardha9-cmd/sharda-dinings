@@ -1,349 +1,459 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Utensils, Users, Flame, HeartHandshake, CheckCircle2, ArrowRight } from 'lucide-react';
-import { WheatFlourish, SpiceStar, ArchEmblem, CutleryCrest } from '../components/DecorativeGraphics';
+import { ArrowRight, CheckCircle2, Clock, ExternalLink, MessageSquare, Phone } from 'lucide-react';
 import { BUSINESS_INFO } from '../data/businessInfo';
+import { EditorialImage, SectionHeader } from '../components/SiteBlocks';
+import {
+  AnimatedWaveDivider,
+  FloatingBotanicalAccents,
+  FloatingLanternParticles,
+  OrbitalRingBackdrop,
+  Reveal,
+  UnifiedGalleryStream,
+} from '../components/MotionBlocks';
+import { usePageSeo } from '../utils/seo';
+import dalMakhaniImg from '../assets/images/dal_makhani_naan_1795201046179.jpg';
+import butterChickenImg from '../assets/images/butter_chicken_kulcha_1795201049476.jpg';
 
-export default function RestaurantPage({ onOpenEnquiry, onOpenVerification }) {
-  const [reservationForm, setReservationForm] = useState({
+const TOP_DISH_STREAM = [
+  { src: '/images/food/tandoori-veg-platter.webp', label: 'Vegetarian Tandoori Platter', shape: 'landscape' },
+  { src: '/images/food/shanghai-chilli-paneer.webp', label: 'Crispy Chilli Paneer · ₹320', shape: 'portrait' },
+  { src: dalMakhaniImg, label: 'Dal Makhani & Naan (Culinary Styling)', shape: 'landscape' },
+  { src: '/images/food/open-stuffed-mushroom.webp', label: 'Herb Stuffed Mushrooms', shape: 'square' },
+  { src: '/images/food/sharda-dinings-beetroot-croquettes.webp', label: 'Spiced Beetroot Croquettes', shape: 'portrait' },
+];
+
+const BOTTOM_DISH_STREAM = [
+  { src: '/images/food/sharda-dining-biryani.webp', label: 'Chicken Dum Biryani · ₹410', shape: 'portrait' },
+  { src: butterChickenImg, label: 'Butter Chicken & Paratha (Culinary Styling)', shape: 'landscape' },
+  { src: '/images/food/garlic-lemon-herb-chicken.webp', label: 'Garlic Lemon Roast Chicken · ₹410', shape: 'square' },
+  { src: '/images/food/sharda-dinings-wonton-soup.webp', label: 'Warm Handmade Wonton Broth', shape: 'landscape' },
+  { src: '/images/food/sharda-dinings-spring-rolls.webp', label: 'Golden Vegetable Spring Rolls', shape: 'portrait' },
+];
+
+const SEATING_CHAPTERS = [
+  {
+    index: '01',
+    title: 'Velvet & Teak Booths',
+    kicker: 'Couples & Families',
+    copy: 'Cushioned teal and leather booths arranged with generous aisle privacy, pendant lighting, and calm evening pacing.',
+    image: '/images/restaurant/sharda-dining-booth.webp',
+    alt: 'Teal tufted four-seater booth inside Sharda Dinings restaurant',
+  },
+  {
+    index: '02',
+    title: 'Private Group Wing (15–30 Guests)',
+    kicker: 'Birthdays & Anniversaries',
+    copy: 'Joined chandelier-lit dining clusters dedicated to small family milestones, visiting tour groups, and business lunches.',
+    image: '/images/restaurant/sharda-dining-hall-wide.webp',
+    alt: 'Bright dining hall wing with gold accents for 15–30 guest groups',
+  },
+  {
+    index: '03',
+    title: 'Buddha Alcove & Toddler Care',
+    kicker: 'Jain & Kids Support',
+    copy: 'Serene marble relief backdrop equipped with toddler high chairs, gentle spice choices, and custom no-onion/no-garlic plates.',
+    image: '/images/restaurant/sharda-dining-buddha-wall.webp',
+    alt: 'Fluted marble wall with bronze Buddha sculpture overlooking booths',
+  },
+];
+
+export default function RestaurantPage() {
+  usePageSeo({
+    title: 'Multi-Cuisine Family Restaurant & Online Ordering — Gorakhpur',
+    description:
+      'Dine at Sharda Dinings near Gorakhnath Mandir: leather booth seating, private group dining, toddler high chairs, North Indian & Sichuan cuisines.',
+    image: '/images/restaurant/sharda-dining-hall.webp',
+  });
+
+  const [formData, setFormData] = useState({
     name: '',
     phone: '',
     date: '',
     time: '20:00',
-    guests: '4',
-    zone: 'Main Dining Hall',
-    specialReq: ''
+    guests: '4 Guests',
+    seating: 'Family Booth',
+    notes: '',
   });
+  const [error, setError] = useState('');
   const [submitted, setSubmitted] = useState(false);
+
+  const buildWhatsAppUrl = () => {
+    const msg = [
+      'Hello Sharda Dinings, please confirm a Restaurant Table Enquiry:',
+      `Name: ${formData.name || 'Guest'}`,
+      `Phone: ${formData.phone || 'Not specified'}`,
+      `Date: ${formData.date || 'Today / Flexible'} at ${formData.time}`,
+      `Party Size: ${formData.guests}`,
+      `Seating Preference: ${formData.seating}`,
+      formData.notes ? `Dietary / Special Notes: ${formData.notes}` : '',
+    ]
+      .filter(Boolean)
+      .join('\n');
+
+    return `https://wa.me/${BUSINESS_INFO.whatsapp.number.replace('+', '')}?text=${encodeURIComponent(msg)}`;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const digits = formData.phone.replace(/[^\d+]/g, '');
+    if (formData.name.trim().length < 2) {
+      setError('Please enter your name so our host desk can note the reservation.');
+      return;
+    }
+    if (digits.length < 10) {
+      setError('Please enter a valid 10-digit phone or WhatsApp number.');
+      return;
+    }
+    setError('');
     setSubmitted(true);
   };
 
   return (
-    <div className="min-h-screen bg-[#FFF9F0] text-[#241C1A] overflow-hidden">
-      {/* ─────────────────────────────────────────────────────────────
-          SECTION 1: RESTAURANT HERO — Integrated Editorial & Warm Palette
-      ───────────────────────────────────────────────────────────── */}
-      <section className="relative min-h-[75vh] flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8 bg-[#241C1A] text-[#FFF9F0] overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img
-            src="/images/restaurant/ambience-evening.webp"
-            alt="Sharda Dinings Restaurant evening atmosphere"
-            className="w-full h-full object-cover object-center filter brightness-[0.38] contrast-[1.15]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#241C1A] via-[#241C1A]/40 to-transparent"></div>
-        </div>
-
-        <div className="relative z-10 max-w-5xl mx-auto text-center space-y-6">
-          <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-[#B94E35]/80 border border-[#D7A84B] text-[#FFF9F0] text-xs font-bold tracking-widest uppercase shadow-md">
-            <CutleryCrest className="w-4 h-4 text-[#D7A84B]" />
-            <span>Family Dining & Clay-Oven Tandoor</span>
-          </div>
-
-          <h1 className="text-5xl sm:text-7xl md:text-8xl font-brand font-black tracking-tight leading-none text-[#FFF9F0]">
-            THE DINING
-            <span className="block font-display italic font-normal text-[#D7A84B] mt-1">
-              Sanctum
-            </span>
-          </h1>
-
-          <p className="max-w-2xl mx-auto text-[#F3E8D7] text-base sm:text-lg font-light leading-relaxed">
-            Authentic Awadhi spices, sizzling charcoal tandoor platters, velvety makhani curries, and gracious Gorakhpur family service.
-          </p>
-
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-4">
-            <button
-              onClick={() => {
-                const el = document.getElementById('table-enquiry-section');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="px-8 py-3.5 rounded-full bg-[#B94E35] hover:bg-[#963822] text-white font-bold text-xs uppercase tracking-widest transition-all shadow-xl shadow-[#B94E35]/30 hover:scale-105"
-            >
-              Reserve a Table
-            </button>
-            <Link
-              to="/menu"
-              className="px-8 py-3.5 rounded-full bg-[#FFF9F0] hover:bg-[#F3E8D7] text-[#241C1A] font-bold text-xs uppercase tracking-widest transition-all shadow-md flex items-center space-x-2 hover:scale-105"
-            >
-              <span>Explore Menu (40+ Dishes)</span>
-              <ArrowRight className="w-4 h-4 text-[#B94E35]" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ─────────────────────────────────────────────────────────────
-          SECTION 2: DINING EXPERIENCE — Cinematic Visual Sequence (No Split Box!)
-      ───────────────────────────────────────────────────────────── */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#F3E8D7]">
-        <div className="max-w-7xl mx-auto space-y-14">
-          <div className="text-center max-w-2xl mx-auto space-y-3">
-            <span className="text-xs uppercase tracking-widest text-[#B94E35] font-bold">Unrushed Hospitality</span>
-            <h2 className="text-4xl sm:text-5xl font-serif font-bold text-[#241C1A]">The Art of Family Dining</h2>
-            <p className="text-xs sm:text-sm text-[#79533D]">Spacious booth seating, warm golden chandeliers, and thoughtful care for young and old alike.</p>
-          </div>
-
-          {/* Cinematic 3-Image Sequence of Varied Proportions */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-            <div className="md:col-span-4 rounded-3xl overflow-hidden border-2 border-[#E8B9A4] shadow-xl h-[420px] relative group">
-              <img
-                src="/images/restaurant/main-dining-hall.webp"
-                alt="Main Dining Hall"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#241C1A]/80 via-transparent to-transparent flex items-end p-6 text-white">
-                <div>
-                  <span className="text-[10px] uppercase tracking-wider text-[#D7A84B] font-bold">Atmosphere</span>
-                  <h4 className="text-xl font-serif font-bold">Central Dining Hall</h4>
-                </div>
-              </div>
-            </div>
-
-            <div className="md:col-span-5 rounded-3xl overflow-hidden border-2 border-[#E8B9A4] shadow-xl h-[480px] relative group">
-              <img
-                src="/images/restaurant/service-family-hospitality.webp"
-                alt="Family Dining Care"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#241C1A]/80 via-transparent to-transparent flex items-end p-6 text-white">
-                <div>
-                  <span className="text-[10px] uppercase tracking-wider text-emerald-400 font-bold">Family Care</span>
-                  <h4 className="text-2xl font-serif font-bold">Baby High Chairs & Stroller Support</h4>
-                  <p className="text-xs text-[#FFF9F0]/80 mt-1">Thoughtful assistance for families dining with young toddlers.</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="md:col-span-3 rounded-3xl overflow-hidden border-2 border-[#E8B9A4] shadow-xl h-[420px] relative group">
-              <img
-                src="/images/restaurant/table-setting-elegance.webp"
-                alt="Elegant Table Settings"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#241C1A]/80 via-transparent to-transparent flex items-end p-6 text-white">
-                <div>
-                  <span className="text-[10px] uppercase tracking-wider text-[#D7A84B] font-bold">Fine Details</span>
-                  <h4 className="text-lg font-serif font-bold">Artisanal Tableware</h4>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─────────────────────────────────────────────────────────────
-          SECTION 3: SIGNATURE CUISINE — Varied Proportions & Expressive Type
-      ───────────────────────────────────────────────────────────── */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#FFF9F0]">
-        <div className="max-w-7xl mx-auto space-y-16">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#E8B9A4] pb-6">
-            <div className="space-y-2">
-              <span className="text-xs uppercase tracking-widest text-[#B94E35] font-bold">Flavour Mastery</span>
-              <h2 className="text-4xl sm:text-5xl font-serif font-bold text-[#241C1A]">Four Signature Traditions</h2>
-            </div>
-            <p className="text-xs sm:text-sm text-[#79533D] max-w-md">Charcoal tandoor tikkas, slow-dum Awadhi biryanis, royal makhani curries & Indo-Chinese wok specialities.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="p-6 rounded-3xl bg-[#FFF9F0] border-2 border-[#E8B9A4] space-y-4 shadow-sm hover:border-[#B94E35] transition-colors">
-              <div className="w-12 h-12 rounded-2xl bg-[#B94E35]/10 flex items-center justify-center text-[#B94E35]">
-                <Flame className="w-6 h-6" />
-              </div>
-              <h3 className="text-xl font-serif font-bold text-[#241C1A]">Live Clay Tandoor</h3>
-              <p className="text-xs text-[#79533D] leading-relaxed">
-                400°C charcoal heat firing Paneer Tikka, Afghani Murgh, Malai Tikka, and crisp butter naans.
-              </p>
-            </div>
-
-            <div className="p-6 rounded-3xl bg-[#FFF9F0] border-2 border-[#E8B9A4] space-y-4 shadow-sm hover:border-[#B94E35] transition-colors">
-              <div className="w-12 h-12 rounded-2xl bg-[#B94E35]/10 flex items-center justify-center text-[#B94E35]">
-                <Utensils className="w-6 h-6" />
-              </div>
-              <h3 className="text-xl font-serif font-bold text-[#241C1A]">North Indian Handis</h3>
-              <p className="text-xs text-[#79533D] leading-relaxed">
-                Overnight-simmered Dal Makhani, Paneer Lababdar, and classic Butter Chicken with clotted cream.
-              </p>
-            </div>
-
-            <div className="p-6 rounded-3xl bg-[#FFF9F0] border-2 border-[#E8B9A4] space-y-4 shadow-sm hover:border-[#B94E35] transition-colors">
-              <div className="w-12 h-12 rounded-2xl bg-[#D7A84B]/20 flex items-center justify-center text-[#B88528]">
-                <SpiceStar className="w-6 h-6" />
-              </div>
-              <h3 className="text-xl font-serif font-bold text-[#241C1A]">Awadhi Dum Biryani</h3>
-              <p className="text-xs text-[#79533D] leading-relaxed">
-                Aged basmati rice sealed in earthen handis with saffron milk, whole cardamoms, and tender meats.
-              </p>
-            </div>
-
-            <div className="p-6 rounded-3xl bg-[#FFF9F0] border-2 border-[#E8B9A4] space-y-4 shadow-sm hover:border-[#B94E35] transition-colors">
-              <div className="w-12 h-12 rounded-2xl bg-[#65765A]/15 flex items-center justify-center text-[#65765A]">
-                <Utensils className="w-6 h-6" />
-              </div>
-              <h3 className="text-xl font-serif font-bold text-[#241C1A]">Indo-Chinese Wok</h3>
-              <p className="text-xs text-[#79533D] leading-relaxed">
-                High-heat tossed Chilli Paneer, Schezwan Fried Rice, Hakka Noodles, and classic Chicken Lollipop.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─────────────────────────────────────────────────────────────
-          SECTION 4: RESTAURANT AMBIENCE — Private Dining Room Feature
-      ───────────────────────────────────────────────────────────── */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#241C1A] text-white">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-6 rounded-3xl overflow-hidden border-2 border-[#B94E35] shadow-2xl h-[460px]">
-            <img
-              src="/images/restaurant/private-dining-lounge.webp"
-              alt="Private Dining Room"
-              className="w-full h-full object-cover"
-            />
-          </div>
-
+    <div className="bg-[#FFFDF8] text-[#2C1D18]">
+      {/* SECTION 1: SPLIT MONOLITH HERO WITH TWIN OFFSET PORTRAITS — Seafoam Teal Mist */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#E8F2F2] via-[#F4F8F7] to-[#FCF0E6]">
+        <OrbitalRingBackdrop
+          size={460}
+          opacity={0.14}
+          strokeColor="#125457"
+          secondaryColor="#D8A852"
+          className="hidden lg:block absolute -left-28 -top-20 w-[460px] h-[460px]"
+        />
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-12 lg:pt-16 lg:pb-16 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           <div className="lg:col-span-6 space-y-6">
-            <div className="inline-flex items-center space-x-2 text-xs uppercase tracking-widest text-[#D7A84B] font-bold">
-              <Users className="w-4 h-4" />
-              <span>Exclusive Seclusion</span>
-            </div>
-
-            <h2 className="text-4xl sm:text-5xl font-serif font-bold text-white leading-tight">
-              Private Dining Lounge: 15 to 30 Guests
-            </h2>
-
-            <p className="text-sm sm:text-base text-[#E8B9A4] font-light leading-relaxed">
-              When privacy and tailored hospitality are desired, our dedicated Private Dining Room (PDR) offers an intimate sanctuary. Ideal for family celebrations, roka ceremonies, business leadership luncheons, and celebratory milestone dinners.
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#125457]">
+              Main Dining Hall · ~4.3/5 Across 4,000+ Justdial Ratings
             </p>
-
-            <ul className="space-y-3 text-xs sm:text-sm text-[#FFF9F0]/85">
-              <li className="flex items-start space-x-3">
-                <CheckCircle2 className="w-4 h-4 text-[#D7A84B] shrink-0 mt-0.5" />
-                <span>Dedicated attendant and waitstaff assigned for the duration of your event.</span>
-              </li>
-              <li className="flex items-start space-x-3">
-                <CheckCircle2 className="w-4 h-4 text-[#D7A84B] shrink-0 mt-0.5" />
-                <span>Customised set menus tailored to Pure Veg, Jain, or Non-Veg dietary requirements.</span>
-              </li>
-            </ul>
-
-            <div className="pt-2">
-              <button
-                onClick={() => onOpenEnquiry('restaurant')}
-                className="px-8 py-3.5 rounded-full bg-[#B94E35] hover:bg-[#963822] text-white font-bold text-xs uppercase tracking-widest transition-all shadow-lg"
+            <h1 className="font-serif text-[clamp(2.3rem,4vw,3.6rem)] font-medium leading-[1.08] tracking-tight text-[#2C1D18]">
+              Quiet booth corners, <em className="italic font-normal text-[#125457]">generous plates,</em> and family ease.
+            </h1>
+            <p className="text-sm sm:text-base text-[#52453E] leading-relaxed max-w-md">
+              Air-conditioned comfort along Sonauli Road welcoming Gorakhpur families and temple pilgrims with North Indian, Mughlai, Tandoori, and Sichuan cuisines.
+            </p>
+            <div className="flex flex-wrap gap-3 pt-1">
+              <a
+                href="#table-enquiry"
+                className="gloss-btn min-h-[44px] px-6 py-3 bg-[#125457] hover:bg-[#0D3D40] text-white text-xs font-semibold uppercase tracking-wider rounded-lg inline-flex items-center gap-2 whitespace-nowrap"
               >
-                Enquire for Private Lounge
-              </button>
+                <span>Reserve a Booth</span>
+                <ArrowRight className="w-4 h-4" />
+              </a>
+              <Link
+                to="/menu"
+                className="min-h-[44px] px-5 py-3 border border-[#125457]/30 bg-white/85 hover:bg-white text-[#125457] text-xs font-semibold uppercase tracking-wider rounded-lg inline-flex items-center whitespace-nowrap"
+              >
+                Full Menu Folio
+              </Link>
             </div>
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-2 pt-2 text-xs text-[#6E2434] font-semibold">
+              <a href={BUSINESS_INFO.ordering.zomato} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:underline">
+                <span>Order on Zomato</span>
+                <ExternalLink className="w-3 h-3" />
+              </a>
+              <a href={BUSINESS_INFO.ordering.swiggy} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:underline">
+                <span>Swiggy / Dineout</span>
+                <ExternalLink className="w-3 h-3" />
+              </a>
+              <span className="text-[#61524A] font-normal tabular-nums">
+                Delivery {BUSINESS_INFO.timings.delivery}
+              </span>
+            </div>
+          </div>
+
+          <div className="lg:col-span-6 grid grid-cols-12 gap-4 items-center max-w-lg mx-auto lg:ml-auto">
+            <div className="col-span-7">
+              <EditorialImage
+                src="/images/restaurant/sharda-dining-hall.webp"
+                alt="Main dining hall booths and warm pendant lights at Sharda Dinings"
+                frameClassName="arch-frame shadow-xl border border-white/80"
+                aspect="aspect-[3/4]"
+                loading="eager"
+              />
+            </div>
+            <div className="col-span-5 pt-10 animate-float-slow">
+              <EditorialImage
+                src="/images/restaurant/sharda-dining-interior-corridor.webp"
+                alt="Timber-slat ceiling corridor and cognac banquettes"
+                frameClassName="rounded-2xl shadow-lg border border-white/80"
+                aspect="aspect-[3/4]"
+                loading="eager"
+                caption="Warm evening aisle."
+              />
+            </div>
+          </div>
+        </div>
+        <AnimatedWaveDivider waveFill="#FCF0E6" />
+      </section>
+
+      {/* SECTION 2: ALTERNATING FLOOR PLAN SEQUENCE — Warm Apricot Peach */}
+      <section className="relative overflow-hidden py-16 lg:py-22 bg-[#FCF0E6] border-b border-[#EBD6C3]">
+        <FloatingBotanicalAccents color="#6E2434" />
+        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <SectionHeader
+              eyebrow="Three Seating Zones"
+              title="Thoughtful zones for couples, groups, and toddlers."
+            />
+            <p className="text-xs font-medium text-[#6E2434] tabular-nums inline-flex items-center gap-2 shrink-0">
+              <Clock className="w-3.5 h-3.5" />
+              <span>{BUSINESS_INFO.timings.restaurant} · Avg. {BUSINESS_INFO.avgCostForTwo} for two</span>
+            </p>
+          </div>
+
+          <div className="divide-y divide-[#DEC8B4] border-y border-[#DEC8B4]">
+            {SEATING_CHAPTERS.map((zone, idx) => (
+              <Reveal
+                key={zone.index}
+                className="py-8 grid grid-cols-1 md:grid-cols-12 gap-6 items-center"
+              >
+                <div className={`md:col-span-5 ${idx % 2 === 1 ? 'md:order-2' : ''}`}>
+                  <div className="max-w-xs mx-auto md:mx-0">
+                    <EditorialImage
+                      src={zone.image}
+                      alt={zone.alt}
+                      frameClassName="rounded-xl shadow-sm"
+                      aspect="aspect-[4/3]"
+                    />
+                  </div>
+                </div>
+                <div className={`md:col-span-7 space-y-2 ${idx % 2 === 1 ? 'md:order-1' : ''}`}>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#6E2434]">
+                    {zone.index} · {zone.kicker}
+                  </p>
+                  <h3 className="font-serif text-2xl sm:text-3xl text-[#2C1D18]">{zone.title}</h3>
+                  <p className="text-sm text-[#61524A] leading-relaxed max-w-lg">{zone.copy}</p>
+                </div>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ─────────────────────────────────────────────────────────────
-          SECTION 5: TABLE ENQUIRY — Distinctive Coloured Background
-      ───────────────────────────────────────────────────────────── */}
-      <section id="table-enquiry-section" className="py-24 px-4 sm:px-6 lg:px-8 bg-[#B94E35] text-white">
-        <div className="max-w-4xl mx-auto space-y-8">
-          <div className="text-center space-y-2">
-            <span className="text-xs uppercase tracking-widest text-[#D7A84B] font-bold">Reserve in Advance</span>
-            <h2 className="text-4xl sm:text-5xl font-serif font-bold text-white">Book Your Table</h2>
-            <p className="text-xs sm:text-sm text-[#FFF9F0]/80">Guaranteed table hold without waiting during dinner hours and weekends.</p>
+      {/* SECTION 3: UNIFIED KITCHEN SHOWCASE — Soft Lavender Linen */}
+      <section className="py-16 lg:py-22 bg-[#F3EFFA] border-b border-[#DCD2EC] space-y-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <SectionHeader
+            accentClass="text-[#4C2D5C]"
+            eyebrow="Kitchens in Motion"
+            title="Tandoor embers, rich Mughlai gravies &amp; hot wok plates."
+            copy="Every dish is cooked fresh to order. Pair your table session with our full illustrated Menu Folio."
+          />
+          <Link
+            to="/menu"
+            className="gloss-btn min-h-[42px] px-5 py-2.5 bg-[#4C2D5C] hover:bg-[#3A2147] text-white text-xs font-semibold uppercase tracking-wider rounded-lg inline-flex items-center gap-2 shrink-0 whitespace-nowrap"
+          >
+            <span>Inspect Priced Menu</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+
+        <UnifiedGalleryStream
+          pauseLabel="Dishes"
+          items={[...TOP_DISH_STREAM, ...BOTTOM_DISH_STREAM]}
+        />
+      </section>
+
+      {/* SECTION 4: ARCHITECTURAL VIGNETTES & PULL QUOTE — Deep Chocolate Copper */}
+      <section className="relative overflow-hidden py-16 lg:py-22 bg-[#2B1B17] text-[#FFFDF8]">
+        <FloatingLanternParticles color="#EAB963" count={6} />
+        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <blockquote className="max-w-3xl mx-auto text-center py-6 border-y border-white/15 space-y-2">
+            <p className="font-serif italic text-2xl sm:text-3xl text-white leading-snug">
+              “Soft acoustic wood slats by afternoon, crystal pendant warmth after dusk.”
+            </p>
+            <footer className="text-[11px] uppercase tracking-[0.2em] text-[#EAB963]">
+              Interior Material Palette · Fluted Stone, Teak &amp; Velvet
+            </footer>
+          </blockquote>
+
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+            <Reveal variant="left" className="md:col-span-4 max-w-xs mx-auto w-full">
+              <EditorialImage
+                src="/images/restaurant/sharda-dining.webp"
+                alt="Teal velvet seating and crystal chandelier light"
+                frameClassName="arch-frame border border-[#EAB963]/20"
+                aspect="aspect-[3/4]"
+                caption="Velvet booth clusters."
+                dark
+              />
+            </Reveal>
+            <Reveal variant="zoom" delay={80} className="md:col-span-4 max-w-xs mx-auto w-full">
+              <EditorialImage
+                src="/images/restaurant/sharda-dining-wall.webp"
+                alt="Framed artwork along booth wall under pendant glass lamps"
+                frameClassName="rounded-xl border border-[#EAB963]/20"
+                aspect="aspect-square"
+                caption="Framed gallery aisle."
+                dark
+              />
+            </Reveal>
+            <Reveal variant="right" delay={140} className="md:col-span-4 max-w-xs mx-auto w-full">
+              <EditorialImage
+                src="/images/restaurant/sharda-buddha-sofa.webp"
+                alt="Entrance reception lounge sofa beneath Buddha sculpture"
+                frameClassName="rounded-xl border border-[#EAB963]/20"
+                aspect="aspect-[4/3]"
+                caption="Guest foyer & waiting lounge."
+                dark
+              />
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 5: MINIMALIST TABLE ENQUIRY DESK — Dusty Powder Blue */}
+      <section id="table-enquiry" className="scroll-mt-20 py-16 lg:py-22 bg-[#EAF1F7]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <div className="lg:col-span-5 space-y-4">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#1E3A5F]">
+              Host Desk Reservation
+            </p>
+            <h2 className="font-serif text-3xl text-[#2C1D18] leading-tight">
+              Reserve your booth or private group table.
+            </h2>
+            <p className="text-sm text-[#3F5166] leading-relaxed">
+              Mention baby high-chair requests, Jain meals, or 15–30 guest tables. Submitting opens a clean WhatsApp confirmation directly to our host team.
+            </p>
+            <div className="pt-2 border-t border-[#CBD9E8] text-sm tabular-nums">
+              <a
+                href={`tel:${BUSINESS_INFO.phones[0].number}`}
+                className="inline-flex items-center gap-2 font-semibold text-[#1E3A5F] hover:text-[#6E2434]"
+              >
+                <Phone className="w-4 h-4" />
+                <span>{BUSINESS_INFO.phones[0].display}</span>
+              </a>
+            </div>
           </div>
 
-          <div className="p-8 sm:p-10 rounded-3xl bg-[#FFF9F0] text-[#241C1A] border-4 border-[#D7A84B] shadow-2xl">
+          <div className="lg:col-span-7 bg-white border border-[#D4E0EC] rounded-2xl p-6 sm:p-8 shadow-sm">
             {submitted ? (
-              <div className="text-center py-8 space-y-3">
-                <div className="w-14 h-14 mx-auto rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center">
-                  <CheckCircle2 className="w-8 h-8" />
-                </div>
-                <h3 className="text-2xl font-serif font-bold text-[#241C1A]">Table Request Logged</h3>
-                <p className="text-xs sm:text-sm text-[#79533D] max-w-md mx-auto">
-                  Thank you, <strong className="text-[#241C1A]">{reservationForm.name}</strong>. Our front desk has reserved your request for {reservationForm.guests} guests on {reservationForm.date}. We will connect shortly to confirm.
+              <div className="py-6 text-center space-y-4">
+                <CheckCircle2 className="w-8 h-8 text-[#125457] mx-auto" />
+                <h3 className="font-serif text-2xl text-[#2C1D18]">Table Request Prepared</h3>
+                <p className="text-sm text-[#61524A]">
+                  Ready for <strong className="text-[#2C1D18]">{formData.guests}</strong> ({formData.seating}). Dispatch directly to our dining host on WhatsApp.
                 </p>
-                <button
-                  onClick={() => setSubmitted(false)}
-                  className="px-6 py-2 rounded-full bg-[#B94E35] text-white text-xs font-bold uppercase tracking-wider"
-                >
-                  Book Another Table
-                </button>
+                <div className="flex flex-wrap justify-center gap-3 pt-2">
+                  <a
+                    href={buildWhatsAppUrl()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="gloss-btn min-h-[42px] px-5 py-2.5 bg-[#125457] text-white text-xs font-semibold uppercase tracking-wider rounded-lg inline-flex items-center gap-2"
+                  >
+                    <MessageSquare className="w-4 h-4" />
+                    <span>Send via WhatsApp</span>
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => setSubmitted(false)}
+                    className="min-h-[42px] px-4 py-2.5 border border-[#D4E0EC] text-xs font-semibold uppercase tracking-wider rounded-lg"
+                  >
+                    Edit Details
+                  </button>
+                </div>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+                {error && (
+                  <div role="alert" className="p-3 bg-[#FFF8EB] border border-[#D8A852] text-xs text-[#6B4A12] rounded-lg">
+                    {error}
+                  </div>
+                )}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs uppercase tracking-wider text-[#79533D] font-bold mb-1">Your Full Name *</label>
+                    <label htmlFor="res-name" className="block text-[11px] uppercase tracking-wider font-semibold text-[#61524A] mb-1.5">
+                      Full Name *
+                    </label>
                     <input
+                      id="res-name"
                       type="text"
                       required
-                      placeholder="e.g. Vikramaditya Singh"
-                      value={reservationForm.name}
-                      onChange={e => setReservationForm({ ...reservationForm, name: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-xl bg-white border border-[#E8B9A4] text-[#241C1A] text-sm focus:outline-none focus:border-[#B94E35]"
+                      placeholder="Ananya Verma"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      className="w-full min-h-[42px] px-3.5 py-2 bg-[#FFFDF8] border border-[#D4E0EC] text-sm rounded-lg focus:border-[#1E3A5F] focus:outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs uppercase tracking-wider text-[#79533D] font-bold mb-1">Contact Phone *</label>
+                    <label htmlFor="res-phone" className="block text-[11px] uppercase tracking-wider font-semibold text-[#61524A] mb-1.5">
+                      Phone / WhatsApp *
+                    </label>
                     <input
+                      id="res-phone"
                       type="tel"
                       required
-                      placeholder="e.g. +91 98765 43210"
-                      value={reservationForm.phone}
-                      onChange={e => setReservationForm({ ...reservationForm, phone: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-xl bg-white border border-[#E8B9A4] text-[#241C1A] text-sm focus:outline-none focus:border-[#B94E35]"
+                      placeholder="+91 98765 43210"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      className="w-full min-h-[42px] px-3.5 py-2 bg-[#FFFDF8] border border-[#D4E0EC] text-sm rounded-lg tabular-nums focus:border-[#1E3A5F] focus:outline-none"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div>
-                    <label className="block text-xs uppercase tracking-wider text-[#79533D] font-bold mb-1">Date *</label>
+                    <label htmlFor="res-date" className="block text-[11px] uppercase tracking-wider font-semibold text-[#61524A] mb-1.5">
+                      Date
+                    </label>
                     <input
+                      id="res-date"
                       type="date"
-                      required
-                      value={reservationForm.date}
-                      onChange={e => setReservationForm({ ...reservationForm, date: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-xl bg-white border border-[#E8B9A4] text-[#241C1A] text-sm focus:outline-none focus:border-[#B94E35]"
+                      value={formData.date}
+                      onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                      className="w-full min-h-[42px] px-3 py-2 bg-[#FFFDF8] border border-[#D4E0EC] text-sm rounded-lg focus:border-[#1E3A5F] focus:outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs uppercase tracking-wider text-[#79533D] font-bold mb-1">Time Slot</label>
-                    <select
-                      value={reservationForm.time}
-                      onChange={e => setReservationForm({ ...reservationForm, time: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-xl bg-white border border-[#E8B9A4] text-[#241C1A] text-sm focus:outline-none focus:border-[#B94E35]"
-                    >
-                      <option value="12:30">12:30 PM (Lunch)</option>
-                      <option value="13:30">01:30 PM (Lunch)</option>
-                      <option value="19:30">07:30 PM (Dinner)</option>
-                      <option value="20:00">08:00 PM (Dinner)</option>
-                      <option value="20:30">08:30 PM (Dinner)</option>
-                    </select>
+                    <label htmlFor="res-time" className="block text-[11px] uppercase tracking-wider font-semibold text-[#61524A] mb-1.5">
+                      Time
+                    </label>
+                    <input
+                      id="res-time"
+                      type="time"
+                      value={formData.time}
+                      onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+                      className="w-full min-h-[42px] px-3 py-2 bg-[#FFFDF8] border border-[#D4E0EC] text-sm rounded-lg tabular-nums focus:border-[#1E3A5F] focus:outline-none"
+                    />
                   </div>
                   <div>
-                    <label className="block text-xs uppercase tracking-wider text-[#79533D] font-bold mb-1">Guests</label>
+                    <label htmlFor="res-guests" className="block text-[11px] uppercase tracking-wider font-semibold text-[#61524A] mb-1.5">
+                      Guests
+                    </label>
                     <select
-                      value={reservationForm.guests}
-                      onChange={e => setReservationForm({ ...reservationForm, guests: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-xl bg-white border border-[#E8B9A4] text-[#241C1A] text-sm focus:outline-none focus:border-[#B94E35]"
+                      id="res-guests"
+                      value={formData.guests}
+                      onChange={(e) => setFormData({ ...formData, guests: e.target.value })}
+                      className="w-full min-h-[42px] px-3 py-2 bg-[#FFFDF8] border border-[#D4E0EC] text-sm rounded-lg focus:border-[#1E3A5F] focus:outline-none"
                     >
-                      <option value="2">2 Guests</option>
-                      <option value="4">4 Guests</option>
-                      <option value="6">6 Guests</option>
-                      <option value="8">8 Guests</option>
-                      <option value="15-30">15–30 Guests (Private Lounge)</option>
+                      <option value="2 Guests">2 Guests</option>
+                      <option value="4 Guests">4 Guests</option>
+                      <option value="6–8 Guests">6 – 8 Guests</option>
+                      <option value="15–30 Private Lounge">15 – 30 (Private Wing)</option>
                     </select>
                   </div>
                 </div>
 
-                <div className="pt-2">
-                  <button
-                    type="submit"
-                    className="w-full py-4 rounded-xl bg-[#B94E35] hover:bg-[#963822] text-white font-bold text-xs uppercase tracking-widest transition-all shadow-md"
-                  >
-                    Confirm Table Reservation Request
-                  </button>
+                <div>
+                  <label htmlFor="res-notes" className="block text-[11px] uppercase tracking-wider font-semibold text-[#61524A] mb-1.5">
+                    Seating or Jain Customisation
+                  </label>
+                  <input
+                    id="res-notes"
+                    type="text"
+                    placeholder="Velvet booth, high chair, mild spice..."
+                    value={formData.notes}
+                    onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                    className="w-full min-h-[42px] px-3.5 py-2 bg-[#FFFDF8] border border-[#D4E0EC] text-sm rounded-lg focus:border-[#1E3A5F] focus:outline-none"
+                  />
                 </div>
+
+                <button
+                  type="submit"
+                  className="gloss-btn w-full min-h-[44px] px-6 py-3 bg-[#1E3A5F] hover:bg-[#152944] text-white text-xs font-semibold uppercase tracking-wider rounded-lg transition-colors"
+                >
+                  Prepare Table Enquiry
+                </button>
               </form>
             )}
           </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Wheat / Grain Botanical Flourish
-export function WheatFlourish({ className = "w-6 h-6 text-[#B94E35]" }) {
+export function WheatFlourish({ className = 'w-6 h-6 text-[#6E2434]' }) {
   return (
     <svg className={className} viewBox="0 0 100 100" fill="currentColor">
       <path d="M50 95 C50 60, 48 30, 50 5 C50 5, 52 30, 50 95 Z" stroke="currentColor" strokeWidth="2" fill="none" />
@@ -14,7 +14,7 @@ export function WheatFlourish({ className = "w-6 h-6 text-[#B94E35]" }) {
 }
 
 // Royal Spice Starburst Motif
-export function SpiceStar({ className = "w-5 h-5 text-[#D7A84B]" }) {
+export function SpiceStar({ className = 'w-5 h-5 text-[#EAB963]' }) {
   return (
     <svg className={className} viewBox="0 0 40 40" fill="currentColor">
       <path d="M20 0 L23 14 L37 11 L26 20 L37 29 L23 26 L20 40 L17 26 L3 29 L14 20 L3 11 L17 14 Z" />
@@ -23,7 +23,7 @@ export function SpiceStar({ className = "w-5 h-5 text-[#D7A84B]" }) {
 }
 
 // Coffee Bean Botanical Motif
-export function CoffeeBeanFlourish({ className = "w-6 h-6 text-[#65765A]" }) {
+export function CoffeeBeanFlourish({ className = 'w-6 h-6 text-[#3D5A45]' }) {
   return (
     <svg className={className} viewBox="0 0 60 60" fill="none" stroke="currentColor" strokeWidth="2.5">
       <ellipse cx="30" cy="30" rx="22" ry="16" transform="rotate(-30 30 30)" />
@@ -32,19 +32,17 @@ export function CoffeeBeanFlourish({ className = "w-6 h-6 text-[#65765A]" }) {
   );
 }
 
-// Vintage Arch Badge Outline
-export function ArchEmblem({ text = "EST. 2010 • GORAKHPUR", className = "text-[#B94E35]" }) {
+// Editorial Heritage Emblem
+export function ArchEmblem({ text = 'EST. 2010 • GORAKHPUR', className = 'text-[#6E2434]' }) {
   return (
-    <div className={`inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-current text-[11px] font-bold tracking-widest uppercase ${className}`}>
-      <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
+    <div className={`inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-sm border border-current text-[11px] font-semibold tracking-widest uppercase ${className}`}>
       <span>{text}</span>
-      <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
     </div>
   );
 }
 
-// Wavy Section Divider (Warm Terracotta / Cream / Olive)
-export function WavyDivider({ fill = "#FFF9F0", className = "w-full h-8" }) {
+// Wavy Section Divider
+export function WavyDivider({ fill = '#FFFDF8', className = 'w-full h-8' }) {
   return (
     <div className="w-full overflow-hidden leading-none">
       <svg className={className} viewBox="0 0 1200 120" preserveAspectRatio="none">
@@ -55,20 +53,20 @@ export function WavyDivider({ fill = "#FFF9F0", className = "w-full h-8" }) {
 }
 
 // Circular Heritage Stamp
-export function CircularHeritageStamp({ text = "SHARDA DININGS • FINE HOSPITALITY •", year = "2010", className = "w-28 h-28" }) {
+export function CircularHeritageStamp({ year = '2010', className = 'w-28 h-28' }) {
   return (
-    <div className={`relative flex items-center justify-center rounded-full border-2 border-dashed border-[#B94E35] p-2 text-[#B94E35] select-none ${className}`}>
+    <div className={`relative flex items-center justify-center rounded-full border-2 border-dashed border-[#6E2434] p-2 text-[#6E2434] select-none ${className}`}>
       <div className="text-center">
-        <span className="block font-brand font-black text-sm tracking-tighter">SD</span>
-        <span className="block text-[8px] font-bold tracking-widest uppercase">SINCE {year}</span>
+        <span className="block font-serif font-bold text-sm tracking-tighter">SD</span>
+        <span className="block text-[8px] font-semibold tracking-widest uppercase">SINCE {year}</span>
       </div>
-      <div className="absolute inset-0.5 rounded-full border border-[#B94E35]/40 pointer-events-none"></div>
+      <div className="absolute inset-0.5 rounded-full border border-[#6E2434]/40 pointer-events-none"></div>
     </div>
   );
 }
 
 // Culinary Fork and Spoon Icon
-export function CutleryCrest({ className = "w-6 h-6 text-[#D7A84B]" }) {
+export function CutleryCrest({ className = 'w-6 h-6 text-[#EAB963]' }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" />
