@@ -1,21 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  --alabaster: #faf7f2;
-  --champagne: #f5ece0;
-  --indigo-slate: #1d2e42;
-  --mulberry: #4e2538;
-  --burgundy: #6e2434;
-  --espresso: #241814;
-  --ochre: #d99b38;
-  --ochre-bright: #eab963;
-  --apricot: #fbeae0;
-  --powder-blue: #eaf0f6;
-  --sage-olive: #e8efe9;
-  --emerald-deep: #144035;
+  --cream-base: #FBF9F4;
+  --cream-warm: #F4EFE5;
+  --deep-teal: #0E4D5C;
+  --deep-teal-dark: #0A3A46;
+  --emerald: #14532D;
+  --mustard: #C9A227;
+  --mustard-soft: #E3C98A;
+  --coral: #E8836A;
+  --peach: #F4C2A1;
+  --lavender: #A8A4D8;
+  --dusty-blue: #7A8B99;
+  --warm-brown: #5D4037;
   --ink: #241814;
-  --muted: #5e5049;
-  --line: #e4d8ca;
+  --muted: #6B655C;
+  --line: #E4D8CA;
   --font-serif: "Fraunces", Georgia, serif;
   --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
 }
@@ -24,7 +24,7 @@
   html {
     scroll-behavior: smooth;
     font-family: var(--font-sans);
-    background-color: var(--alabaster);
+    background-color: var(--cream-base);
     color: var(--ink);
     overflow-x: clip;
   }
@@ -32,7 +32,7 @@
   body {
     margin: 0;
     min-width: 320px;
-    background-color: var(--alabaster);
+    background-color: var(--cream-base);
     color: var(--ink);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
@@ -54,7 +54,7 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--burgundy);
+    outline: 2px solid var(--deep-teal);
     outline-offset: 2px;
   }
 }
@@ -244,6 +244,220 @@
 .scrollbar-none::-webkit-scrollbar {
   display: none;
 }
+
+/* ===== Premium Animation Keyframes ===== */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes fadeUpStagger {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up-stagger {
+  animation: fadeUpStagger 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes imageReveal {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.animate-image-reveal {
+  animation: imageReveal 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes floatUpDown {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(1deg);
+  }
+}
+
+.animate-float {
+  animation: floatUpDown 7s ease-in-out infinite;
+}
+
+@keyframes floatReverse {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(10px) rotate(-1deg);
+  }
+}
+
+.animate-float-reverse {
+  animation: floatReverse 9s ease-in-out infinite;
+}
+
+@keyframes scalePulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+.animate-scale-pulse {
+  animation: scalePulse 5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.animate-shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  transform: translateX(-100%);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes rotateSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-rotate-slow {
+  animation: rotateSlow 20s linear infinite;
+}
+
+@keyframes rotateSlowReverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+.animate-rotate-slow-reverse {
+  animation: rotateSlowReverse 26s linear infinite;
+}
+
+@keyframes driftX {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-15px); }
+}
+
+.animate-drift-x {
+  animation: driftX 6s ease-in-out infinite;
+}
+
+@keyframes driftY {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+.animate-drift-y {
+  animation: driftY 8s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.animate-blink-slow {
+  animation: blink 4s ease-in-out infinite;
+}
+
+/* Section background gradients */
+.bg-gradient-hero {
+  background: linear-gradient(135deg, #FBF9F4 0%, #F4EFE5 50%, #EDE3D2 100%);
+}
+
+.bg-gradient-manifesto {
+  background: linear-gradient(135deg, #0E4D5C 0%, #0A3A46 60%, #072A33 100%);
+}
+
+.bg-gradient-wings {
+  background: linear-gradient(135deg, #FBF9F4 0%, #F4EFE5 100%);
+}
+
+.bg-gradient-cafe {
+  background: linear-gradient(135deg, #F4EFE5 0%, #EDE3D2 50%, #E6D8C0 100%);
+}
+
+.bg-gradient-banquet {
+  background: linear-gradient(135deg, #F4EFE5 0%, #EDE3D2 100%);
+}
+
+.bg-gradient-consensus {
+  background: linear-gradient(135deg, #FBF9F4 0%, #F4EFE5 100%);
+}
+
+.bg-gradient-brand {
+  background: linear-gradient(135deg, #FBF9F4 0%, #F4EFE5 40%, #EDE3D2 100%);
+}
+
+.bg-gradient-location {
+  background: linear-gradient(135deg, #FBF9F4 0%, #F4EFE5 100%);
+}
+
+/* Section text color utilities */
+.text-deep-teal { color: var(--deep-teal); }
+.text-emerald { color: var(--emerald); }
+.text-mustard { color: var(--mustard); }
+.text-coral { color: var(--coral); }
+.text-peach { color: var(--peach); }
+.text-lavender { color: var(--lavender); }
+.text-dusty-blue { color: var(--dusty-blue); }
+.text-warm-brown { color: var(--warm-brown); }
+.text-cream { color: var(--cream-base); }
+
+.bg-deep-teal { background-color: var(--deep-teal); }
+.bg-deep-teal-dark { background-color: var(--deep-teal-dark); }
+.bg-emerald { background-color: var(--emerald); }
+.bg-mustard { background-color: var(--mustard); }
+.bg-coral { background-color: var(--coral); }
+.bg-peach { background-color: var(--peach); }
+.bg-lavender { background-color: var(--lavender); }
+.bg-dusty-blue { background-color: var(--dusty-blue); }
+.bg-warm-brown { background-color: var(--warm-brown); }
+.bg-cream-base { background-color: var(--cream-base); }
+
+.border-deep-teal { border-color: var(--deep-teal); }
+.border-emerald { border-color: var(--emerald); }
+.border-mustard { border-color: var(--mustard); }
 
 @media print {
   header,
