@@ -1,143 +1,165 @@
-import React, { useEffect, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { NavLink, Link, useLocation } from 'react-router-dom';
+import { Menu, X, Phone, ShieldCheck, Sparkles } from 'lucide-react';
 import { BUSINESS_INFO } from '../data/businessInfo';
 
-const NAV_LINKS = [
-  { to: '/', label: 'Home' },
-  { to: '/restaurant', label: 'Restaurant' },
-  { to: '/menu', label: 'Menu' },
-  { to: '/olive-cafe', label: 'Olive Cafe' },
-  { to: '/banquets', label: 'Banquets' },
-  { to: '/hotel', label: 'Hotel' },
-  { to: '/contact', label: 'Contact' },
-];
-
-export default function Navbar({ onOpenEnquiry }) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+export default function Navbar({ onOpenEnquiry, onOpenVerification }) {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 18);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
     };
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const closeMenu = () => setMenuOpen(false);
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
+
+  const navLinks = [
+    { to: '/', label: 'Home' },
+    { to: '/restaurant', label: 'Restaurant' },
+    { to: '/menu', label: 'Menu' },
+    { to: '/olive-cafe', label: 'Olive Cafe' },
+    { to: '/banquets', label: 'Banquets & Events' },
+    { to: '/hotel', label: 'Hotel & Rooms' },
+    { to: '/contact', label: 'Contact' },
+  ];
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? 'bg-[#FAF7F2]/94 backdrop-blur-xl border-b border-[#DED0C0] shadow-[0_10px_30px_-18px_rgba(36,24,20,0.28)]'
-          : 'bg-[#FAF7F2]/88 backdrop-blur-md border-b border-[#E6D9CB]'
-      }`}
-    >
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-8">
-        {/* Zone 1: Clean Brand Wordmark */}
-        <Link
-          to="/"
-          onClick={closeMenu}
-          aria-label="Sharda Dinings Home"
-          className="flex items-center gap-3 whitespace-nowrap shrink-0 group"
-        >
-          <img
-            src="/images/home/sharda-dinings-logo.webp"
-            alt="Sharda Dinings crest"
-            className="w-8 h-8 rounded-full object-cover border border-[#D99B38]/80 transition-transform duration-500 group-hover:rotate-6 group-hover:scale-105"
-          />
-          <span className="font-serif text-[1.45rem] font-semibold tracking-tight text-[#241814] group-hover:text-[#6E2434] transition-colors">
-            Sharda Dinings
-          </span>
-        </Link>
-
-        {/* Zone 2: Single-Line Navigation Across All 7 Pages */}
-        <nav className="hidden lg:flex items-center gap-7" aria-label="Main navigation">
-          {NAV_LINKS.map(({ to, label }) => (
-            <NavLink
-              key={to}
-              to={to}
-              end={to === '/'}
-              className={({ isActive }) =>
-                `relative py-1.5 text-[13px] font-medium whitespace-nowrap shrink-0 transition-colors after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-[2px] after:bg-gradient-to-r after:from-[#D99B38] after:to-[#6E2434] after:origin-left after:transition-transform after:duration-300 ${
-                  isActive
-                    ? 'text-[#6E2434] font-semibold after:scale-x-100'
-                    : 'text-[#5E5049] hover:text-[#241814] after:scale-x-0 hover:after:scale-x-100'
-                }`
-              }
+    <>
+      {/* Top Advisory Strip - Deep Charcoal & Gold Accent */}
+      <div className="bg-[#141011] text-[#FAF7F2] text-[11px] py-1.5 px-4 sm:px-8 border-b border-[#D4AF37]/20 font-medium">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1">
+          <div className="flex items-center space-x-3">
+            <span className="inline-flex items-center text-[#D4AF37]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] mr-1.5 animate-pulse"></span>
+              Open Today: 11:00 AM – 11:00 PM
+            </span>
+            <span className="hidden md:inline opacity-40">•</span>
+            <span className="hidden md:inline text-[#FAF7F2]/80">East Rajendra Nagar, Gorakhnath Road, Gorakhpur</span>
+          </div>
+          <div className="flex items-center space-x-4">
+            <button
+              onClick={onOpenVerification}
+              className="text-[#FAF7F2]/80 hover:text-[#D4AF37] flex items-center space-x-1 transition-colors cursor-pointer"
             >
-              {label}
-            </NavLink>
-          ))}
-        </nav>
-
-        {/* Zone 3: Primary Reservation Action + Mobile Drawer Trigger */}
-        <div className="flex items-center gap-3 shrink-0">
-          <button
-            type="button"
-            onClick={() => onOpenEnquiry('restaurant')}
-            className="gloss-btn hidden sm:inline-flex items-center justify-center px-5 py-2 min-h-[40px] bg-[#241814] hover:bg-[#6E2434] text-[#FAF7F2] text-xs font-semibold tracking-wide rounded-md transition-colors whitespace-nowrap shrink-0"
-          >
-            Reserve
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setMenuOpen((prev) => !prev)}
-            className="lg:hidden inline-flex items-center justify-center w-11 h-11 text-[#241814] hover:text-[#6E2434] transition-colors"
-            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={menuOpen}
-          >
-            {menuOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
+              <ShieldCheck className="w-3.5 h-3.5 text-[#D4AF37]" />
+              <span className="underline decoration-[#D4AF37]/50 underline-offset-2">Verified Data Register</span>
+            </button>
+            <span className="opacity-40">•</span>
+            <a
+              href={`tel:${BUSINESS_INFO.phones[0].number}`}
+              className="text-[#FAF7F2] hover:text-[#D4AF37] flex items-center space-x-1 font-semibold transition-colors"
+            >
+              <Phone className="w-3 h-3 text-[#D4AF37]" />
+              <span>{BUSINESS_INFO.phones[0].display}</span>
+            </a>
+          </div>
         </div>
       </div>
 
-      {/* Responsive Mobile & Tablet Navigation Drawer */}
-      {menuOpen && (
-        <nav
-          aria-label="Mobile navigation"
-          className="lg:hidden border-t border-[#E6D9CB] bg-[#FAF7F2]/98 backdrop-blur-xl px-6 py-5 space-y-1 max-h-[calc(100vh-4rem)] overflow-y-auto shadow-xl"
-        >
-          {NAV_LINKS.map(({ to, label }) => (
-            <NavLink
-              key={to}
-              to={to}
-              end={to === '/'}
-              onClick={closeMenu}
-              className={({ isActive }) =>
-                `block py-3 text-base font-medium border-b border-[#EAE0D2] transition-colors ${
-                  isActive ? 'text-[#6E2434] font-semibold' : 'text-[#241814] hover:text-[#6E2434]'
-                }`
-              }
-            >
-              {label}
-            </NavLink>
-          ))}
+      {/* Main Glassmorphic Navigation Bar */}
+      <header
+        className={`sticky top-0 z-40 transition-all duration-300 ${
+          isScrolled
+            ? 'bg-[#1C1617]/95 backdrop-blur-md shadow-xl border-b border-[#D4AF37]/30 py-2.5'
+            : 'bg-[#1C1617]/90 backdrop-blur-sm border-b border-white/10 py-3 sm:py-3.5'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+          
+          {/* Logo Artwork (No circle, no duplicate text) */}
+          <Link to="/" className="inline-flex items-center group py-0.5" aria-label="Sharda Dinings Home">
+            <img
+              src="/images/home/sharda-dinings-logo-clean.webp"
+              alt="Sharda Dinings"
+              className="h-9 sm:h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+            />
+          </Link>
 
-          <div className="pt-4 flex flex-col gap-3">
+          {/* Desktop Links (Editorial Spacing) */}
+          <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8">
+            {navLinks.map((link) => (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                className={({ isActive }) =>
+                  `text-[13px] tracking-wide font-medium transition-all relative py-1 hover:text-[#D4AF37] ${
+                    isActive
+                      ? 'text-[#D4AF37] font-bold after:content-[""] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-[#D4AF37]'
+                      : 'text-[#FAF7F2]/85'
+                  }`
+                }
+              >
+                {link.label}
+              </NavLink>
+            ))}
+          </nav>
+
+          {/* Action Button */}
+          <div className="hidden sm:flex items-center space-x-3">
             <button
-              type="button"
-              onClick={() => {
-                closeMenu();
-                onOpenEnquiry('restaurant');
-              }}
-              className="gloss-btn w-full min-h-[44px] px-5 py-3 bg-[#6E2434] text-white text-xs font-semibold tracking-wider uppercase rounded-md transition-colors"
+              onClick={() => onOpenEnquiry('restaurant')}
+              className="px-5 py-2 rounded-full bg-[#B94E35] hover:bg-[#963822] text-[#FAF7F2] text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-md shadow-[#B94E35]/30 hover:scale-105 cursor-pointer"
             >
-              Reserve Table or Stay
+              Reserve Experience
             </button>
-            <a
-              href={`tel:${BUSINESS_INFO.phones[0].number}`}
-              className="w-full min-h-[44px] inline-flex items-center justify-center px-5 py-2.5 border border-[#E4D8CA] text-[#241814] text-xs font-medium rounded-md hover:bg-[#F5ECE0] transition-colors tabular-nums"
-            >
-              Call {BUSINESS_INFO.phones[0].display}
-            </a>
           </div>
-        </nav>
-      )}
-    </header>
+
+          {/* Mobile Menu Trigger */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="lg:hidden p-2 rounded-lg text-[#FAF7F2] hover:text-[#D4AF37] focus:outline-none"
+            aria-label="Toggle Navigation Menu"
+          >
+            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
+
+        {/* Mobile Slide-down Menu */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden bg-[#1C1617] border-b border-[#D4AF37]/30 px-6 py-6 space-y-4 animate-fade-in">
+            <nav className="flex flex-col space-y-3">
+              {navLinks.map((link) => (
+                <NavLink
+                  key={link.to}
+                  to={link.to}
+                  className={({ isActive }) =>
+                    `text-sm tracking-wide font-medium py-1.5 transition-colors ${
+                      isActive ? 'text-[#D4AF37] font-bold pl-2 border-l-2 border-[#D4AF37]' : 'text-[#FAF7F2]/80 hover:text-[#D4AF37]'
+                    }`
+                  }
+                >
+                  {link.label}
+                </NavLink>
+              ))}
+            </nav>
+
+            <div className="pt-4 border-t border-white/10 flex flex-col gap-3">
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenEnquiry('restaurant');
+                }}
+                className="w-full py-2.5 rounded-full bg-[#B94E35] text-[#FAF7F2] text-xs font-bold uppercase tracking-wider text-center"
+              >
+                Reserve Experience
+              </button>
+              <a
+                href={`tel:${BUSINESS_INFO.phones[0].number}`}
+                className="text-center text-xs text-[#D4AF37] font-mono font-semibold py-1"
+              >
+                Call: {BUSINESS_INFO.phones[0].display}
+              </a>
+            </div>
+          </div>
+        )}
+      </header>
+    </>
   );
 }

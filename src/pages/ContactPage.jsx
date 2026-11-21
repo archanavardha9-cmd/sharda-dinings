@@ -1,370 +1,333 @@
 import React, { useState } from 'react';
-import { CheckCircle2, Clock, ExternalLink, Mail, MapPin, MessageSquare, Phone } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock, MessageSquare, ExternalLink, CheckCircle2, Navigation, Building2, Sparkles, Utensils } from 'lucide-react';
 import { BUSINESS_INFO } from '../data/businessInfo';
-import { EditorialImage, SectionHeader } from '../components/SiteBlocks';
-import { PromotionalTicker, Reveal } from '../components/MotionBlocks';
-import { usePageSeo } from '../utils/seo';
+import { GildedDivider, NumberedPill } from '../components/DecorativeGraphics';
 
-export default function ContactPage({ onOpenVerification }) {
-  usePageSeo({
-    title: 'Contact, Directions, Ordering & Hotel Booking — Sharda Dinings Gorakhpur',
-    description:
-      'Visit Sharda Dinings at 763 A, Sonauli Rd / East Rajendra Nagar, Opposite Kust Seva Ashram, ~1 km from Gorakhnath Mandir.',
-    image: '/images/home/sharda-dinings-exterior-night.webp',
-  });
-
+export default function ContactPage({ onOpenEnquiry, onOpenVerification }) {
+  const [department, setDepartment] = useState('Restaurant Table');
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
     email: '',
-    department: 'Restaurant Dining',
-    message: '',
+    message: ''
   });
-  const [error, setError] = useState('');
   const [submitted, setSubmitted] = useState(false);
-
-  const buildWhatsAppUrl = () => {
-    const lines = [
-      `Hello Sharda Dinings (${formData.department}), I have a contact enquiry:`,
-      `Name: ${formData.name || 'Guest'}`,
-      `Phone: ${formData.phone || 'Not specified'}`,
-      formData.email ? `Email: ${formData.email}` : '',
-      `Message: ${formData.message || 'Please call back.'}`,
-    ].filter(Boolean);
-
-    return `https://wa.me/${BUSINESS_INFO.whatsapp.number.replace('+', '')}?text=${encodeURIComponent(
-      lines.join('\n')
-    )}`;
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const digits = formData.phone.replace(/[^\d+]/g, '');
-    if (formData.name.trim().length < 2) {
-      setError('Please enter your name.');
-      return;
-    }
-    if (digits.length < 10) {
-      setError('Please enter a valid 10-digit phone number.');
-      return;
-    }
-    if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
-      setError('Please enter a valid email address or leave email blank.');
-      return;
-    }
-    if (formData.message.trim().length < 4) {
-      setError('Please add a brief note about your enquiry.');
-      return;
-    }
-    setError('');
+    if (!formData.name || !formData.phone) return;
+
+    const message = `Hello Sharda Dinings (${department} Desk), I have an enquiry:\n\nName: ${formData.name}\nPhone: ${formData.phone}\nEmail: ${formData.email || 'None'}\nDepartment: ${department}\nMessage: ${formData.message || 'Please connect regarding services.'}`;
+    const targetPhone = department.includes('Banquet') ? BUSINESS_INFO.phones[1].number : BUSINESS_INFO.whatsapp.number;
+    const whatsappUrl = `https://wa.me/${targetPhone.replace('+', '')}?text=${encodeURIComponent(message)}`;
+
     setSubmitted(true);
+    window.open(whatsappUrl, '_blank');
   };
 
   return (
-    <div className="bg-[#FFFDF8] text-[#2C1D18]">
-      {/* SECTION 1: SPLIT CONCIERGE HEADER + HAIRLINE DIRECTORY LEDGER — Mustard Cream */}
-      <section className="py-14 lg:py-20 bg-[#FCF6E6] border-b border-[#E6D9CB]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-          <div className="lg:col-span-5 space-y-4">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8C5E12]">
-              Concierge &amp; Directions · Gorakhpur
-            </p>
-            <h1 className="font-serif text-[clamp(2.3rem,3.9vw,3.4rem)] font-medium leading-[1.08] tracking-tight text-[#2C1D18]">
-              Reach our dining host, <em className="italic font-normal text-[#6E2434]">banquet desk,</em> or hotel reception.
-            </h1>
-            <p className="text-sm text-[#61524A] leading-relaxed">
-              Located opposite Kust Seva Ashram along Sonauli Road / Gorakhnath Mandir Road (~5–10 minutes walk from Gorakhnath Mandir).
-            </p>
-            <button
-              type="button"
-              onClick={onOpenVerification}
-              className="text-xs font-semibold text-[#6E2434] underline underline-offset-4 pt-1"
-            >
-              Inspect Research &amp; Audit Register
-            </button>
+    <div className="min-h-screen bg-[#FAF7F2] text-[#1C1617] overflow-hidden">
+      
+      {/* ─────────────────────────────────────────────────────────────
+          SECTION 1: HERO & CONCIERGE MATRIX (Mikuni Influence)
+      ───────────────────────────────────────────────────────────── */}
+      <section className="relative pt-10 pb-16 px-4 sm:px-6 lg:px-8 bg-[#1C1617] text-[#FAF7F2] border-b border-[#D4AF37]/20">
+        <div className="max-w-4xl mx-auto text-center space-y-4">
+          <div className="flex items-center justify-center space-x-2">
+            <NumberedPill current="07" total="07" label="CONCIERGE & ACCESS" />
           </div>
 
-          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 border-t sm:border-t-0 sm:border-l border-[#DFD2C0] pt-6 sm:pt-0 sm:pl-8">
-            <div className="space-y-1.5">
-              <p className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#6E2434]">
-                <MapPin className="w-3.5 h-3.5" /> Address
+          <h1 className="font-serif text-3xl sm:text-5xl font-normal tracking-tight text-[#FAF7F2] leading-tight">
+            Concierge <span className="text-[#D4AF37] italic font-normal">& Access</span>
+          </h1>
+          <p className="font-serif italic text-sm sm:text-base text-[#FAF7F2]/70 font-light">
+            Direct department channels · Mandir proximity · Verified location
+          </p>
+
+          <GildedDivider className="my-3" />
+
+          {/* 3 Department Desks Strip (Streamlined) */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2 text-left">
+            <div className="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-[#D4AF37] transition-all">
+              <span className="text-[10px] font-mono tracking-widest uppercase text-[#D4AF37] font-bold block">
+                Desk 01 · All-Day Dining
+              </span>
+              <h3 className="font-serif text-base font-bold text-[#FAF7F2] mt-0.5">
+                Dining, Cafe & Takeaway
+              </h3>
+              <p className="text-[11px] text-[#FAF7F2]/65 mt-1 leading-relaxed">
+                Table bookings, booth requests, takeaway boxes, and Olive Cafe brews.
               </p>
-              <p className="text-sm font-semibold text-[#2C1D18]">{BUSINESS_INFO.address.line1}</p>
-              <p className="text-xs text-[#61524A] leading-relaxed">
-                {BUSINESS_INFO.address.line2}, {BUSINESS_INFO.address.city}{' '}
-                <span className="tabular-nums">{BUSINESS_INFO.address.pincode}</span>
-              </p>
+              <div className="pt-3 mt-3 border-t border-white/10">
+                <a href={`tel:${BUSINESS_INFO.phones[0].number}`} className="font-mono text-xs font-bold text-[#D4AF37] hover:underline block">
+                  {BUSINESS_INFO.phones[0].display}
+                </a>
+              </div>
             </div>
 
-            <div className="space-y-1.5 tabular-nums">
-              <p className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#4C2D5C]">
-                <Phone className="w-3.5 h-3.5" /> Helplines
+            <div className="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-[#D4AF37] transition-all">
+              <span className="text-[10px] font-mono tracking-widest uppercase text-[#D4AF37] font-bold block">
+                Desk 02 · Events
+              </span>
+              <h3 className="font-serif text-base font-bold text-[#FAF7F2] mt-0.5">
+                Banquets & Celebrations
+              </h3>
+              <p className="text-[11px] text-[#FAF7F2]/65 mt-1 leading-relaxed">
+                Wedding receptions, sagai, sangeet rituals, and custom banquet thalis.
               </p>
-              {BUSINESS_INFO.phones.map((p) => (
-                <div key={p.number}>
-                  <a href={`tel:${p.number}`} className="block text-sm font-semibold text-[#2C1D18] hover:text-[#6E2434]">
-                    {p.display}
-                  </a>
-                  <span className="text-[11px] text-[#61524A]">{p.label}</span>
-                </div>
-              ))}
+              <div className="pt-3 mt-3 border-t border-white/10">
+                <a href={`tel:${BUSINESS_INFO.phones[1].number}`} className="font-mono text-xs font-bold text-[#D4AF37] hover:underline block">
+                  {BUSINESS_INFO.phones[1].display}
+                </a>
+              </div>
             </div>
 
-            <div className="space-y-1.5 tabular-nums border-t border-[#E6D9CB] pt-4">
-              <p className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#1E3A5F]">
-                <Clock className="w-3.5 h-3.5" /> Hours
+            <div className="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-[#D4AF37] transition-all">
+              <span className="text-[10px] font-mono tracking-widest uppercase text-[#D4AF37] font-bold block">
+                Desk 03 · Accommodation
+              </span>
+              <h3 className="font-serif text-base font-bold text-[#FAF7F2] mt-0.5">
+                Hotel Front Desk
+              </h3>
+              <p className="text-[11px] text-[#FAF7F2]/65 mt-1 leading-relaxed">
+                11 AC rooms, direct check-in tariffs, and family wedding room blocks.
               </p>
-              <p className="text-xs text-[#2C1D18]">
-                <strong>Dining &amp; Olive Cafe:</strong> {BUSINESS_INFO.timings.restaurant}
-              </p>
-              <p className="text-xs text-[#61524A]">
-                <strong>Platform Delivery:</strong> {BUSINESS_INFO.timings.delivery}
-                <br />
-                <strong>Hotel Check-in / Out:</strong> {BUSINESS_INFO.timings.hotelCheckIn} / {BUSINESS_INFO.timings.hotelCheckOut}
-              </p>
-            </div>
-
-            <div className="space-y-1.5 border-t border-[#E6D9CB] pt-4">
-              <p className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#125457]">
-                <Mail className="w-3.5 h-3.5" /> Official Email
-              </p>
-              <a
-                href={`mailto:${BUSINESS_INFO.email}`}
-                className="block text-sm font-semibold text-[#2C1D18] hover:text-[#6E2434] break-all"
-              >
-                {BUSINESS_INFO.email}
-              </a>
-              <p className="text-xs text-[#61524A]">Responds daily during hotel reception hours.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <PromotionalTicker
-        items={[
-          `Dining & Olive Cafe: ${BUSINESS_INFO.timings.restaurant}`,
-          `Zomato & Swiggy Delivery: ${BUSINESS_INFO.timings.delivery}`,
-          'Free On-Site Guest Parking',
-          '~1 km from Gorakhnath Mandir (NH 29)',
-          `Direct Dining Line: ${BUSINESS_INFO.phones[0].display}`,
-          `Banquet Helpline: ${BUSINESS_INFO.phones[1].display}`,
-        ]}
-      />
-
-      {/* SECTION 2: MAP & VERIFIED LISTINGS PORTAL — Dusty Blue */}
-      <section className="py-14 lg:py-20 bg-[#EAF1F8] border-b border-[#D1DFEE]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <SectionHeader
-              accentClass="text-[#1E3A5F]"
-              eyebrow="Location &amp; Partner Portals"
-              title="Look for our illuminated facade opposite Kust Seva Ashram."
-            />
-            <a
-              href="https://www.google.com/maps/search/?api=1&query=Sharda+Dinings+East+Rajendra+Nagar+Gorakhpur"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="gloss-btn min-h-[42px] px-5 py-2.5 bg-[#1E3A5F] hover:bg-[#152944] text-white text-xs font-semibold uppercase tracking-wider rounded-lg inline-flex items-center gap-2 self-start whitespace-nowrap"
-            >
-              <span>Open in Google Maps</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            <div className="lg:col-span-7 h-[320px] sm:h-[360px] rounded-2xl overflow-hidden border border-[#CAD8E7] bg-[#E8DFD2] shadow-sm">
-              <iframe
-                title="Sharda Dinings Location in East Rajendra Nagar, Gorakhpur"
-                src="https://maps.google.com/maps?q=Sharda%20Dinings%20East%20Rajendra%20Nagar%20Gorakhpur&t=&z=15&ie=UTF8&iwloc=&output=embed"
-                className="w-full h-full border-0"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-            </div>
-
-            <div className="lg:col-span-5 space-y-5">
-              <EditorialImage
-                src="/images/home/sharda-dinings-exterior-night.webp"
-                alt="Evening street exterior of Sharda Dinings and Olive Cafe"
-                frameClassName="rounded-xl shadow-sm"
-                aspect="aspect-[16/10]"
-                caption="Street entrance along Sonauli Road / NH 29."
-              />
-
-              <div className="pt-3 border-t border-[#CAD8E7] space-y-2.5 text-xs">
-                <p className="font-semibold text-[#1E3A5F] uppercase tracking-[0.16em] text-[10px]">
-                  Verified Food &amp; Hotel Listings
-                </p>
-                <div className="grid grid-cols-2 gap-y-2 gap-x-4 text-[#2C1D18] font-semibold">
-                  <a href={BUSINESS_INFO.ordering.zomato} target="_blank" rel="noopener noreferrer" className="hover:text-[#6E2434] inline-flex items-center gap-1">
-                    Zomato <ExternalLink className="w-3 h-3" />
-                  </a>
-                  <a href={BUSINESS_INFO.ordering.swiggy} target="_blank" rel="noopener noreferrer" className="hover:text-[#6E2434] inline-flex items-center gap-1">
-                    Swiggy / Dineout <ExternalLink className="w-3 h-3" />
-                  </a>
-                  <a href={BUSINESS_INFO.ordering.magicpin} target="_blank" rel="noopener noreferrer" className="hover:text-[#6E2434] inline-flex items-center gap-1">
-                    Magicpin <ExternalLink className="w-3 h-3" />
-                  </a>
-                  <a href={BUSINESS_INFO.bookingPlatforms.makemytrip} target="_blank" rel="noopener noreferrer" className="hover:text-[#6E2434] inline-flex items-center gap-1">
-                    MakeMyTrip <ExternalLink className="w-3 h-3" />
-                  </a>
-                  <a href={BUSINESS_INFO.bookingPlatforms.goibibo} target="_blank" rel="noopener noreferrer" className="hover:text-[#6E2434] inline-flex items-center gap-1">
-                    Goibibo <ExternalLink className="w-3 h-3" />
-                  </a>
-                  <a href={BUSINESS_INFO.bookingPlatforms.justdial} target="_blank" rel="noopener noreferrer" className="hover:text-[#6E2434] inline-flex items-center gap-1">
-                    Justdial <ExternalLink className="w-3 h-3" />
-                  </a>
-                </div>
+              <div className="pt-3 mt-3 border-t border-white/10">
+                <a href={`tel:${BUSINESS_INFO.phones[0].number}`} className="font-mono text-xs font-bold text-[#D4AF37] hover:underline block">
+                  {BUSINESS_INFO.phones[0].display}
+                </a>
               </div>
             </div>
           </div>
+
         </div>
       </section>
 
-      {/* SECTION 3: GENERAL ENQUIRY DESK — Soft Lavender Linen */}
-      <section className="py-16 lg:py-22 bg-[#F2EEF9]">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Reveal className="bg-white border border-[#DCD2EC] rounded-2xl p-6 sm:p-10 shadow-sm space-y-6">
-            <div className="space-y-2">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#4C2D5C]">
-                Direct Concierge Dispatch
-              </p>
-              <h2 className="font-serif text-3xl text-[#2C1D18]">
-                Send your dining, banquet, or hotel message.
-              </h2>
-              <p className="text-sm text-[#4F445C]">
-                Validating below formats an immediate WhatsApp or Email message directly to our desk without storing details on third-party servers.
-              </p>
+      {/* ─────────────────────────────────────────────────────────────
+          SECTION 2: LANDMARK & DIRECTIONS CANVAS (Side-by-Side)
+      ───────────────────────────────────────────────────────────── */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#FAF7F2] border-b border-[#EFE8DC]">
+        <div className="max-w-6xl mx-auto space-y-10">
+          
+          <div className="text-center max-w-xl mx-auto space-y-2">
+            <span className="text-[10px] uppercase tracking-widest text-[#B94E35] font-mono font-bold block">
+              Physical Location
+            </span>
+            <h2 className="font-serif text-2xl sm:text-4xl text-[#1C1617]">
+              Finding Sharda Dinings in Gorakhpur
+            </h2>
+            <p className="text-xs text-[#1C1617]/70 leading-relaxed font-light">
+              Centrally situated along NH 29 Sonauli Road, just 5–10 minutes walk from Gorakhnath Mandir.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+            
+            {/* Left 6 cols: Facade Photo & Wayfinding Specs */}
+            <div className="lg:col-span-6 bg-white rounded-2xl p-6 border border-[#EFE8DC] shadow-sm flex flex-col justify-between space-y-5">
+              <div className="space-y-4">
+                <div className="relative rounded-xl overflow-hidden shadow border border-[#D4AF37]/30 h-60 image-zoom-container">
+                  <img
+                    src="/images/home/sharda-dinings-exterior-night.webp"
+                    alt="Sharda Dinings front facade at night"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute bottom-3 left-3 bg-[#1C1617]/85 backdrop-blur-md px-2.5 py-1 rounded text-xs font-mono text-[#FAF7F2]">
+                    Opposite Kust Seva Ashram
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-2.5">
+                  <MapPin className="w-4 h-4 text-[#B94E35] shrink-0 mt-0.5" />
+                  <div>
+                    <h3 className="font-serif font-bold text-base text-[#1C1617]">Physical Address</h3>
+                    <p className="text-xs text-[#1C1617]/75 leading-relaxed mt-0.5">
+                      {BUSINESS_INFO.address.line1}, {BUSINESS_INFO.address.line2}, {BUSINESS_INFO.address.city} — {BUSINESS_INFO.address.pincode}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Transit Markers */}
+                <div className="grid grid-cols-3 gap-2.5 pt-2 border-t border-[#EFE8DC] text-center">
+                  <div className="p-2.5 rounded-lg bg-[#FAF7F2] border border-[#EFE8DC]">
+                    <span className="text-[10px] font-mono text-[#B94E35] font-bold block">Mandir</span>
+                    <span className="font-serif font-bold text-sm text-[#1C1617]">~1 km</span>
+                    <span className="text-[10px] text-[#1C1617]/50 block">5–10 min walk</span>
+                  </div>
+                  <div className="p-2.5 rounded-lg bg-[#FAF7F2] border border-[#EFE8DC]">
+                    <span className="text-[10px] font-mono text-[#B94E35] font-bold block">Railway</span>
+                    <span className="font-serif font-bold text-sm text-[#1C1617]">~3.5 km</span>
+                    <span className="text-[10px] text-[#1C1617]/50 block">10–15 min</span>
+                  </div>
+                  <div className="p-2.5 rounded-lg bg-[#FAF7F2] border border-[#EFE8DC]">
+                    <span className="text-[10px] font-mono text-[#B94E35] font-bold block">Airport</span>
+                    <span className="font-serif font-bold text-sm text-[#1C1617]">~12 km</span>
+                    <span className="text-[10px] text-[#1C1617]/50 block">25–30 min</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-2 flex items-center justify-between">
+                <a
+                  href="https://maps.google.com/?q=Sharda+Dinings+Gorakhpur"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center space-x-1.5 px-5 py-2.5 bg-[#B94E35] hover:bg-[#9E3F28] text-white text-xs font-mono uppercase tracking-wider font-bold rounded-full transition-all shadow-sm"
+                >
+                  <Navigation className="w-3.5 h-3.5" />
+                  <span>Open in Google Maps</span>
+                </a>
+                <span className="text-[11px] text-[#1C1617]/50">Parking on-site</span>
+              </div>
             </div>
 
+            {/* Right 6 cols: Google Map Embed Frame */}
+            <div className="lg:col-span-6 bg-white rounded-2xl p-4 border border-[#EFE8DC] shadow-sm flex flex-col">
+              <div className="w-full flex-1 min-h-[300px] rounded-xl overflow-hidden border border-[#D4AF37]/30">
+                <iframe
+                  title="Sharda Dinings Location Map"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3561.401869814324!2d83.3598715!3d26.7953265!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3991448b11c9bbab%3A0xc3676449e7a9618b!2sSharda%20Dinings!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                  className="w-full h-full min-h-[300px] border-0"
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────────
+          SECTION 3: MANAGEMENT MESSAGE SUITE
+      ───────────────────────────────────────────────────────────── */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#B94E35] text-[#FAF7F2]">
+        <div className="max-w-3xl mx-auto space-y-8">
+          
+          <div className="text-center space-y-2">
+            <span className="text-[10px] font-mono tracking-widest uppercase text-[#FAF7F2]/80 font-bold block">
+              Direct Inquiries
+            </span>
+            <h2 className="font-serif text-2xl sm:text-4xl font-normal">
+              Send a Note to Management
+            </h2>
+            <p className="text-xs text-[#FAF7F2]/80 max-w-md mx-auto">
+              Whether you are organizing a family feast, inquiring about banquets, or reserving rooms, our team will reply swiftly.
+            </p>
+          </div>
+
+          <div className="bg-[#1C1617] rounded-2xl p-6 sm:p-8 border border-[#D4AF37]/30 shadow-xl">
             {submitted ? (
-              <div className="py-6 text-center space-y-4 border-t border-[#E6D9CB]">
-                <CheckCircle2 className="w-8 h-8 text-[#6E2434] mx-auto" />
-                <h3 className="font-serif text-2xl text-[#2C1D18]">Message Ready</h3>
-                <p className="text-sm text-[#61524A]">
-                  Thank you, <strong className="text-[#2C1D18]">{formData.name}</strong>. Choose WhatsApp or Email to send immediately.
+              <div className="text-center py-8 space-y-3">
+                <CheckCircle2 className="w-12 h-12 text-[#D4AF37] mx-auto" />
+                <h3 className="font-serif text-xl font-bold">Message Dispatched</h3>
+                <p className="text-xs text-[#FAF7F2]/70 max-w-sm mx-auto">
+                  Your message has opened on WhatsApp with the {department} desk.
                 </p>
-                <div className="flex flex-wrap justify-center gap-3 pt-2">
-                  <a
-                    href={buildWhatsAppUrl()}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="gloss-btn min-h-[42px] px-5 py-2.5 bg-[#6E2434] text-white text-xs font-semibold uppercase tracking-wider rounded-lg inline-flex items-center gap-2"
-                  >
-                    <MessageSquare className="w-4 h-4" />
-                    <span>Send via WhatsApp</span>
-                  </a>
-                  <a
-                    href={`mailto:${BUSINESS_INFO.email}?subject=${encodeURIComponent(
-                      `Enquiry: ${formData.department} - ${formData.name}`
-                    )}&body=${encodeURIComponent(
-                      `Name: ${formData.name}\nPhone: ${formData.phone}\nDepartment: ${formData.department}\n\n${formData.message}`
-                    )}`}
-                    className="min-h-[42px] px-5 py-2.5 border border-[#DCD2EC] bg-[#FFFDF8] text-[#2C1D18] text-xs font-semibold uppercase tracking-wider rounded-lg inline-flex items-center gap-2"
-                  >
-                    <Mail className="w-4 h-4 text-[#6E2434]" />
-                    <span>Send via Email</span>
-                  </a>
-                </div>
+                <button
+                  onClick={() => setSubmitted(false)}
+                  className="px-5 py-2 bg-[#FAF7F2] text-[#1C1617] text-xs font-bold uppercase tracking-wider rounded-full cursor-pointer"
+                >
+                  Send Another Message
+                </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-                {error && (
-                  <div role="alert" className="p-3 bg-[#FFF8EB] border border-[#D8A852] text-xs text-[#6B4A12] rounded-lg">
-                    {error}
-                  </div>
-                )}
-
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="contact-name" className="block text-[11px] uppercase tracking-wider font-semibold text-[#61524A] mb-1.5">
-                      Full Name *
-                    </label>
-                    <input
-                      id="contact-name"
-                      type="text"
-                      required
-                      placeholder="Vikram Singh"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full min-h-[42px] px-3.5 py-2 bg-[#FFFDF8] border border-[#DCD2EC] text-sm rounded-lg focus:border-[#4C2D5C] focus:outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="contact-phone" className="block text-[11px] uppercase tracking-wider font-semibold text-[#61524A] mb-1.5">
-                      Phone / WhatsApp *
-                    </label>
-                    <input
-                      id="contact-phone"
-                      type="tel"
-                      required
-                      placeholder="+91 98765 43210"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full min-h-[42px] px-3.5 py-2 bg-[#FFFDF8] border border-[#DCD2EC] text-sm rounded-lg tabular-nums focus:border-[#4C2D5C] focus:outline-none"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="contact-email" className="block text-[11px] uppercase tracking-wider font-semibold text-[#61524A] mb-1.5">
-                      Email (Optional)
-                    </label>
-                    <input
-                      id="contact-email"
-                      type="email"
-                      placeholder="guest@example.com"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full min-h-[42px] px-3.5 py-2 bg-[#FFFDF8] border border-[#DCD2EC] text-sm rounded-lg focus:border-[#4C2D5C] focus:outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="contact-dept" className="block text-[11px] uppercase tracking-wider font-semibold text-[#61524A] mb-1.5">
+                    <label className="block text-[10px] font-mono uppercase tracking-wider text-[#D4AF37] mb-1">
                       Department
                     </label>
                     <select
-                      id="contact-dept"
-                      value={formData.department}
-                      onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                      className="w-full min-h-[42px] px-3 py-2 bg-[#FFFDF8] border border-[#DCD2EC] text-sm rounded-lg focus:border-[#4C2D5C] focus:outline-none"
+                      value={department}
+                      onChange={(e) => setDepartment(e.target.value)}
+                      className="w-full px-3.5 py-2.5 rounded-lg bg-[#2A2022] border border-white/20 text-[#FAF7F2] text-xs focus:outline-none focus:border-[#D4AF37]"
                     >
-                      <option value="Restaurant Dining">Restaurant Dining</option>
-                      <option value="Olive Cafe">Olive Cafe</option>
-                      <option value="Banquet & Events">Banquet &amp; Events</option>
-                      <option value="Hotel Accommodation">Hotel Accommodation</option>
-                      <option value="Feedback / General">Feedback / General</option>
+                      <option value="Restaurant Table">Restaurant Dining & Booths</option>
+                      <option value="Olive Cafe">Olive Cafe & Brews</option>
+                      <option value="Banquet Celebration">Banquets & Celebrations</option>
+                      <option value="Hotel Reservation">Hotel Sharda Dinings Room Stays</option>
                     </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-mono uppercase tracking-wider text-[#D4AF37] mb-1">
+                      Full Name *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Priya Sharma"
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      className="w-full px-3.5 py-2.5 rounded-lg bg-white/5 border border-white/20 text-[#FAF7F2] placeholder-white/30 text-xs focus:outline-none focus:border-[#D4AF37]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-mono uppercase tracking-wider text-[#D4AF37] mb-1">
+                      Phone Number *
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      placeholder="e.g. +91 87268 27777"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      className="w-full px-3.5 py-2.5 rounded-lg bg-white/5 border border-white/20 text-[#FAF7F2] placeholder-white/30 text-xs focus:outline-none focus:border-[#D4AF37]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-mono uppercase tracking-wider text-[#D4AF37] mb-1">
+                      Email Address (Optional)
+                    </label>
+                    <input
+                      type="email"
+                      placeholder="e.g. guest@example.com"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      className="w-full px-3.5 py-2.5 rounded-lg bg-white/5 border border-white/20 text-[#FAF7F2] placeholder-white/30 text-xs focus:outline-none focus:border-[#D4AF37]"
+                    />
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="contact-msg" className="block text-[11px] uppercase tracking-wider font-semibold text-[#61524A] mb-1.5">
+                  <label className="block text-[10px] font-mono uppercase tracking-wider text-[#D4AF37] mb-1">
                     Message *
                   </label>
                   <textarea
-                    id="contact-msg"
-                    rows="3"
+                    rows={3}
                     required
-                    placeholder="Share your preferred date, guest count, room query, or catering request..."
+                    placeholder="Tell us about your requirements, dates, or questions..."
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full px-3.5 py-2 bg-[#FFFDF8] border border-[#DCD2EC] text-sm rounded-lg focus:border-[#4C2D5C] focus:outline-none"
-                  />
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-white/5 border border-white/20 text-[#FAF7F2] placeholder-white/30 text-xs focus:outline-none focus:border-[#D4AF37]"
+                  ></textarea>
                 </div>
 
-                <button
-                  type="submit"
-                  className="gloss-btn min-h-[44px] px-7 py-3 bg-[#6E2434] hover:bg-[#511825] text-white text-xs font-semibold uppercase tracking-wider rounded-lg transition-colors"
-                >
-                  Prepare Enquiry
-                </button>
+                <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
+                  <div className="text-[11px] text-[#FAF7F2]/60 flex items-center space-x-1.5">
+                    <Mail className="w-3.5 h-3.5 text-[#D4AF37]" />
+                    <span>Email: <a href={`mailto:${BUSINESS_INFO.email}`} className="text-[#D4AF37] hover:underline">{BUSINESS_INFO.email}</a></span>
+                  </div>
+                  <button
+                    type="submit"
+                    className="w-full sm:w-auto px-7 py-2.5 bg-[#D4AF37] hover:bg-[#c29e2f] text-[#1C1617] text-xs font-bold uppercase tracking-wider rounded-full shadow-md transition-all cursor-pointer flex items-center justify-center space-x-1.5"
+                  >
+                    <MessageSquare className="w-3.5 h-3.5" />
+                    <span>Dispatch via WhatsApp</span>
+                  </button>
+                </div>
               </form>
             )}
-          </Reveal>
+          </div>
+
         </div>
       </section>
+
     </div>
   );
 }

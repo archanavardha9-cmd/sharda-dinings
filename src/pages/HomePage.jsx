@@ -1,702 +1,507 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Clock, ExternalLink, MapPin, MessageSquare, Phone } from 'lucide-react';
+import { ArrowRight, Phone, MapPin, Sparkles, Coffee, Utensils, Calendar, BedDouble, CheckCircle2, ChevronRight } from 'lucide-react';
 import { BUSINESS_INFO } from '../data/businessInfo';
-import { EditorialImage } from '../components/SiteBlocks';
-import { FloatingBotanicalAccents, OrbitalRingBackdrop, Reveal } from '../components/MotionBlocks';
-import { usePageSeo } from '../utils/seo';
-import spiceStillLife from '../assets/images/editorial_spice_brass_1795187016285.jpg';
+import { GildedDivider, NumberedPill, WheatFlourish, SpiceStar, CoffeeBeanFlourish, CutleryCrest } from '../components/DecorativeGraphics';
 
-const CULINARY_SIGNATURES = [
-  { name: 'Dal Makhani Sharda Signature', course: 'Slow-Simmered Veg Main', price: '₹340' },
-  { name: 'Paneer Punjabi Tadka / Butter Masala', course: 'Cashew Tomato Gravy', price: '₹345' },
-  { name: 'Vegetable Dum Biryani Awadhi', course: 'Handi Saffron Rice', price: '₹380' },
-  { name: 'Classic Butter Chicken', course: 'Charred Tikka Makhani', price: '₹460' },
-];
+export default function HomePage({ onOpenEnquiry, onOpenVerification }) {
+  const [activeExperience, setActiveExperience] = useState(0);
 
-const WINGS = [
-  {
-    key: 'restaurant',
-    title: 'Family Restaurant',
-    image: '/images/restaurant/sharda-dining.webp',
-    linkTo: '/restaurant',
-    accent: 'text-deep-teal',
-    border: 'border-deep-teal',
-    hoverBg: 'hover:bg-deep-teal/10',
-  },
-  {
-    key: 'olive-cafe',
-    title: 'Olive Cafe',
-    image: '/images/olive-cafe/olive-cafe-coffee.webp',
-    linkTo: '/olive-cafe',
-    accent: 'text-warm-brown',
-    border: 'border-warm-brown',
-    hoverBg: 'hover:bg-warm-brown/10',
-  },
-  {
-    key: 'banquets',
-    title: 'Banquets & Events',
-    image: '/images/banquets/sharda-wedding-stage-floral-rings.webp',
-    linkTo: '/banquets',
-    accent: 'text-coral',
-    border: 'border-coral',
-    hoverBg: 'hover:bg-coral/10',
-  },
-  {
-    key: 'hotel',
-    title: 'Hotel & Rooms',
-    image: '/images/hotel-rooms/hotel-sharda-inn-room-103.webp',
-    linkTo: '/hotel',
-    accent: 'text-dusty-blue',
-    border: 'border-dusty-blue',
-    hoverBg: 'hover:bg-dusty-blue/10',
-  },
-];
-
-export default function HomePage({ onOpenEnquiry, onOpenVerification: _onOpenVerification }) {
-  usePageSeo({
-    title: 'Sharda Dinings — Restaurant, Olive Cafe, Banquets & Hotel in Gorakhpur',
-    description:
-      'Discover Sharda Dinings in East Rajendra Nagar near Gorakhnath Mandir, Gorakhpur: multi-cuisine dining, Olive Cafe, banquet hall, and Hotel Sharda Dinings AC rooms.',
-    image: '/images/home/sharda-dinings-exterior-night.webp',
-  });
+  const experiences = [
+    {
+      id: 'restaurant',
+      tag: '01 / GASTRONOMY',
+      title: 'The Dining Sanctum',
+      desc: 'Awadhi slow-simmer handi curries and red-hot clay tandoor kebabs served in private velvet family booths.',
+      image: '/images/restaurant/sharda-dining-booth.webp',
+      link: '/restaurant',
+      accentColor: '#B94E35',
+    },
+    {
+      id: 'cafe',
+      tag: '02 / ARTISANAL',
+      title: 'Olive Cafe & Brews',
+      desc: 'Chilled espresso cold brews, thick Nutella shakes, and stone-baked pizzas in a relaxed work-friendly setting.',
+      image: '/images/olive-cafe/olive-cafe-coffee.webp',
+      link: '/olive-cafe',
+      accentColor: '#4E5D4E',
+    },
+    {
+      id: 'banquets',
+      tag: '03 / CELEBRATION',
+      title: 'Banquets & Grand Galas',
+      desc: 'Central air-conditioned celebration hall hosting 100 seated and 150 floating guests with royal in-house feasts.',
+      image: '/images/banquets/sharda-banquet-hall.webp',
+      link: '/banquets',
+      accentColor: '#3D1B24',
+    },
+    {
+      id: 'hotel',
+      tag: '04 / SANCTUARY',
+      title: 'Hotel & Boutique Stays',
+      desc: '11 air-conditioned rooms featuring modern en-suite rainfall showers, elevator access, and silent generator backup.',
+      image: '/images/hotel-rooms/hotel-sharda-inn-room-103.webp',
+      link: '/hotel',
+      accentColor: '#8C6D37',
+    }
+  ];
 
   return (
-    <div className="bg-[#FBF9F4] text-[#241814]">
-      {/* ===== SECTION 1: HERO ===== */}
-      <section
-        className="relative overflow-hidden bg-gradient-hero"
-        id="hero"
-      >
-        <OrbitalRingBackdrop
-          size={560}
-          opacity={0.10}
-          strokeColor="#C9A227"
-          secondaryColor="#0E4D5C"
-          className="hidden lg:block absolute -right-20 -top-20 w-[560px] h-[560px] animate-rotate-slow"
-        />
-        <OrbitalRingBackdrop
-          size={400}
-          opacity={0.08}
-          strokeColor="#E8836A"
-          secondaryColor="#A8A4D8"
-          className="hidden lg:block absolute -left-16 -bottom-16 w-[400px] h-[400px] animate-rotate-slow-reverse"
-        />
-        <FloatingBotanicalAccents color="#C9A227" />
-
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-24">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-
-            {/* Left: Prominent typography */}
-            <div className="lg:col-span-6 space-y-8">
-              <Reveal variant="up" className="animate-fade-up">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-coral mb-3">
-                  East Rajendra Nagar · Gorakhpur
-                </p>
-                <h1 className="font-serif text-[clamp(3rem,8vw,4.8rem)] font-medium leading-[0.95] tracking-tight text-[#241814] max-w-[52rem]">
-                  A landmark of
-                  <br />
-                  <span className="text-deep-teal italic font-normal">dining, coffee &amp; stays.</span>
-                </h1>
-                <p className="text-base sm:text-lg text-[#6B655C] leading-relaxed max-w-xl mt-4">
-                  Multi-cuisine family dining, Olive Cafe coffee and patisserie, indoor banquets,
-                  and boutique AC rooms—one landmark address near Gorakhnath Mandir.
-                </p>
-              </Reveal>
-
-              <Reveal variant="up" className="animate-fade-up-stagger" style={{ transitionDelay: '200ms' }}>
-                <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
-                  <button
-                    type="button"
-                    onClick={() => onOpenEnquiry('restaurant')}
-                    className="gloss-btn min-h-[52px] px-9 py-3 bg-deep-teal hover:bg-[#0A3A46] text-white text-sm font-semibold uppercase tracking-wider rounded-md inline-flex items-center gap-2.5 whitespace-nowrap transition-all"
-                  >
-                    <span>Reserve a Table</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                  <Link
-                    to="/menu"
-                    className="min-h-[52px] px-9 py-3 border border-[#241814]/20 bg-white/90 hover:bg-white text-[#241814] text-sm font-semibold uppercase tracking-wider rounded-md inline-flex items-center gap-2.5 whitespace-nowrap transition-all"
-                  >
-                    <span>Browse Menu</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </Reveal>
-            </div>
-
-            {/* Right: Premium two-image composition */}
-            <div className="lg:col-span-6 relative">
-              <Reveal variant="up" className="animate-fade-up-stagger" style={{ transitionDelay: '400ms' }}>
-                <div className="relative inline-block">
-                  {/* Main image: landscape, width > height, natural proportions */}
-                  <div className="relative rounded-[36px] overflow-hidden border border-white/70 shadow-2xl bg-[#E9DFD3]">
-                    <EditorialImage
-                      src="/images/home/sharda-dinings-storefront.webp"
-                      alt="Sharda Dinings storefront facade"
-                      frameClassName="rounded-none border-none"
-                      aspect="aspect-[4/3]"
-                      loading="eager"
-                      fetchPriority="high"
-                      className="animate-image-reveal relative"
-                    />
-                    {/* Corner decorative fine lines */}
-                    <div className="absolute top-6 left-6 w-[1px] h-16 bg-[#C9A227]/30" />
-                    <div className="absolute top-6 left-6 h-[1px] w-16 bg-[#C9A227]/30" />
-                    <div className="absolute bottom-6 right-6 w-[1px] h-16 bg-[#0E4D5C]/25" />
-                    <div className="absolute bottom-6 right-6 h-[1px] w-16 bg-[#0E4D5C]/25" />
-                  </div>
-
-                  {/* Smaller square image at bottom-right: large, in front, overlapping */}
-                  <Reveal variant="up" className="animate-fade-up-stagger" style={{ transitionDelay: '700ms' }}>
-                    <div style={{ zIndex: 100 }} className="absolute bottom-[-8%] right-[-12%] w-[42%] lg:w-[35%] xl:w-[30%] aspect-[1] rounded-[32px] shadow-2xl border border-white/80 z-50 animate-float bg-[#E9DFD3]">
-                      <EditorialImage
-                        src="/images/restaurant/sharda-dining-buddha-wall.webp"
-                        alt="Fluted Buddha relief wall inside the dining hall"
-                        frameClassName="rounded-none border-none"
-                        aspect="aspect-square"
-                        className="animate-image-reveal"
-                        style={{ transitionDelay: '100ms' }}
-                      />
-                    </div>
-                  </Reveal>
-
-                  {/* Decorative fine line */}
-                  <div className="absolute top-[40%] right-[10%] w-[1px] h-[200px] bg-[#C9A227]/20 animate-drift-y" />
-                </div>
-              </Reveal>
-            </div>
-
-          </div>
+    <div className="min-h-screen bg-[#FAF7F2] text-[#1C1617] overflow-hidden">
+      
+      {/* ─────────────────────────────────────────────────────────────
+          SECTION 1: HERO — Ambiente & Mikuni Nagoya Influence
+          Full-bleed dusk dining photography with layered typography
+      ───────────────────────────────────────────────────────────── */}
+      <section className="relative min-h-[88vh] flex items-center justify-center pt-8 pb-16 px-4 sm:px-6 lg:px-8 bg-[#1C1617] text-[#FAF7F2] overflow-hidden">
+        {/* Cinematic Authentic Photo Backdrop */}
+        <div className="absolute inset-0 z-0 image-zoom-container">
+          <img
+            src="/images/restaurant/sharda-dining-hall.webp"
+            alt="Sharda Dinings main dining hall ambience"
+            className="w-full h-full object-cover object-center filter brightness-[0.38] contrast-[1.15] scale-100 transition-transform duration-1000"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#1C1617] via-[#1C1617]/50 to-transparent"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#1C1617]/40 to-[#1C1617]"></div>
         </div>
 
-        <Reveal variant="up" className="animate-fade-up-stagger" style={{ transitionDelay: '1100ms' }}>
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 animate-drift-y">
-            <span className="text-[10px] uppercase tracking-widest text-[#6B655C] font-semibold">Scroll to explore</span>
-            <div className="w-1 h-3 rounded-full bg-[#6B655C] animate-blink-slow" />
+        {/* Content */}
+        <div className="relative z-10 max-w-4xl mx-auto text-center space-y-5">
+          <div className="flex items-center justify-center space-x-2">
+            <NumberedPill current="01" total="07" label="HOSPITALITY DESTINATION" />
           </div>
-        </Reveal>
-      </section>
 
-      {/* ===== SECTION 2: HOUSE CHRONICLE ===== */}
-      <section className="relative overflow-hidden bg-gradient-brand py-10 lg:py-14 border-y border-[#E4D8CA]">
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 items-center">
-
-            {/* Left: Editorial image composition */}
-            <div className="lg:col-span-7 relative h-[520px]">
-              {/* Main featured image */}
-              <Reveal variant="up" className="animate-fade-up-stagger" style={{ transitionDelay: '100ms' }}>
-                <div className="relative h-full w-full rounded-[36px] overflow-hidden border border-[#DFD2C2]/60 shadow-xl">
-                  <EditorialImage
-                    src="/images/restaurant/sharda-dining.webp"
-                    alt="Teal velvet booths and crystal chandelier inside Sharda Dinings"
-                    frameClassName="rounded-none border-none"
-                    aspect="aspect-[4/3]"
-                    loading="eager"
-                    className="animate-image-reveal"
-                  />
-                </div>
-              </Reveal>
-
-              {/* Decorative corner accents */}
-              <div className="absolute top-8 left-8 w-[1px] h-20 bg-[#C9A227]/30" />
-              <div className="absolute top-8 left-8 h-[1px] w-20 bg-[#C9A227]/30" />
-            </div>
-
-            {/* Right: Text content - visually connected to images */}
-            <div className="lg:col-span-5 flex flex-col justify-center min-h-[520px]">
-              <div className="relative -mr-4 lg:-mr-10">
-                <Reveal variant="up" className="animate-fade-up-stagger" style={{ transitionDelay: '700ms' }}>
-                  <div className="bg-white/90 backdrop-blur-sm p-8 lg:p-12 rounded-[28px] border border-[#E4D8CA]/40 shadow-xl max-w-lg ml-auto z-20">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-warm-brown mb-3">
-                      House Chronicle · Gorakhnath Temple Road
-                    </p>
-                    <h2 className="font-serif text-[clamp(2rem,5vw,3rem)] font-medium leading-[1.05] tracking-tight text-[#241814] mb-4">
-                      Four experiences under one roof.
-                    </h2>
-                    <p className="text-base text-[#6B655C] leading-relaxed">
-                      From teal booths to espresso pours, floral mandaps to calm AC rooms — discover Sharda Dinings.
-                    </p>
-                  </div>
-                </Reveal>
-              </div>
-            </div>
-
+          <div className="relative inline-block">
+            <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal tracking-tight text-[#FAF7F2] leading-tight">
+              Hospitality Redefined in <span className="text-[#D4AF37] italic font-normal">Gorakhpur</span>
+            </h1>
+            <span className="hidden md:block absolute -top-5 -right-6 font-display italic text-2xl text-[#FAF7F2]/25 select-none pointer-events-none transform rotate-3">
+              Purvanchal Royalty
+            </span>
           </div>
-        </div>
 
-        {/* Mobile: Compact stacked layout */}
-        <div className="lg:hidden px-4 sm:px-6 lg:px-8 py-8">
-          <Reveal variant="up" className="animate-fade-up-stagger" style={{ transitionDelay: '100ms' }}>
-            <div className="relative h-[320px] w-full rounded-[32px] overflow-hidden border border-[#DFD2C2]/60 shadow-xl animate-image-reveal mb-4">
-              <EditorialImage
-                src="/images/restaurant/sharda-dining.webp"
-                alt="Teal velvet booths and crystal chandelier inside Sharda Dinings"
-                frameClassName="rounded-none border-none"
-                aspect="aspect-[4/3]"
-                loading="eager"
-              />
-            </div>
-          </Reveal>
+          <p className="max-w-xl mx-auto text-sm sm:text-base text-[#EFE8DC]/85 font-light leading-relaxed">
+            Multi-cuisine dining, artisanal coffees at Olive Cafe, indoor celebration banquets, 
+            and boutique stays located just 1 km from Gorakhnath Mandir.
+          </p>
 
-          <Reveal variant="up" className="animate-fade-up-stagger" style={{ transitionDelay: '700ms' }}>
-            <div className="bg-white/90 backdrop-blur-sm p-6 rounded-[28px] border border-[#E4D8CA]/40 shadow-xl">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-warm-brown mb-2">
-                House Chronicle · Gorakhnath Temple Road
-              </p>
-              <h2 className="font-serif text-[clamp(1.75rem,4vw,2.25rem)] font-medium leading-[1.05] tracking-tight text-[#241814] mb-3">
-                Four experiences under one roof.
-              </h2>
-              <p className="text-base text-[#6B655C] leading-relaxed">
-                From teal booths to espresso pours, floral mandaps to calm AC rooms — discover Sharda Dinings.
-              </p>
-            </div>
-          </Reveal>
+          <GildedDivider className="my-4" />
+
+          {/* Action CTAs */}
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+            <button
+              onClick={() => onOpenEnquiry('restaurant')}
+              className="px-7 py-3 bg-[#B94E35] hover:bg-[#9E3F28] text-[#FAF7F2] text-xs uppercase tracking-wider font-semibold rounded-full shadow-lg shadow-[#B94E35]/30 transition-all hover:scale-105 cursor-pointer"
+            >
+              Reserve a Table
+            </button>
+            <Link
+              to="/menu"
+              className="px-7 py-3 border border-[#D4AF37] hover:bg-[#D4AF37]/15 text-[#D4AF37] text-xs uppercase tracking-wider font-semibold rounded-full transition-all"
+            >
+              Explore Full Menu
+            </Link>
+          </div>
+
+          {/* Micro Status Ribbon */}
+          <div className="pt-4 flex items-center justify-center space-x-6 text-[11px] text-[#FAF7F2]/65 font-mono">
+            <span className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+              Open Daily 11 AM – 11 PM
+            </span>
+            <span>•</span>
+            <span>Opp. Kust Seva Ashram</span>
+            <span>•</span>
+            <span>11 AC Rooms</span>
+          </div>
         </div>
       </section>
 
-      {/* ===== SECTION 3: FOUR WINGS ONE ADDRESS ===== */}
-      <section className="relative overflow-hidden bg-gradient-wings py-18 lg:py-26 border-b border-[#E4D8CA]">
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Reveal variant="up" className="animate-fade-up">
-            <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-deep-teal">
-                Four Wings · One Address
-              </p>
-              <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-medium leading-[1.05] text-[#241814] tracking-tight">
-                Step into each world
+      {/* ─────────────────────────────────────────────────────────────
+          SECTION 2: THE HOUSE CHRONICLE (Editorial Text Reference)
+          Clean warm sand panel without rectangular boxes
+      ───────────────────────────────────────────────────────────── */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#EFE8DC] border-b border-[#D4AF37]/20">
+        <div className="max-w-4xl mx-auto text-center space-y-4">
+          <div className="flex items-center justify-center space-x-2 text-[#B94E35]">
+            <WheatFlourish className="w-4 h-4" />
+            <span className="text-[10px] uppercase font-mono tracking-widest font-bold">The Heritage Chronicle</span>
+          </div>
+
+          <h2 className="font-serif text-2xl sm:text-4xl text-[#1C1617] font-normal leading-snug">
+            A Journey of Pure Flavours & Unwavering Care
+          </h2>
+
+          <p className="text-xs sm:text-sm text-[#1C1617]/75 leading-relaxed font-light max-w-2xl mx-auto">
+            Established in 2010 along historic Sonauli Road, Sharda Dinings was founded to provide 
+            visiting devotees, families, and travelers with honest Awadhi hospitality. Every spice blend 
+            is ground in-house, vegetables sourced fresh daily, and dining paced for genuine family conversation.
+          </p>
+
+          <div className="pt-3 flex items-center justify-center space-x-8 text-xs font-mono text-[#8C6D37]">
+            <div><span className="font-bold text-base text-[#1C1617]">2010</span> — Founded</div>
+            <span>•</span>
+            <div><span className="font-bold text-base text-[#1C1617]">100%</span> — Fresh Cooked</div>
+            <span>•</span>
+            <div><span className="font-bold text-base text-[#1C1617]">1 km</span> — Mandir Proximity</div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────────
+          SECTION 3: FOUR EXPERIENCES (Asymmetrical Editorial Showcase)
+          Non-card layout: dynamic left hero visual + right interactive index
+      ───────────────────────────────────────────────────────────── */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#FAF7F2]">
+        <div className="max-w-7xl mx-auto">
+          
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 pb-4 border-b border-[#EFE8DC] gap-4">
+            <div>
+              <span className="text-[10px] uppercase font-mono tracking-widest text-[#B94E35] font-bold block mb-1">
+                One Address, Four Destinations
+              </span>
+              <h2 className="font-serif text-2xl sm:text-4xl text-[#1C1617]">
+                Crafted for Every Milestone
               </h2>
             </div>
-          </Reveal>
+            <p className="text-xs text-[#1C1617]/60 max-w-xs leading-relaxed">
+              Explore our four distinct wings, each designed with its own atmosphere and dedicated team.
+            </p>
+          </div>
 
-          <Reveal variant="up" className="animate-fade-up-stagger" style={{ transitionDelay: '150ms' }}>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {WINGS.map((wing, _idx) => (
-                <div
-                  key={wing.key}
-                  className="relative group overflow-hidden rounded-[28px] border border-[#DFD2C2]/60 bg-white shadow-sm transition-all duration-400 hover:shadow-lg hover:border-transparent"
-                >
-                  <div className="relative h-48 md:h-56 overflow-hidden">
-                    <EditorialImage
-                      src={wing.image}
-                      alt={wing.title}
-                      frameClassName="rounded-none border-none"
-                      aspect="aspect-square"
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#241814]/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-[#241814]/90 to-transparent">
-<span className="block text-[10px] font-semibold uppercase tracking-wider text-white/70 mb-1">
-  {`0${_idx + 1}`}
-</span>
-                      <h3 className="font-serif text-xl sm:text-lg font-medium text-white leading-tight">
-                        {wing.title}
-                      </h3>
-                    </div>
-                  </div>
-                  <div className="p-5 space-y-2">
+          {/* Asymmetric Split: Featured Display Left + Elegant Strip Right */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            {/* Left 7 cols: Active Experience Large Visual Frame */}
+            <div className="lg:col-span-7 relative">
+              <div className="relative h-[380px] sm:h-[440px] rounded-2xl overflow-hidden shadow-xl border border-[#D4AF37]/30 image-zoom-container">
+                <img
+                  key={experiences[activeExperience].id}
+                  src={experiences[activeExperience].image}
+                  alt={experiences[activeExperience].title}
+                  className="w-full h-full object-cover filter contrast-[1.08] animate-fade-in"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#1C1617] via-[#1C1617]/30 to-transparent"></div>
+                
+                <div className="absolute bottom-6 left-6 right-6 text-[#FAF7F2] space-y-2">
+                  <span className="text-[10px] font-mono tracking-widest uppercase text-[#D4AF37]">
+                    {experiences[activeExperience].tag}
+                  </span>
+                  <h3 className="font-serif text-2xl sm:text-3xl font-bold">
+                    {experiences[activeExperience].title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-[#EFE8DC]/85 max-w-lg leading-relaxed">
+                    {experiences[activeExperience].desc}
+                  </p>
+                  <div className="pt-2">
                     <Link
-                      to={wing.linkTo}
-                      className={`inline-flex items-center gap-2 text-xs sm:text-sm font-semibold uppercase tracking-wider ${wing.accent} hover:text-emerald transition-colors`}
+                      to={experiences[activeExperience].link}
+                      className="inline-flex items-center space-x-1.5 text-xs uppercase tracking-widest text-[#D4AF37] hover:underline font-semibold"
                     >
-                      Explore {wing.title === 'Olive Cafe' ? 'Cafe' : wing.title === 'Hotel & Rooms' ? 'Rooms' : wing.title}
-                      <ArrowRight className="w-3 h-3" />
+                      <span>Explore this experience</span>
+                      <ChevronRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
                 </div>
-              ))}
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ===== SECTION 4: FOOD SECTION — UNCHANGED ===== */}
-      <section className="relative overflow-hidden min-h-[560px] flex items-center bg-[#241814] text-[#FAF7F2]">
-        <img
-          src="/images/food/sharda-dinings-food-spread-clean.webp"
-          alt="Multi-cuisine table spread with tandoori platters, rich gravies, naan and sweet dishes at Sharda Dinings"
-          className="absolute inset-0 w-full h-full object-cover object-center opacity-55"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-r from-[#1A100D]/95 via-[#1A100D]/82 to-[#1A100D]/45"
-        />
-
-        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <Reveal variant="left" className="lg:col-span-6 space-y-6">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#EAB963]">
-              Multi-Cuisine Family Kitchens
-            </p>
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-medium leading-[1.06] text-white">
-              Charcoal tandoors, slow-simmered gravies &amp; sizzling Sichuan woks.
-            </h2>
-            <p className="text-sm sm:text-base text-[#E6D6C9] leading-relaxed max-w-md">
-              Vegetarian, Jain-customised, and non-vegetarian kitchens operating cleanly side by side—available in cushioned booths or delivered hot through partner portals.
-            </p>
-            <div className="flex flex-wrap items-center gap-4 pt-2">
-              <Link
-                to="/menu"
-                className="gloss-btn min-h-[44px] px-6 py-3 bg-[#EAB963] hover:bg-[#D99B38] text-[#241814] text-xs font-semibold uppercase tracking-wider rounded-md inline-flex items-center gap-2 whitespace-nowrap"
-              >
-                <span>Open Full Menu (48 Dishes)</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              <a
-                href={BUSINESS_INFO.ordering.zomato}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="min-h-[44px] px-5 py-3 border border-white/30 hover:bg-white/10 text-white text-xs font-semibold uppercase tracking-wider rounded-md inline-flex items-center gap-2 whitespace-nowrap"
-              >
-                <span>Order on Zomato</span>
-                <ExternalLink className="w-3.5 h-3.5" />
-              </a>
-            </div>
-          </Reveal>
-
-          <Reveal variant="right" className="lg:col-span-6 lg:pl-8">
-            <div className="bg-[#1A100D]/80 backdrop-blur-md border border-[#EAB963]/30 p-6 sm:p-8 rounded-xl space-y-5">
-              <div className="flex items-center justify-between border-b border-white/15 pb-3">
-                <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#EAB963]">
-                  Kitchen Signature Highlights
-                </span>
-                <span className="text-xs text-[#D5C3B3] tabular-nums">Avg. {BUSINESS_INFO.avgCostForTwo} / two</span>
               </div>
-              <div className="divide-y divide-white/12">
-                {CULINARY_SIGNATURES.map((dish) => (
-                  <div key={dish.name} className="py-3 flex items-baseline justify-between gap-4">
-                    <div>
-                      <h3 className="font-serif text-lg sm:text-xl text-white">{dish.name}</h3>
-                      <p className="text-xs text-[#CBB7A6]">{dish.course}</p>
+            </div>
+
+            {/* Right 5 cols: Fluid Interactive Selector (NO BOX CARDS) */}
+            <div className="lg:col-span-5 space-y-2">
+              {experiences.map((exp, idx) => {
+                const isActive = activeExperience === idx;
+                return (
+                  <div
+                    key={exp.id}
+                    onClick={() => setActiveExperience(idx)}
+                    className={`p-4 rounded-xl cursor-pointer transition-all duration-300 border-l-2 ${
+                      isActive
+                        ? 'bg-white border-[#D4AF37] shadow-sm pl-5'
+                        : 'border-transparent hover:border-black/20 hover:bg-black/[0.02]'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-mono tracking-widest text-[#8C6D37] font-semibold">
+                        {exp.tag}
+                      </span>
+                      <span className="text-xs font-serif font-bold text-[#1C1617]/40">0{idx + 1}</span>
                     </div>
-                    <span className="font-serif text-xl font-semibold text-[#EAB963] tabular-nums shrink-0">
-                      {dish.price}
-                    </span>
+                    <h4 className={`font-serif text-lg font-bold mt-0.5 ${isActive ? 'text-[#1C1617]' : 'text-[#1C1617]/70'}`}>
+                      {exp.title}
+                    </h4>
+                    <p className="text-xs text-[#1C1617]/60 line-clamp-2 mt-1 leading-relaxed">
+                      {exp.desc}
+                    </p>
                   </div>
-                ))}
-              </div>
-              <div className="flex items-center gap-4 pt-1">
-                <img
-                  src={spiceStillLife}
-                  alt="Brass spice study complementing Indian kitchen preparations"
-                  className="w-12 h-12 rounded-lg object-cover border border-[#EAB963]/30 shrink-0"
-                />
-                <p className="text-xs text-[#D5C3B3] leading-relaxed">
-                  Inform dining staff for Jain no-onion / no-garlic dishes or gentle kid-friendly spice levels.
-                </p>
-              </div>
+                );
+              })}
             </div>
-          </Reveal>
+
+          </div>
+
         </div>
       </section>
 
-      {/* ===== SECTION 5: OLIVE CAFE ===== */}
-      <section className="relative overflow-hidden bg-gradient-cafe py-16 lg:py-22 border-b border-[#E4D8CA]">
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      {/* ─────────────────────────────────────────────────────────────
+          SECTION 4: SIGNATURE DISHES (Côte & Cendre Magazine Flow)
+          Deep Charcoal with 4 Authentic Dishes & Clean Horizontal Flow
+      ───────────────────────────────────────────────────────────── */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#1C1617] text-[#FAF7F2]">
+        <div className="max-w-7xl mx-auto">
+          
+          <div className="text-center max-w-xl mx-auto mb-12 space-y-2">
+            <span className="text-[10px] font-mono uppercase tracking-widest text-[#D4AF37] font-bold">
+              Culinary Signatures
+            </span>
+            <h2 className="font-serif text-2xl sm:text-4xl text-[#FAF7F2] font-normal">
+              Flavours That Define Our Kitchen
+            </h2>
+            <p className="text-xs text-[#FAF7F2]/65 leading-relaxed">
+              Every recipe is slow-simmered in copper handis or charred over fragrant charcoal lump wood.
+            </p>
+          </div>
 
-            {/* Left: Heading + short description + button */}
-            <div className="lg:col-span-5 space-y-6">
-              <Reveal variant="up" className="animate-fade-up">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-warm-brown">
-                  Olive Cafe Wing · Open {BUSINESS_INFO.timings.oliveCafe}
-                </p>
-                <h2 className="font-serif text-3xl sm:text-4xl lg:text-[3.5rem] font-medium leading-[1.05] text-[#241814] tracking-tight">
-                  Espresso, thick shakes, stone-baked calm.
-                </h2>
-                <p className="text-base sm:text-lg text-[#6B655C] leading-relaxed mt-4 max-w-xl">
-                  Coffee, desserts, and cafe classics served in a relaxed lounge with complimentary wi-fi.
-                </p>
-              </Reveal>
+          {/* Fluid 4-Photo Collage */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {[
+              {
+                name: 'Awadhi Dum Handi Biryani',
+                price: '₹380',
+                note: 'Saffron basmati rice sealed with rosewater & cardamom',
+                image: '/images/food/sharda-dining-biryani.webp'
+              },
+              {
+                name: 'Tandoori Vegetable Platter',
+                price: '₹390',
+                note: 'Clay-oven charred cottage cheese, stuffed mushrooms & spiced kebabs',
+                image: '/images/food/tandoori-veg-platter.webp'
+              },
+              {
+                name: 'Crispy Shanghai Chilli Paneer',
+                price: '₹320',
+                note: 'Wok-tossed with fresh bell peppers, mountain ginger & scallions',
+                image: '/images/food/shanghai-chilli-paneer.webp'
+              },
+              {
+                name: 'Garlic Lemon Herb Roast',
+                price: '₹410',
+                note: 'Whole chicken roasted over natural charcoal with lemon butter glaze',
+                image: '/images/food/garlic-lemon-herb-chicken.webp'
+              }
+            ].map((dish, i) => (
+              <div key={i} className="group overflow-hidden rounded-xl bg-white/5 border border-white/10 hover:border-[#D4AF37]/50 transition-all">
+                <div className="h-52 overflow-hidden image-zoom-container relative">
+                  <img
+                    src={dish.image}
+                    alt={dish.name}
+                    className="w-full h-full object-cover filter contrast-[1.08]"
+                  />
+                  <div className="absolute top-3 right-3 bg-[#1C1617]/85 backdrop-blur-md px-2.5 py-1 rounded-full text-[11px] font-mono font-bold text-[#D4AF37] border border-[#D4AF37]/30">
+                    {dish.price}
+                  </div>
+                </div>
+                <div className="p-4 space-y-1">
+                  <h4 className="font-serif font-bold text-base text-[#FAF7F2] group-hover:text-[#D4AF37] transition-colors">
+                    {dish.name}
+                  </h4>
+                  <p className="text-xs text-[#FAF7F2]/65 line-clamp-2 leading-relaxed">
+                    {dish.note}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
 
-              <Reveal variant="up" className="animate-fade-up-stagger" style={{ transitionDelay: '300ms' }}>
+          <div className="mt-10 text-center">
+            <Link
+              to="/menu"
+              className="inline-flex items-center space-x-2 text-xs uppercase tracking-widest text-[#D4AF37] hover:text-white font-mono transition-colors"
+            >
+              <span>View complete menu & tariffs</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────────
+          SECTION 5: OLIVE CAFE & ARTISANAL BREWS
+          Botanical Slate Accent with Asymmetrical Split
+      ───────────────────────────────────────────────────────────── */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#FAF7F2]">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            {/* Visual Mosaic Left (5 cols) */}
+            <div className="lg:col-span-5 relative">
+              <div className="rounded-2xl overflow-hidden shadow-lg border border-[#4E5D4E]/30 image-zoom-container">
+                <img
+                  src="/images/olive-cafe/olive-cafe-coffee.webp"
+                  alt="Cold brew coffee at Olive Cafe"
+                  className="w-full h-80 sm:h-96 object-cover"
+                />
+              </div>
+              {/* Floating Accent */}
+              <div className="absolute -bottom-4 -right-4 bg-[#4E5D4E] text-[#FAF7F2] p-4 rounded-xl shadow-xl max-w-[200px]">
+                <p className="text-[10px] uppercase font-mono tracking-widest font-bold">Olive Cafe</p>
+                <p className="text-xs mt-1">Open 11 AM – 11 PM with high-speed Wi-Fi.</p>
+              </div>
+            </div>
+
+            {/* Narrative Right (7 cols) */}
+            <div className="lg:col-span-7 space-y-4 lg:pl-6">
+              <div className="flex items-center space-x-2 text-[#4E5D4E]">
+                <CoffeeBeanFlourish className="w-4 h-4" />
+                <span className="text-[10px] uppercase font-mono tracking-widest font-bold">Artisanal Wing</span>
+              </div>
+              <h2 className="font-serif text-2xl sm:text-4xl text-[#1C1617] font-normal leading-snug">
+                Where Italian Roasts Meet Stone-Baked Crusts
+              </h2>
+              <p className="text-xs sm:text-sm text-[#1C1617]/75 leading-relaxed font-light">
+                Tucked inside Sharda Dinings, Olive Cafe is Gorakhpur's quiet corner for 
+                chilled caramel cold coffees, Nutella thickshakes, and bubbling thin-crust pizzas. 
+                Equipped with power points and study-friendly seating.
+              </p>
+
+              <div className="pt-2 grid grid-cols-2 gap-4 text-xs font-mono">
+                <div className="p-3 rounded-lg bg-white border border-[#EFE8DC]">
+                  <span className="text-[#4E5D4E] font-bold block">Espresso Roasts</span>
+                  <span className="text-[#1C1617]/70">From ₹140</span>
+                </div>
+                <div className="p-3 rounded-lg bg-white border border-[#EFE8DC]">
+                  <span className="text-[#4E5D4E] font-bold block">Stone Pizzas & Pasta</span>
+                  <span className="text-[#1C1617]/70">From ₹320</span>
+                </div>
+              </div>
+
+              <div className="pt-2">
                 <Link
                   to="/olive-cafe"
-                  className="gloss-btn w-full min-h-[52px] px-9 py-3 bg-warm-brown hover:bg-[#4A3325] text-white text-sm font-semibold uppercase tracking-wider rounded-md inline-flex items-center justify-center gap-2.5 transition-all"
+                  className="inline-flex items-center space-x-2 text-xs uppercase tracking-widest text-[#4E5D4E] hover:underline font-bold"
                 >
-                  <span>Explore Olive Cafe Wing</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <span>Explore Olive Cafe</span>
+                  <ChevronRight className="w-4 h-4" />
                 </Link>
-              </Reveal>
-            </div>
-
-            {/* Right: Compact cafe photo cluster */}
-            <div className="lg:col-span-7 relative h-[400px] lg:h-[480px]">
-              <Reveal variant="up" className="animate-fade-up-stagger" style={{ transitionDelay: '200ms' }}>
-                <div className="relative h-[60%] w-full lg:w-[56%] rounded-[32px] overflow-hidden border border-[#DFD2C2]/50 shadow-xl animate-float">
-                  <EditorialImage
-                    src="/images/olive-cafe/olive-cafe-coffee.webp"
-                    alt="Freshly brewed cappuccinos at Olive Cafe"
-                    frameClassName="rounded-none border-none"
-                    aspect="aspect-[4/5]"
-                    loading="eager"
-                    className="animate-image-reveal relative z-10"
-                  />
-                </div>
-              </Reveal>
-
-              <Reveal variant="up" className="animate-fade-up-stagger" style={{ transitionDelay: '400ms' }}>
-                <div className="absolute -bottom-6 right-0 w-[40%] h-[180px] md:h-[220px] rounded-[24px] overflow-hidden border border-[#DFD2C2]/50 shadow-xl animate-float-reverse">
-                  <EditorialImage
-                    src="/images/food/sharda-dinings-table-spread.webp"
-                    alt="Club sandwich, Alfredo penne, and cappuccino table spread"
-                    frameClassName="rounded-none border-none"
-                    aspect="aspect-[4/3]"
-                    className="animate-image-reveal"
-                  />
-                </div>
-              </Reveal>
-
-              <Reveal variant="up" className="animate-fade-up-stagger" style={{ transitionDelay: '600ms' }}>
-                <div className="absolute bottom-0 left-0 w-[35%] h-[140px] md:h-[180px] rounded-[24px] overflow-hidden border border-[#DFD2C2]/50 shadow-lg animate-scale-pulse">
-                  <EditorialImage
-                    src="/images/olive-cafe/sharda-good-vibes-neon.webp"
-                    alt="Good Vibes neon installation at Olive Cafe"
-                    frameClassName="rounded-none border-none"
-                    aspect="aspect-square"
-                    className="animate-image-reveal"
-                    style={{ transitionDelay: '200ms' }}
-                  />
-                </div>
-              </Reveal>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* ===== SECTION 6: BANQUETS & HOTEL ===== */}
-      <section className="relative overflow-hidden bg-gradient-banquet py-20 lg:py-28 border-b border-[#E4D8CA]">
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-
-            {/* Banquets: Wide controlled image with overlay content */}
-            <div className="lg:col-span-6 relative">
-              <div className="relative h-[420px] lg:h-[500px] rounded-[32px] overflow-hidden border border-[#E4D8CA]/40 shadow-xl">
-                <EditorialImage
-                  src="/images/banquets/sharda-banquet-hall.webp"
-                  alt="Indoor AC banquet hall with wood slat walls and floral decor"
-                  frameClassName="rounded-none border-none"
-                  aspect="aspect-[16/9]"
-                  loading="eager"
-                  className="animate-image-reveal"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#241814]/70 via-[#241814]/30 to-transparent" />
-                <div className="absolute bottom-8 left-8 right-8 z-10">
-                  <Reveal variant="up" className="animate-fade-up">
-                    <span className="inline-block px-4 py-1.5 rounded-full bg-[#E8836A] text-[#241814] text-[10px] font-semibold uppercase tracking-wider mb-3">
-                      Celebration Floor
-                    </span>
-                    <h2 className="font-serif text-2xl sm:text-3xl font-medium text-white leading-tight">
-                      Engagements · Haldi · Receptions
-                    </h2>
-                    <p className="text-sm text-[#E8E0D2] leading-relaxed mt-3 max-w-lg">
-                      Climate-controlled hall with exclusive veg, non-veg &amp; Jain kitchens.
-                    </p>
-                  </Reveal>
-                </div>
-              </div>
-
-              <Reveal variant="up" className="animate-fade-up-stagger" style={{ transitionDelay: '300ms' }}>
-                <div className="mt-8">
-                  <Link
-                    to="/banquets"
-                    className="gloss-btn min-h-[52px] px-9 py-3 bg-[#241814] hover:bg-[#6E2434] text-white text-sm font-semibold uppercase tracking-wider rounded-md inline-flex items-center justify-center gap-2.5 transition-all"
-                  >
-                    <span>Plan Your Event</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
-                </div>
-              </Reveal>
-            </div>
-
-            {/* Hotel Stay: Premium hospitality design */}
-            <div className="lg:col-span-6 relative">
-              <div className="relative h-[420px] lg:h-[520px] rounded-[40px] overflow-hidden border border-[#E4D8CA]/40 shadow-xl">
-                <EditorialImage
-                  src="/images/hotel-rooms/hotel-sharda-inn-room-103.webp"
-                  alt="Deluxe AC king bedroom at Hotel Sharda Dinings"
-                  frameClassName="rounded-none border-none"
-                  aspect="aspect-[4/5]"
-                  loading="eager"
-                  className="animate-image-reveal animate-float-slow"
-                />
-                {/* Gradient overlay for text readability */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#241814]/80 via-[#241814]/30 to-transparent" />
-                {/* Text overlay - right side, middle-to-lower */}
-                <div className="absolute bottom-0 left-0 right-0 z-20 p-6 lg:p-10">
-                  <Reveal variant="up" className="animate-fade-up-stagger" style={{ transitionDelay: '100ms' }}>
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[10px] font-semibold uppercase tracking-wider text-white mb-4">
-                      04 · Hotel Stays · {BUSINESS_INFO.roomTariffRange}
-                    </div>
-                    <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-medium leading-[1.1] text-white mb-3">
-                      Deluxe &amp; Super Deluxe AC bedrooms
-                    </h2>
-                    <p className="text-sm sm:text-base text-[#E8E0D2] leading-relaxed max-w-lg mb-6">
-                      King beds, work stations, rainfall showers, 100% power backup, free parking.
-                    </p>
-                    <div className="flex flex-col sm:flex-row items-center gap-3">
-                      <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 border border-white/20">
-                        <span className="text-xs font-semibold text-white/70 uppercase tracking-wider">Check-in</span>
-                        <span className="text-xs font-medium text-white">{BUSINESS_INFO.timings.hotelCheckIn}</span>
-                      </div>
-                      <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 border border-white/20">
-                        <span className="text-xs font-semibold text-white/70 uppercase tracking-wider">Check-out</span>
-                        <span className="text-xs font-medium text-white">{BUSINESS_INFO.timings.hotelCheckOut}</span>
-                      </div>
-                    </div>
-                  </Reveal>
-                </div>
-                {/* Decorative corner accents */}
-                <div className="absolute top-8 left-8 w-[1px] h-20 bg-[#C9A227]/30" />
-                <div className="absolute top-8 left-8 h-[1px] w-20 bg-[#C9A227]/30" />
-              </div>
-
-              <Reveal variant="up" className="animate-fade-up-stagger" style={{ transitionDelay: '700ms' }}>
-                <div className="mt-8">
-                  <Link
-                    to="/hotel"
-                    className="gloss-btn w-full min-h-[52px] px-9 py-3 bg-dusty-blue hover:bg-[#5D6B78] text-white text-sm font-semibold uppercase tracking-wider rounded-md inline-flex items-center justify-center gap-2.5 transition-all"
-                  >
-                    <span>Inspect Rooms &amp; Book</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
-                </div>
-              </Reveal>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* ===== SECTION 7: LOCATION & VISIT ===== */}
-      <section className="relative overflow-hidden bg-gradient-location py-20 lg:py-28">
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-
-            {/* Left: Address + hours + contact */}
-            <div className="lg:col-span-5 space-y-8">
-              <Reveal variant="up" className="animate-fade-up">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-deep-teal">
-                  Visit Us
-                </p>
-                <h2 className="font-serif text-3xl sm:text-4xl font-medium leading-[1.1] text-[#241814]">
-                  Find Sharda Dinings
-                </h2>
-              </Reveal>
-
-              <Reveal variant="up" className="animate-fade-up-stagger" style={{ transitionDelay: '200ms' }}>
-                <div className="space-y-6">
-                  <div className="p-6 rounded-[28px] bg-white border border-[#E4D8CA] shadow-sm">
-                    <div className="flex items-start gap-3">
-                      <MapPin className="w-5 h-5 text-deep-teal shrink-0 mt-0.5" />
-                      <div>
-                        <p className="text-xs font-semibold uppercase tracking-wider text-mustard">Address</p>
-                        <p className="text-sm text-[#241814] leading-relaxed">
-                          {BUSINESS_INFO.address.line1}, {BUSINESS_INFO.address.city},{' '}
-                          {BUSINESS_INFO.address.state} — <span className="tabular-nums">{BUSINESS_INFO.address.pincode}</span>
-                        </p>
-                        <p className="text-xs text-[#6B655C] mt-1">
-                          Approx. 5–10 min walk (~1 km) from Gorakhnath Mandir
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-6 rounded-[28px] bg-white border border-[#E4D8CA] shadow-sm">
-                    <div className="flex items-start gap-3">
-                      <Clock className="w-5 h-5 text-deep-teal shrink-0 mt-0.5" />
-                      <div>
-                        <p className="text-xs font-semibold uppercase tracking-wider text-mustard">Hours</p>
-                        <p className="text-sm text-[#241814] leading-relaxed tabular-nums">
-                          Dine-in {BUSINESS_INFO.timings.restaurant}<br />
-                          Delivery {BUSINESS_INFO.timings.delivery}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-6 rounded-[28px] bg-white border border-[#E4D8CA] shadow-sm">
-                    <div className="flex items-start gap-3">
-                      <Phone className="w-5 h-5 text-deep-teal shrink-0 mt-0.5" />
-                      <div>
-                        <p className="text-xs font-semibold uppercase tracking-wider text-mustard">Call Us</p>
-                        <p className="text-sm text-[#241814] font-semibold tabular-nums">
-                          <a href={`tel:${BUSINESS_INFO.phones[0].number}`} className="text-deep-teal hover:text-emerald transition-colors">
-                            {BUSINESS_INFO.phones[0].display}
-                          </a>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Reveal>
-
-              <Reveal variant="up" className="animate-fade-up-stagger" style={{ transitionDelay: '500ms' }}>
-                <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                  <a
-                    href={`https://maps.google.com/?q=Sharda%20Dinings%20East%20Rajendra%20Nagar%20Gorakhpur`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="gloss-btn flex-1 min-h-[52px] px-9 py-3 bg-deep-teal hover:bg-[#0A3A46] text-white text-sm font-semibold uppercase tracking-wider rounded-md inline-flex items-center justify-center gap-2.5 transition-all"
-                  >
-                    <span>Get Directions</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </a>
-                  <a
-                    href={`https://wa.me/${BUSINESS_INFO.whatsapp.number.replace('+', '')}?text=${encodeURIComponent(BUSINESS_INFO.whatsapp.defaultMessage)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="gloss-btn flex-1 min-h-[52px] px-9 py-3 border border-[#DFD2C2] bg-white hover:bg-[#F4EFE5] text-[#241814] text-sm font-semibold uppercase tracking-wider rounded-md inline-flex items-center justify-center gap-2.5 transition-all"
-                  >
-                    <MessageSquare className="w-4 h-4" />
-                    <span>WhatsApp</span>
-                  </a>
-                </div>
-              </Reveal>
-            </div>
-
-            {/* Right: Properly sized map */}
-            <div className="lg:col-span-7">
-              <div className="relative h-[420px] lg:h-[520px] rounded-[32px] overflow-hidden border border-[#E4D8CA]/40 shadow-xl">
-                <iframe
-                  title="Sharda Dinings Gorakhpur Map"
-                  src="https://maps.google.com/maps?q=Sharda%20Dinings%20East%20Rajendra%20Nagar%20Gorakhpur&t=&z=15&ie=UTF8&iwloc=&output=embed"
-                  className="w-full h-full border-0"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#FBF9F4]/90 to-transparent" />
-                <div className="absolute bottom-6 left-6 z-10 flex flex-col gap-3">
-                  <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border border-[#E4D8CA] shadow-md shrink-0">
-                    <MapPin className="w-4 h-4 text-deep-teal" />
-                    <a
-                      href={`https://maps.google.com/?q=Sharda%20Dinings%20East%20Rajendra%20Nagar%20Gorakhpur`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs font-semibold text-deep-teal hover:text-emerald transition-colors whitespace-nowrap"
-                    >
-                      Open in Google Maps
-                    </a>
-                  </div>
-                  <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full border border-[#E4D8CA] shadow-md shrink-0">
-                    <MessageSquare className="w-4 h-4 text-deep-teal" />
-                    <a
-                      href={`https://wa.me/${BUSINESS_INFO.whatsapp.number.replace('+', '')}?text=${encodeURIComponent(BUSINESS_INFO.whatsapp.defaultMessage)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs font-semibold text-deep-teal hover:text-emerald transition-colors whitespace-nowrap"
-                    >
-                      Message on WhatsApp
-                    </a>
-                  </div>
-                </div>
               </div>
             </div>
 
           </div>
         </div>
       </section>
+
+      {/* ─────────────────────────────────────────────────────────────
+          SECTION 6: ATELIER SPLIT-SCREEN — BANQUETS VS HOTEL
+          50/50 Dual Contrast Panel
+      ───────────────────────────────────────────────────────────── */}
+      <section className="grid grid-cols-1 lg:grid-cols-2">
+        {/* Left: Banquets (Wine Palette) */}
+        <div className="relative min-h-[380px] p-8 sm:p-12 lg:p-16 bg-[#2A1319] text-[#FAF7F2] flex flex-col justify-between overflow-hidden group">
+          <div className="absolute inset-0 z-0 image-zoom-container">
+            <img
+              src="/images/banquets/sharda-banquet-hall.webp"
+              alt="Grand banquet hall at Sharda Dinings"
+              className="w-full h-full object-cover filter brightness-[0.32] contrast-[1.2]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#2A1319] via-transparent to-transparent"></div>
+          </div>
+
+          <div className="relative z-10 space-y-3">
+            <span className="text-[10px] font-mono tracking-widest uppercase text-[#D4AF37]">
+              CELEBRATIONS & CONCLAVES
+            </span>
+            <h3 className="font-serif text-2xl sm:text-3xl font-bold leading-tight">
+              Indoor Banquet Pavilion
+            </h3>
+            <p className="text-xs sm:text-sm text-[#FAF7F2]/80 leading-relaxed font-light max-w-md">
+              100 seated and 150 floating guest capacity. Complete with central air conditioning, 
+              mandap lighting, and royal in-house catering in a dignified, non-alcoholic venue.
+            </p>
+          </div>
+
+          <div className="relative z-10 pt-6">
+            <Link
+              to="/banquets"
+              className="inline-flex items-center space-x-2 px-6 py-2.5 bg-[#D4AF37] hover:bg-[#c29e2f] text-[#1C1617] text-xs font-bold uppercase tracking-wider rounded-full transition-all"
+            >
+              <span>Explore Banquets</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        </div>
+
+        {/* Right: Hotel Stays (Mahogany Palette) */}
+        <div className="relative min-h-[380px] p-8 sm:p-12 lg:p-16 bg-[#1C1617] text-[#FAF7F2] flex flex-col justify-between overflow-hidden group">
+          <div className="absolute inset-0 z-0 image-zoom-container">
+            <img
+              src="/images/hotel-rooms/hotel-sharda-inn-room-103.webp"
+              alt="Deluxe room at Hotel Sharda Dinings"
+              className="w-full h-full object-cover filter brightness-[0.32] contrast-[1.2]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#1C1617] via-transparent to-transparent"></div>
+          </div>
+
+          <div className="relative z-10 space-y-3">
+            <span className="text-[10px] font-mono tracking-widest uppercase text-[#D4AF37]">
+              BOUTIQUE ACCOMMODATION
+            </span>
+            <h3 className="font-serif text-2xl sm:text-3xl font-bold leading-tight">
+              Hotel & Guest Residences
+            </h3>
+            <p className="text-xs sm:text-sm text-[#FAF7F2]/80 leading-relaxed font-light max-w-md">
+              11 boutique guest rooms (~240 sq. ft.) equipped with rainfall showers, 
+              elevator access, and 100% generator power backup just 5–10 minutes walk from Gorakhnath Mandir.
+            </p>
+          </div>
+
+          <div className="relative z-10 pt-6">
+            <Link
+              to="/hotel"
+              className="inline-flex items-center space-x-2 px-6 py-2.5 border border-[#D4AF37] hover:bg-[#D4AF37]/15 text-[#D4AF37] text-xs font-bold uppercase tracking-wider rounded-full transition-all"
+            >
+              <span>Explore Hotel Stays</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────────
+          SECTION 7: SANCTUARY & MANDIR ACCESS
+          Warm Sand strip with Wayfinding
+      ───────────────────────────────────────────────────────────── */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#EFE8DC] border-t border-[#D4AF37]/20">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="space-y-1.5 max-w-xl">
+            <div className="flex items-center space-x-2 text-[#B94E35]">
+              <MapPin className="w-4 h-4" />
+              <span className="text-[10px] uppercase font-mono tracking-widest font-bold">Gorakhpur Landmark</span>
+            </div>
+            <h3 className="font-serif text-2xl font-bold text-[#1C1617]">
+              Opposite Kust Seva Ashram, Sonauli Road
+            </h3>
+            <p className="text-xs text-[#1C1617]/70 leading-relaxed">
+              East Rajendra Nagar, NH 29, Gorakhpur. Walking distance from Gorakhnath Mandir (~1 km) with secure on-site parking.
+            </p>
+          </div>
+
+          <div className="flex items-center space-x-3 shrink-0">
+            <Link
+              to="/contact"
+              className="px-6 py-2.5 bg-[#B94E35] hover:bg-[#9E3F28] text-white text-xs font-bold uppercase tracking-wider rounded-full transition-all"
+            >
+              Directions & Map
+            </Link>
+            <a
+              href={`tel:${BUSINESS_INFO.phones[0].number}`}
+              className="px-6 py-2.5 border border-[#1C1617]/30 hover:border-[#1C1617] text-[#1C1617] text-xs font-bold uppercase tracking-wider rounded-full transition-all"
+            >
+              Call Desk
+            </a>
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 }

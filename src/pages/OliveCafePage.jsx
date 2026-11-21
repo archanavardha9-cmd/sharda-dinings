@@ -1,272 +1,331 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Clock, Coffee, ExternalLink, MapPin, MessageSquare, Wifi } from 'lucide-react';
+import { Coffee, Wifi, Clock, ArrowRight, MessageSquare, ChevronRight, Sparkles } from 'lucide-react';
 import { BUSINESS_INFO } from '../data/businessInfo';
-import { EditorialImage, SectionHeader } from '../components/SiteBlocks';
-import {
-  AnimatedWaveDivider,
-  FloatingBotanicalAccents,
-  FloatingLanternParticles,
-  OrbitalRingBackdrop,
-  Reveal,
-  UnifiedGalleryStream,
-} from '../components/MotionBlocks';
-import { usePageSeo } from '../utils/seo';
-import oliveBotanicalStillLife from '../assets/images/botanical_olive_stilllife_1795187016246.jpg';
-import cornPizzaImg from '../assets/images/corn_margherita_pizza_1795201048660.jpg';
-import oreoShakeImg from '../assets/images/nutella_oreo_shakes_1795201048991.jpg';
+import { GildedDivider, NumberedPill, CoffeeBeanFlourish, SpiceStar } from '../components/DecorativeGraphics';
 
-const CAFE_SAVORY_STREAM = [
-  { src: '/images/olive-cafe/creamy-alfredo-pasta.webp', label: 'White Sauce Alfredo Penne · ₹320', shape: 'portrait' },
-  { src: cornPizzaImg, label: 'Corn Cheese Pizza (Culinary Styling) · ₹340', shape: 'landscape' },
-  { src: '/images/olive-cafe/arrabita-pasta.webp', label: 'Arrabbiata Red Penne · ₹320', shape: 'square' },
-  { src: '/images/olive-cafe/mexican-rice-with-salsa.webp', label: 'Mexican Rice & Salsa', shape: 'landscape' },
-  { src: '/images/food/sharda-dinings-breakfast.webp', label: 'Daytime Breakfast Platter', shape: 'wide' },
-];
+export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
+  const [activeTab, setActiveTab] = useState('brews');
 
-const CAFE_PATISSERIE_STREAM = [
-  { src: oreoShakeImg, label: 'Oreo & KitKat Thick Shakes (Styling)', shape: 'portrait' },
-  { src: '/images/olive-cafe/sharda-dinings-cheese-cake.webp', label: 'Lotus Biscoff Cheesecake', shape: 'landscape' },
-  { src: '/images/olive-cafe/french-toast-with-vanilla-ice-cream.webp', label: 'French Toast & Vanilla Scoop', shape: 'square' },
-  { src: '/images/olive-cafe/sharda-dinings-panna-cotta.webp', label: 'Berry Panna Cotta', shape: 'landscape' },
-  { src: '/images/olive-cafe/sharda-dinings-ice-cream-sundae.webp', label: 'Brown Choco Fudge Sundae · ₹220', shape: 'portrait' },
-];
-
-const CAFE_LEDGER = [
-  { name: 'Classic & Caramel Cold Coffee', price: '₹180', note: 'Slow-brewed espresso shaken over ice & caramel' },
-  { name: 'KitKat / Nutella Oreo Thick Shake', price: '₹230', note: 'Blended hazelnut, Oreo crumble, or crisp KitKat' },
-  { name: 'Grilled Signature Club Sandwich', price: '₹250', note: 'Triple-decker toasted cheddar & house mint slaw' },
-  { name: 'Creamy Alfredo / Arrabbiata Penne', price: '₹320', note: 'Served hot alongside two slices of buttered garlic toast' },
-  { name: 'Margherita / Corn Cheese Pizza', price: '₹340', note: 'Hand-stretched thin crust baked fresh to order' },
-  { name: 'Brown Choco Fudge Sundae', price: '₹220', note: 'Warm fudge brownie topped with cold vanilla scoops' },
-];
-
-export default function OliveCafePage({ onOpenEnquiry }) {
-  usePageSeo({
-    title: 'Olive Cafe at Sharda Dinings — Coffee, Pastas, Pizzas & Shakes',
-    description:
-      'Visit Olive Cafe inside Sharda Dinings, Gorakhpur: classic & caramel cold coffee, KitKat & Oreo shakes, thin-crust pizzas, pastas, and cheesecakes.',
-    image: '/images/olive-cafe/olive-cafe-coffee.webp',
-  });
+  const cafeMenuHighlights = {
+    brews: [
+      { name: 'Signature Classic Cold Coffee', price: '₹180', desc: 'Slow-brewed dark roast espresso shaken over whole milk and crushed ice.', badge: 'Bestseller' },
+      { name: 'Iced Caramel Frappuccino', price: '₹210', desc: 'Salted caramel swirl, chilled espresso base, whipped cream cap.', badge: 'Sweet & Creamy' },
+      { name: 'Double Shot Americano', price: '₹140', desc: 'Bold, dark extracted espresso pulled over hot mountain spring water.', badge: 'Purist Roast' },
+      { name: 'Hazelnut Cafe Latte', price: '₹190', desc: 'Velvety steamed micro-foam over roasted hazelnut extract and espresso.', badge: 'Barista Choice' }
+    ],
+    shakes: [
+      { name: 'Nutella Hazelnut Thick Shake', price: '₹240', desc: 'Generous Nutella spread blended with vanilla ice cream and toasted hazelnuts.', badge: 'Indulgent' },
+      { name: 'Oreo Crumb Cream Frappe', price: '₹230', desc: 'Real chocolate sandwich cookies pulverized into creamy ice cream shake.', badge: 'Crowd Favorite' },
+      { name: 'KitKat Crisp Chocolate Shake', price: '₹230', desc: 'Crushed chocolate wafers blended with dark cacao ganache and cream.', badge: 'Crispy Crunch' },
+      { name: 'Belgian Chocolate Fudge Shake', price: '₹250', desc: 'Bittersweet chocolate fudge sauce with dense dark chocolate ice cream.', badge: 'Rich Dark' }
+    ],
+    bites: [
+      { name: 'Stone-Baked Margherita Pizza', price: '₹320', desc: 'Hand-stretched thin dough, rich San Marzano tomato reduction, melted mozzarella.', badge: 'Stone-Baked' },
+      { name: 'Farm Fresh Corn & Pepper Pizza', price: '₹340', desc: 'Golden sweetcorn, crisp bell peppers, red onion pearls and mozzarella.', badge: 'Vegetarian' },
+      { name: 'White Sauce Creamy Alfredo Penne', price: '₹320', desc: 'Al dente durum wheat penne tossed in parmesan cream butter glaze with garlic toast.', badge: 'Chef Special' },
+      { name: 'Spicy Red Sauce Arrabbiata Penne', price: '₹310', desc: 'Slow-simmered tomato, chilli flakes, garlic, black olives, fresh basil leaves.', badge: 'Zesty Tang' }
+    ],
+    desserts: [
+      { name: 'Lotus Biscoff Cheesecake', price: '₹220', desc: 'Velvety baked cream cheese over buttery caramelized biscuit crumb.', badge: 'Patisserie' },
+      { name: 'Sizzling Brownie with Vanilla Scoop', price: '₹220', desc: 'Cast-iron sizzler plate, warm walnut brownie, hot fudge sauce, cold scoop.', badge: 'House Legend' }
+    ]
+  };
 
   return (
-    <div className="bg-[#FFFDF8] text-[#2C1D18]">
-      {/* SECTION 1: WALNUT ESPRESSO HERO WITH FLOATING DUO (ZERO CAROUSELS) */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-[#351F19] via-[#462921] to-[#261612] text-[#FFFDF8]">
-        <FloatingLanternParticles color="#EAB963" count={7} />
-        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-12 lg:pt-16 lg:pb-16 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-          <div className="lg:col-span-6 space-y-6">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#EAB963]">
-              Olive Cafe · Espresso &amp; Patisserie Wing
-            </p>
-            <h1 className="font-serif text-[clamp(2.3rem,4vw,3.6rem)] font-medium leading-[1.06] tracking-tight text-white">
-              Roasted espresso, <em className="italic font-normal text-[#EAB963]">thick shakes,</em> and sweet plates until 11 PM.
-            </h1>
-            <p className="text-sm sm:text-base text-[#EBDAD0] leading-relaxed max-w-md">
-              Tucked inside Sharda Dinings with calm seating and complimentary Wi-Fi—crafted for catch-ups, study afternoons, and late-evening coffees.
-            </p>
-            <div className="flex flex-wrap gap-3 pt-1">
-              <button
-                type="button"
-                onClick={() => onOpenEnquiry('cafe')}
-                className="gloss-btn min-h-[44px] px-6 py-3 bg-[#EAB963] hover:bg-[#D8A852] text-[#2C1D18] text-xs font-semibold uppercase tracking-wider rounded-lg inline-flex items-center gap-2 whitespace-nowrap"
-              >
-                <span>Reserve Cafe Corner</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-              <Link
-                to="/menu"
-                className="min-h-[44px] px-5 py-3 border border-[#745245] hover:bg-[#573429] text-white text-xs font-semibold uppercase tracking-wider rounded-lg inline-flex items-center whitespace-nowrap"
-              >
-                Full Cafe Prices
-              </Link>
-            </div>
+    <div className="min-h-screen bg-[#FAF7F2] text-[#1C1617] overflow-hidden">
+      
+      {/* ─────────────────────────────────────────────────────────────
+          SECTION 1: HERO — Botanical Olive & Espresso Atmosphere
+      ───────────────────────────────────────────────────────────── */}
+      <section className="relative min-h-[85vh] flex items-center justify-center pt-8 pb-16 px-4 sm:px-6 lg:px-8 bg-[#18211A] text-[#FAF7F2] overflow-hidden">
+        <div className="absolute inset-0 z-0 image-zoom-container">
+          <img
+            src="/images/olive-cafe/olive-cafe-coffee.webp"
+            alt="Olive Cafe interior ambience inside Sharda Dinings"
+            className="w-full h-full object-cover object-center filter brightness-[0.38] contrast-[1.15]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#18211A] via-[#18211A]/60 to-transparent"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#18211A]/40 to-[#18211A]"></div>
+        </div>
+
+        <div className="relative z-10 max-w-4xl mx-auto text-center space-y-4">
+          <div className="flex items-center justify-center space-x-2">
+            <NumberedPill current="04" total="07" label="OLIVE CAFE & ARTISANAL BREWS" />
           </div>
 
-          <div className="lg:col-span-6 grid grid-cols-12 gap-4 items-center max-w-md mx-auto lg:ml-auto">
-            <div className="col-span-7">
-              <EditorialImage
-                src="/images/olive-cafe/olive-cafe-coffee.webp"
-                alt="Fresh cappuccino lattes and iced black coffee pours inside Olive Cafe"
-                frameClassName="arch-frame shadow-2xl border border-[#EAB963]/30"
-                aspect="aspect-[3/4]"
-                loading="eager"
-              />
+          <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal tracking-tight text-[#FAF7F2] leading-tight">
+            Olive Cafe <span className="text-[#8FB386] italic font-normal">& Brews</span>
+          </h1>
+
+          <p className="max-w-xl mx-auto text-xs sm:text-sm text-[#EFE8DC]/85 font-light leading-relaxed">
+            Gorakhpur’s quiet espresso haven inside Sharda Dinings. 
+            Cold brews, Nutella thickshakes, bubbling thin-crust pizzas, and relaxed work-friendly booths.
+          </p>
+
+          <GildedDivider className="my-4" />
+
+          {/* Quick Badges Strip */}
+          <div className="flex flex-wrap items-center justify-center gap-6 pt-1 text-xs font-mono text-[#8FB386]">
+            <span>11:00 AM – 11:00 PM Daily</span>
+            <span>•</span>
+            <span>High-Speed Wi-Fi</span>
+            <span>•</span>
+            <span>Table Power Sockets</span>
+          </div>
+
+          <div className="pt-4 flex flex-wrap items-center justify-center gap-3">
+            <button
+              onClick={() => onOpenEnquiry('cafe')}
+              className="px-7 py-3 bg-[#4E5D4E] hover:bg-[#3D4B3D] text-[#FAF7F2] text-xs uppercase tracking-wider font-semibold rounded-full shadow-lg shadow-[#4E5D4E]/30 transition-all hover:scale-105 cursor-pointer"
+            >
+              Reserve Cafe Corner
+            </button>
+            <a
+              href="#cafe-menu"
+              className="px-7 py-3 border border-[#8FB386] hover:bg-[#8FB386]/15 text-[#8FB386] text-xs uppercase tracking-wider font-semibold rounded-full transition-all"
+            >
+              Explore Cafe Menu
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────────
+          SECTION 2: CASUAL SANCTUARY (Editorial Split Composition - NO REPETITIVE CARDS)
+      ───────────────────────────────────────────────────────────── */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#FAF7F2] border-b border-[#EFE8DC]">
+        <div className="max-w-7xl mx-auto space-y-12">
+          
+          <div className="text-center max-w-xl mx-auto space-y-2">
+            <div className="flex items-center justify-center space-x-2 text-[#4E5D4E]">
+              <CoffeeBeanFlourish className="w-4 h-4" />
+              <span className="text-[10px] uppercase font-mono tracking-widest font-bold">The Daytime Haven</span>
             </div>
-            <div className="col-span-5 pt-10 space-y-3">
-              <div className="animate-float-slow">
-                <EditorialImage
-                  src={oliveBotanicalStillLife}
-                  alt="Editorial olive leaves and pour-over carafe mood study"
-                  frameClassName="rounded-xl border border-[#EAB963]/30 shadow-lg"
-                  aspect="aspect-square"
-                  caption="Espresso study."
-                  dark
+            <h2 className="font-serif text-2xl sm:text-4xl text-[#1C1617]">
+              Where Coffee Meets Quiet Focus
+            </h2>
+            <p className="text-xs text-[#1C1617]/70 leading-relaxed font-light">
+              Crafted for afternoon study, laptop work, and relaxed evening catch-ups until 11:00 PM.
+            </p>
+          </div>
+
+          {/* Asymmetric Split Layout: Left Neon Visual + Right Editorial Strip */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            {/* Left 6 cols: Ambient Neon Lounge Visual */}
+            <div className="lg:col-span-6 relative">
+              <div className="rounded-2xl overflow-hidden shadow-xl border border-[#4E5D4E]/30 image-zoom-container">
+                <img
+                  src="/images/olive-cafe/sharda-good-vibes-neon.webp"
+                  alt="Good vibes neon sign and cafe seating"
+                  className="w-full h-80 sm:h-96 object-cover"
                 />
               </div>
-              <p className="text-[11px] text-[#E4CFC4] leading-relaxed">
-                Open {BUSINESS_INFO.timings.oliveCafe}.
-              </p>
+              <div className="absolute bottom-5 left-5 right-5 bg-[#18211A]/90 backdrop-blur-md p-4 rounded-xl text-[#FAF7F2] border border-[#8FB386]/30">
+                <p className="text-[10px] font-mono uppercase tracking-widest text-[#8FB386]">Atmosphere</p>
+                <p className="font-serif text-base font-bold mt-0.5">Quiet Pacing & Warm Ambient Glow</p>
+              </div>
+            </div>
+
+            {/* Right 6 cols: 3 Highlights (Editorial Flow, No Card Grids) */}
+            <div className="lg:col-span-6 space-y-6 lg:pl-4">
+              <div className="border-l-2 border-[#4E5D4E] pl-5 space-y-1">
+                <h3 className="font-serif text-lg font-bold text-[#1C1617]">
+                  Study & Remote Work Ready
+                </h3>
+                <p className="text-xs sm:text-sm text-[#1C1617]/70 leading-relaxed font-light">
+                  Complimentary high-speed Wi-Fi and accessible power outlets make it easy to work on presentations, read, or conduct small team discussions.
+                </p>
+              </div>
+
+              <div className="border-l-2 border-[#8C6D37] pl-5 space-y-1">
+                <h3 className="font-serif text-lg font-bold text-[#1C1617]">
+                  Authentic Espresso Extraction
+                </h3>
+                <p className="text-xs sm:text-sm text-[#1C1617]/70 leading-relaxed font-light">
+                  Freshly ground Arabica roasts pulled with rich crema. From velvety flat whites and iced Americanos to double-blended hazelnut frappes.
+                </p>
+              </div>
+
+              <div className="border-l-2 border-[#B94E35] pl-5 space-y-1">
+                <h3 className="font-serif text-lg font-bold text-[#1C1617]">
+                  Evening Desserts & Sizzlers
+                </h3>
+                <p className="text-xs sm:text-sm text-[#1C1617]/70 leading-relaxed font-light">
+                  Open until 11:00 PM nightly. Meet friends after dinner for cast-iron sizzling brownies, cheesecakes, and sundaes under glowing pendant lights.
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────────
+          SECTION 3: ARTISANAL FOOD COLLAGE & CAFÉ LEDGER
+      ───────────────────────────────────────────────────────────── */}
+      <section id="cafe-menu" className="py-20 px-4 sm:px-6 lg:px-8 bg-[#EFE8DC]">
+        <div className="max-w-7xl mx-auto space-y-12">
+          
+          <div className="flex flex-col md:flex-row md:items-end justify-between pb-4 border-b border-[#1C1617]/10 gap-4">
+            <div>
+              <span className="text-[10px] uppercase font-mono tracking-widest text-[#4E5D4E] font-bold block mb-1">
+                Artisanal Curations
+              </span>
+              <h2 className="font-serif text-2xl sm:text-4xl text-[#1C1617]">
+                The Olive Cafe <span className="text-[#4E5D4E] italic font-normal">Ledger</span>
+              </h2>
+            </div>
+
+            {/* Menu Tabs */}
+            <div className="flex items-center space-x-2 overflow-x-auto pb-1 md:pb-0">
+              {[
+                { id: 'brews', label: 'Brews & Coffees' },
+                { id: 'shakes', label: 'Thick Shakes' },
+                { id: 'bites', label: 'Pizzas & Pastas' },
+                { id: 'desserts', label: 'Patisserie & Sizzlers' },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-mono tracking-wider transition-all cursor-pointer border ${
+                    activeTab === tab.id
+                      ? 'bg-[#4E5D4E] text-[#FAF7F2] border-[#4E5D4E] font-bold shadow-sm'
+                      : 'bg-white border-[#EFE8DC] text-[#1C1617]/70 hover:border-[#4E5D4E]'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
             </div>
           </div>
-        </div>
 
-        <AnimatedWaveDivider waveFill="#144035" />
-      </section>
-
-      {/* SECTION 2: UNIFIED PATISSERIE & SAVORY STREAM — Deep Botanical Emerald */}
-      <section className="relative overflow-hidden py-16 lg:py-22 bg-[#144035] text-[#FFFDF8] space-y-10">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <SectionHeader
-            dark
-            eyebrow="Pizzas, Pastas &amp; Dessert Bar"
-            title="Cafe plates gliding in one unhurried showcase."
-          />
-          <p className="text-xs sm:text-sm text-[#CBE0D5] max-w-xs leading-relaxed">
-            Pastas, breakfast spreads, thick shakes, cheesecake slices, and panna cotta cups move smoothly from right to left.
-          </p>
-        </div>
-
-        <UnifiedGalleryStream
-          dark
-          pauseLabel="Cafe Stream"
-          items={[...CAFE_SAVORY_STREAM, ...CAFE_PATISSERIE_STREAM]}
-        />
-      </section>
-
-      {/* SECTION 3: CLEAN TASTING LEDGER & SINGLE PLATE FRAME — Warm Coral Blush */}
-      <section className="py-16 lg:py-22 bg-[#FCE8E4] border-y border-[#EBCAC4]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-          <Reveal variant="left" className="lg:col-span-5 max-w-md mx-auto w-full">
-            <EditorialImage
-              src="/images/food/sharda-dinings-table-spread.webp"
-              alt="Olive Cafe club sandwich, Alfredo penne, iced mint tea and cappuccino spread"
-              frameClassName="rounded-2xl shadow-lg"
-              aspect="aspect-[4/3]"
-              caption="Afternoon club sandwich (₹250), white sauce penne (₹320) & iced tea."
-            />
-          </Reveal>
-
-          <Reveal variant="right" className="lg:col-span-7 space-y-6">
-            <SectionHeader
-              eyebrow="Signature Cafe Favourites"
-              title="Priced clearly from morning sandwiches to chilled Oreo shakes."
-            />
-            <div className="divide-y divide-[#DFBEB7] border-y border-[#DFBEB7]">
-              {CAFE_LEDGER.map((row) => (
-                <div key={row.name} className="py-3.5 flex items-baseline justify-between gap-4">
-                  <div className="min-w-0">
-                    <h3 className="font-serif text-xl text-[#2C1D18]">{row.name}</h3>
-                    <p className="text-xs text-[#61524A] mt-0.5">{row.note}</p>
+          {/* Dual Split: Menu Items Left + 4-Photo Stagger Right */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            {/* Left 6 cols: Tabbed Menu Items */}
+            <div className="lg:col-span-6 space-y-3">
+              {cafeMenuHighlights[activeTab].map((item, idx) => (
+                <div
+                  key={idx}
+                  className="p-3.5 rounded-xl bg-white border border-[#EFE8DC] hover:border-[#4E5D4E] transition-all group shadow-sm flex flex-col justify-between"
+                >
+                  <div className="flex items-baseline justify-between gap-2">
+                    <h3 className="font-serif font-bold text-sm text-[#1C1617] group-hover:text-[#4E5D4E] transition-colors truncate">
+                      {item.name}
+                    </h3>
+                    <span className="font-mono font-bold text-xs text-[#1C1617] shrink-0">
+                      {item.price}
+                    </span>
                   </div>
-                  <span className="font-serif text-xl font-semibold text-[#6E2434] tabular-nums shrink-0">
-                    {row.price}
-                  </span>
+                  <p className="text-[11px] text-[#1C1617]/65 mt-1 leading-relaxed">
+                    {item.desc}
+                  </p>
+                  <div className="mt-2 pt-2 border-t border-[#FAF7F2] flex items-center justify-between text-[10px] font-mono">
+                    <span className="text-[#4E5D4E] font-semibold">
+                      {item.badge}
+                    </span>
+                    <button
+                      onClick={() => onOpenEnquiry('cafe')}
+                      className="text-[#4E5D4E] hover:underline font-bold uppercase tracking-wider"
+                    >
+                      Order Table →
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
-          </Reveal>
-        </div>
-      </section>
 
-      {/* SECTION 4: BOTANICAL LOUNGE & REMOTE STUDY CORNER — Soft Lavender */}
-      <section className="relative overflow-hidden py-16 lg:py-22 bg-[#F2EEF9] border-b border-[#DED5EC]">
-        <FloatingBotanicalAccents color="#4C2D5C" />
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-12 gap-10 items-center">
-          <div className="md:col-span-7 space-y-6">
-            <SectionHeader
-              accentClass="text-[#4C2D5C]"
-              eyebrow="Atmospheric Sanctuary"
-              title="Quiet afternoons with complimentary Wi-Fi &amp; warm neon greenery."
-              copy="While the main dining hall welcomes full-course dinners, Olive Cafe provides a bright corner suited for work laptops, campus friends, and relaxed sweet treats."
-            />
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2 border-t border-[#D8CCE9]">
-              <div className="flex items-start gap-3">
-                <Wifi className="w-5 h-5 text-[#4C2D5C] shrink-0 mt-0.5" />
-                <div>
-                  <h3 className="font-serif text-xl text-[#2C1D18]">Complimentary Wi-Fi</h3>
-                  <p className="text-xs text-[#4F445C] mt-1 leading-relaxed">
-                    Quiet corners wired for daytime meetings and study tables.
-                  </p>
+            {/* Right 6 cols: 4 Authentic Food Visuals in Asymmetrical Grid */}
+            <div className="lg:col-span-6 grid grid-cols-2 gap-3.5">
+              <div className="rounded-xl overflow-hidden shadow-md border border-[#D4AF37]/30 image-zoom-container">
+                <img
+                  src="/images/olive-cafe/creamy-alfredo-pasta.webp"
+                  alt="Creamy Alfredo Penne at Olive Cafe"
+                  className="w-full h-44 object-cover"
+                />
+                <div className="p-2 bg-white text-center">
+                  <p className="font-serif font-bold text-xs text-[#1C1617]">Creamy Alfredo Penne</p>
                 </div>
               </div>
-              <div className="flex items-start gap-3">
-                <Coffee className="w-5 h-5 text-[#4C2D5C] shrink-0 mt-0.5" />
-                <div>
-                  <h3 className="font-serif text-xl text-[#2C1D18]">Open 12 Hours</h3>
-                  <p className="text-xs text-[#4F445C] mt-1 leading-relaxed tabular-nums">
-                    Served daily {BUSINESS_INFO.timings.oliveCafe}.
-                  </p>
+
+              <div className="rounded-xl overflow-hidden shadow-md border border-[#D4AF37]/30 image-zoom-container">
+                <img
+                  src="/images/olive-cafe/arrabita-pasta.webp"
+                  alt="Arrabbiata pasta"
+                  className="w-full h-44 object-cover"
+                />
+                <div className="p-2 bg-white text-center">
+                  <p className="font-serif font-bold text-xs text-[#1C1617]">Spicy Arrabbiata</p>
+                </div>
+              </div>
+
+              <div className="rounded-xl overflow-hidden shadow-md border border-[#D4AF37]/30 image-zoom-container">
+                <img
+                  src="/images/olive-cafe/sharda-dinings-cheese-cake.webp"
+                  alt="Lotus Biscoff cheesecake"
+                  className="w-full h-44 object-cover"
+                />
+                <div className="p-2 bg-white text-center">
+                  <p className="font-serif font-bold text-xs text-[#1C1617]">Biscoff Cheesecake</p>
+                </div>
+              </div>
+
+              <div className="rounded-xl overflow-hidden shadow-md border border-[#D4AF37]/30 image-zoom-container">
+                <img
+                  src="/images/olive-cafe/sharda-dinings-ice-cream-sundae.webp"
+                  alt="Ice cream sundae"
+                  className="w-full h-44 object-cover"
+                />
+                <div className="p-2 bg-white text-center">
+                  <p className="font-serif font-bold text-xs text-[#1C1617]">Choco Fudge Sundae</p>
                 </div>
               </div>
             </div>
+
           </div>
 
-          <div className="md:col-span-5 max-w-xs mx-auto w-full">
-            <EditorialImage
-              src="/images/olive-cafe/sharda-good-vibes-neon.webp"
-              alt="Olive Cafe botanical greenery wall and warm timber accents"
-              frameClassName="arch-frame shadow-lg"
-              aspect="aspect-[4/5]"
-            />
-          </div>
         </div>
       </section>
 
-      {/* SECTION 5: VISIT & DIRECT WHATSAPP BAND — Warm Champagne */}
-      <section className="relative overflow-hidden py-14 bg-[#F7EFE2]">
-        <OrbitalRingBackdrop
-          size={340}
-          opacity={0.14}
-          strokeColor="#6E2434"
-          secondaryColor="#D8A852"
-          className="hidden lg:block absolute right-4 top-1/2 -translate-y-1/2 w-[340px] h-[340px]"
-        />
-        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-          <div className="space-y-2 max-w-xl">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#6E2434]">
-              Walk In Anytime
-            </p>
-            <h2 className="font-serif text-3xl text-[#2C1D18]">
-              Enjoy espresso, pastas &amp; shakes inside Olive Cafe daily.
-            </h2>
-            <p className="text-xs text-[#61524A] flex flex-wrap gap-x-5 gap-y-1">
-              <span className="inline-flex items-center gap-1.5">
-                <MapPin className="w-3.5 h-3.5 text-[#6E2434]" />
-                East Rajendra Nagar, near Gorakhnath Mandir
-              </span>
-              <span className="inline-flex items-center gap-1.5 tabular-nums">
-                <Clock className="w-3.5 h-3.5 text-[#6E2434]" />
-                {BUSINESS_INFO.timings.oliveCafe}
-              </span>
-            </p>
-          </div>
+      {/* ─────────────────────────────────────────────────────────────
+          SECTION 4: DIRECT WHATSAPP ORDER STRIP
+      ───────────────────────────────────────────────────────────── */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#4E5D4E] text-[#FAF7F2]">
+        <div className="max-w-4xl mx-auto text-center space-y-4">
+          <span className="text-[10px] font-mono uppercase tracking-widest text-[#FAF7F2]/80 font-bold block">
+            Instant Counter Collection
+          </span>
+          <h2 className="font-serif text-2xl sm:text-4xl font-normal">
+            Drop by Olive Cafe or Order Ahead
+          </h2>
+          <p className="text-xs sm:text-sm text-[#FAF7F2]/85 max-w-md mx-auto leading-relaxed">
+            Need your cold brew or stone-baked pizza packaged for the road? 
+            Send a quick WhatsApp note to our barista for swift pickup.
+          </p>
 
-          <div className="flex flex-wrap gap-3">
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
             <a
-              href={BUSINESS_INFO.ordering.zomato}
+              href={`https://wa.me/${BUSINESS_INFO.whatsapp.number.replace('+', '')}?text=${encodeURIComponent('Hello Olive Cafe at Sharda Dinings, I would like to order Coffee & Bites for pickup / table hold.')}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="gloss-btn min-h-[42px] px-5 py-2.5 bg-[#6E2434] hover:bg-[#511825] text-white text-xs font-semibold uppercase tracking-wider rounded-lg inline-flex items-center gap-2 whitespace-nowrap"
+              className="px-7 py-3 bg-[#FAF7F2] text-[#18211A] text-xs font-bold uppercase tracking-wider rounded-full shadow-md hover:bg-white transition-all flex items-center space-x-1.5"
             >
-              <span>Order via Zomato</span>
-              <ExternalLink className="w-3.5 h-3.5" />
+              <MessageSquare className="w-3.5 h-3.5 text-[#25D366]" />
+              <span>WhatsApp Cafe Order</span>
             </a>
             <a
-              href={`https://wa.me/${BUSINESS_INFO.whatsapp.number.replace('+', '')}?text=${encodeURIComponent(
-                'Hello Olive Cafe at Sharda Dinings, I would like to reserve a cafe table or enquire about daily desserts.'
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="min-h-[42px] px-5 py-2.5 border border-[#CDBEAE] bg-white hover:bg-[#FAF3E8] text-[#2C1D18] text-xs font-semibold uppercase tracking-wider rounded-lg inline-flex items-center gap-2 whitespace-nowrap"
+              href={`tel:${BUSINESS_INFO.phones[0].number}`}
+              className="px-7 py-3 border border-[#FAF7F2] text-[#FAF7F2] hover:bg-white/10 text-xs font-bold uppercase tracking-wider rounded-full transition-all"
             >
-              <MessageSquare className="w-3.5 h-3.5 text-[#6E2434]" />
-              <span>WhatsApp Cafe</span>
+              Call Cafe Desk: {BUSINESS_INFO.phones[0].display}
             </a>
           </div>
         </div>
       </section>
+
     </div>
   );
 }

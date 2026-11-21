@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUp, ExternalLink, Mail, MapPin, Phone, ShieldCheck } from 'lucide-react';
 import { BUSINESS_INFO } from '../data/businessInfo';
-import { OrbitalRingBackdrop } from './MotionBlocks';
 
 const PAGE_LINKS = [
   { to: '/', label: 'Home' },
@@ -14,39 +13,30 @@ const PAGE_LINKS = [
   { to: '/contact', label: 'Contact & Maps' },
 ];
 
-const CURRENT_YEAR = new Date().getFullYear();
-
 export default function Footer({ onOpenVerification, onOpenEnquiry }) {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <footer className="relative overflow-hidden bg-gradient-to-b from-[#2E1E19] via-[#251713] to-[#1A100D] text-[#F7EEE4] border-t border-[#452F27] no-print">
-      <OrbitalRingBackdrop
-        size={460}
-        opacity={0.14}
-        strokeColor="#EAB963"
-        secondaryColor="#D8A852"
-        className="hidden md:block absolute -right-32 -top-24 w-[440px] h-[440px]"
-      />
-
+    <footer className="relative overflow-hidden bg-[#181213] text-[#FAF7F2] border-t border-[#D4AF37]/20 no-print">
+      
       {/* Top Hospitality Band */}
-      <div className="relative z-10 border-b border-[#452F27]">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="max-w-xl">
-            <p className="text-[11px] uppercase tracking-[0.2em] text-[#EAB963] font-semibold mb-2">
+            <p className="text-[10px] uppercase tracking-[0.2em] text-[#D4AF37] font-semibold mb-1.5 font-mono">
               Gorakhnath Road · East Rajendra Nagar
             </p>
-            <h2 className="font-serif text-3xl sm:text-4xl text-[#FFFDF8] font-medium">
-              Four hospitality experiences at one Gorakhpur address.
+            <h2 className="font-serif text-2xl sm:text-3xl text-[#FAF7F2] font-normal leading-snug">
+              Four hospitality experiences at one Gorakhpur landmark.
             </h2>
           </div>
           <div className="flex flex-wrap items-center gap-3 shrink-0">
             <button
               type="button"
               onClick={() => onOpenEnquiry('restaurant')}
-              className="gloss-btn min-h-[44px] px-6 py-3 bg-gradient-to-r from-[#EAB963] to-[#D8A852] hover:from-[#D8A852] hover:to-[#C6933E] text-[#2C1D18] text-xs font-semibold uppercase tracking-wider rounded-lg transition-all whitespace-nowrap shadow-sm"
+              className="px-6 py-2.5 bg-[#D4AF37] hover:bg-[#c29e2f] text-[#1C1617] text-xs font-semibold uppercase tracking-wider rounded-full transition-all whitespace-nowrap shadow-md cursor-pointer"
             >
               Book Table or Stay
             </button>
@@ -54,9 +44,9 @@ export default function Footer({ onOpenVerification, onOpenEnquiry }) {
               type="button"
               onClick={scrollToTop}
               aria-label="Back to top"
-              className="min-h-[44px] px-4 py-3 border border-[#5A4036] hover:border-[#EAB963] text-[#F7EEE4] hover:text-[#EAB963] text-xs font-medium uppercase tracking-wider rounded-lg inline-flex items-center gap-2 transition-colors whitespace-nowrap"
+              className="px-4 py-2.5 border border-white/20 hover:border-[#D4AF37] text-[#FAF7F2] hover:text-[#D4AF37] text-xs font-medium uppercase tracking-wider rounded-full inline-flex items-center gap-1.5 transition-colors whitespace-nowrap cursor-pointer"
             >
-              <ArrowUp size={14} aria-hidden="true" />
+              <ArrowUp size={13} aria-hidden="true" />
               <span>Top</span>
             </button>
           </div>
@@ -64,34 +54,26 @@ export default function Footer({ onOpenVerification, onOpenEnquiry }) {
       </div>
 
       {/* Main Directory Grid */}
-      <div className="relative z-10 max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
-        {/* Brand Identity */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
+        
+        {/* Brand Identity & Logo without circle */}
         <div className="lg:col-span-4 space-y-4">
-          <Link to="/" className="inline-flex items-center gap-3">
+          <Link to="/" className="inline-block group" aria-label="Sharda Dinings Home">
             <img
-              src="/images/home/sharda-dinings-logo.webp"
-              alt="Sharda Dinings logo"
-              loading="lazy"
-              className="w-10 h-10 rounded-full object-cover border border-[#EAB963]/50"
+              src="/images/home/sharda-dinings-logo-clean.webp"
+              alt="Sharda Dinings"
+              className="h-12 sm:h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
             />
-            <div>
-              <span className="block font-serif text-2xl text-[#FFFDF8] font-semibold">
-                {BUSINESS_INFO.name}
-              </span>
-              <span className="block text-xs text-[#D4C2B2]">
-                {BUSINESS_INFO.address.landmark}
-              </span>
-            </div>
           </Link>
-          <p className="text-sm text-[#E0D2C4] leading-relaxed max-w-sm">
-            Multi-cuisine dining, Olive Cafe coffee and patisserie, an indoor air-conditioned banquet venue, and 10–11 boutique guest rooms near Gorakhnath Mandir.
+          <p className="text-xs text-[#FAF7F2]/70 leading-relaxed max-w-sm">
+            Multi-cuisine dining, Olive Cafe roasts and patisserie, indoor banquet venue for 150 guests, and 11 boutique guest rooms near Gorakhnath Mandir.
           </p>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 pt-1 text-xs">
             <a
               href={BUSINESS_INFO.ordering.zomato}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-[#EAB963] hover:underline"
+              className="inline-flex items-center gap-1 text-[#D4AF37] hover:underline"
             >
               <span>Zomato</span>
               <ExternalLink className="w-3 h-3" />
@@ -100,7 +82,7 @@ export default function Footer({ onOpenVerification, onOpenEnquiry }) {
               href={BUSINESS_INFO.ordering.swiggy}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-[#EAB963] hover:underline"
+              className="inline-flex items-center gap-1 text-[#D4AF37] hover:underline"
             >
               <span>Swiggy</span>
               <ExternalLink className="w-3 h-3" />
@@ -109,107 +91,78 @@ export default function Footer({ onOpenVerification, onOpenEnquiry }) {
               href={BUSINESS_INFO.bookingPlatforms.makemytrip}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-[#EAB963] hover:underline"
+              className="inline-flex items-center gap-1 text-[#D4AF37] hover:underline"
             >
               <span>MakeMyTrip</span>
-              <ExternalLink className="w-3 h-3" />
-            </a>
-            <a
-              href={BUSINESS_INFO.bookingPlatforms.goibibo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-[#EAB963] hover:underline"
-            >
-              <span>Goibibo</span>
               <ExternalLink className="w-3 h-3" />
             </a>
           </div>
         </div>
 
-        {/* Navigation Links */}
+        {/* Quick Nav */}
         <div className="lg:col-span-3 space-y-3">
-          <h3 className="text-xs uppercase tracking-[0.16em] text-[#EAB963] font-semibold">
-            Destinations
-          </h3>
-          <ul className="space-y-2 text-sm">
-            {PAGE_LINKS.map((item) => (
-              <li key={item.to}>
-                <Link
-                  to={item.to}
-                  className="text-[#E8DAD0] hover:text-[#EAB963] transition-colors"
-                >
-                  {item.label}
+          <p className="text-[10px] uppercase font-mono tracking-widest text-[#D4AF37] font-bold">
+            Navigation
+          </p>
+          <ul className="space-y-1.5 text-xs text-[#FAF7F2]/80">
+            {PAGE_LINKS.map((link) => (
+              <li key={link.to}>
+                <Link to={link.to} className="hover:text-[#D4AF37] transition-colors py-0.5 inline-block">
+                  {link.label}
                 </Link>
               </li>
             ))}
           </ul>
         </div>
 
-        {/* Contact & Address */}
+        {/* Department Desks */}
         <div className="lg:col-span-5 space-y-3">
-          <h3 className="text-xs uppercase tracking-[0.16em] text-[#EAB963] font-semibold">
-            Visit &amp; Contact
-          </h3>
-          <address className="not-italic space-y-2.5 text-sm text-[#E8DAD0]">
-            <div className="flex items-start gap-2.5">
-              <MapPin size={16} className="text-[#EAB963] shrink-0 mt-1" aria-hidden="true" />
-              <span>
-                {BUSINESS_INFO.address.line1}, {BUSINESS_INFO.address.line2},{' '}
-                {BUSINESS_INFO.address.city}, {BUSINESS_INFO.address.state}{' '}
-                <span className="tabular-nums">{BUSINESS_INFO.address.pincode}</span>
-              </span>
+          <p className="text-[10px] uppercase font-mono tracking-widest text-[#D4AF37] font-bold">
+            Contact & Location
+          </p>
+          <div className="space-y-2 text-xs text-[#FAF7F2]/80">
+            <div className="flex items-start gap-2">
+              <MapPin className="w-4 h-4 text-[#D4AF37] shrink-0 mt-0.5" />
+              <span>{BUSINESS_INFO.address.line1}, {BUSINESS_INFO.address.line2}, {BUSINESS_INFO.address.city} — {BUSINESS_INFO.address.pincode}</span>
             </div>
-            <div className="flex flex-wrap items-center gap-x-5 gap-y-2 tabular-nums">
-              <a
-                href={`tel:${BUSINESS_INFO.phones[0].number}`}
-                className="inline-flex items-center gap-2 hover:text-white transition-colors"
-              >
-                <Phone size={15} className="text-[#EAB963]" aria-hidden="true" />
-                <span>{BUSINESS_INFO.phones[0].display}</span>
-              </a>
-              <a
-                href={`tel:${BUSINESS_INFO.phones[1].number}`}
-                className="inline-flex items-center gap-2 hover:text-white transition-colors"
-              >
-                <Phone size={15} className="text-[#EAB963]" aria-hidden="true" />
-                <span>{BUSINESS_INFO.phones[1].display}</span>
+            <div className="flex items-center gap-2">
+              <Phone className="w-4 h-4 text-[#D4AF37] shrink-0" />
+              <a href={`tel:${BUSINESS_INFO.phones[0].number}`} className="font-mono hover:text-[#D4AF37] text-white">
+                {BUSINESS_INFO.phones[0].display} (Dining & Hotel)
               </a>
             </div>
-            <div>
-              <a
-                href={`mailto:${BUSINESS_INFO.email}`}
-                className="inline-flex items-center gap-2 hover:text-white transition-colors"
-              >
-                <Mail size={15} className="text-[#EAB963]" aria-hidden="true" />
-                <span>{BUSINESS_INFO.email}</span>
+            <div className="flex items-center gap-2">
+              <Phone className="w-4 h-4 text-[#D4AF37] shrink-0" />
+              <a href={`tel:${BUSINESS_INFO.phones[1].number}`} className="font-mono hover:text-[#D4AF37] text-white">
+                {BUSINESS_INFO.phones[1].display} (Banquets)
               </a>
             </div>
-          </address>
+            <div className="flex items-center gap-2">
+              <Mail className="w-4 h-4 text-[#D4AF37] shrink-0" />
+              <a href={`mailto:${BUSINESS_INFO.email}`} className="hover:text-[#D4AF37]">
+                {BUSINESS_INFO.email}
+              </a>
+            </div>
+          </div>
 
-          <div className="pt-2 text-xs text-[#D4C2B2] flex flex-wrap items-center gap-x-4 gap-y-2">
-            <span className="tabular-nums">Dine-In: {BUSINESS_INFO.timings.restaurant}</span>
-            <span aria-hidden="true">·</span>
+          <div className="pt-2">
             <button
-              type="button"
               onClick={onOpenVerification}
-              className="inline-flex items-center gap-1.5 text-[#EAB963] hover:underline font-medium"
+              className="inline-flex items-center gap-1.5 text-xs text-[#FAF7F2]/70 hover:text-[#D4AF37] border border-white/10 px-3 py-1.5 rounded-lg cursor-pointer"
             >
-              <ShieldCheck size={13} aria-hidden="true" />
-              <span>Business Verification Register</span>
+              <ShieldCheck className="w-3.5 h-3.5 text-[#D4AF37]" />
+              <span>View Business Verification Register</span>
             </button>
           </div>
         </div>
+
       </div>
 
-      {/* Bottom Legal Bar */}
-      <div className="relative z-10 border-t border-[#452F27]">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#D4C2B2]">
-          <span>© {CURRENT_YEAR} Sharda Dinings, Gorakhpur. All rights reserved.</span>
-          <span className="tabular-nums">
-            Hotel Check-in {BUSINESS_INFO.timings.hotelCheckIn} · Check-out {BUSINESS_INFO.timings.hotelCheckOut}
-          </span>
-        </div>
+      {/* Bottom Sub-footer */}
+      <div className="border-t border-white/5 py-5 px-4 sm:px-6 lg:px-8 text-center text-[11px] text-[#FAF7F2]/50">
+        <p>© {new Date().getFullYear()} Sharda Dinings, Gorakhpur. All rights reserved. Multi-Cuisine Restaurant · Olive Cafe · Banquets · Boutique Hotel.</p>
       </div>
+
     </footer>
   );
 }

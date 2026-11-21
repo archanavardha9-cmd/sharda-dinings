@@ -1,558 +1,413 @@
 import React, { useState } from 'react';
-import { ArrowRight, Check, CheckCircle2, MessageSquare, Phone, RotateCw } from 'lucide-react';
+import { Calendar, Users, Phone, Sparkles, CheckCircle2, ChevronRight, MessageSquare, ShieldCheck, HeartHandshake, Building2 } from 'lucide-react';
 import { BUSINESS_INFO } from '../data/businessInfo';
-import { EditorialImage, SectionHeader } from '../components/SiteBlocks';
-import {
-  AnimatedWaveDivider,
-  FloatingLanternParticles,
-  Reveal,
-  UnifiedGalleryStream,
-} from '../components/MotionBlocks';
-import { usePageSeo } from '../utils/seo';
+import { GildedDivider, NumberedPill, SpiceStar, WheatFlourish } from '../components/DecorativeGraphics';
 
-const BANQUET_SPACES = [
-  {
-    name: 'Seated Family Dining',
-    subtitle: 'Formal engagements, dinners & milestone receptions',
-    headlineMetric: '100 Seated Guests',
-    image: '/images/banquets/sharda-banquet-hall.webp',
-    alt: 'Sharda Dinings indoor banquet hall with wood slat walls and lounge sofas',
-    summaryTitle: '100-Guest Seated Celebration Layout',
-    summaryCopy:
-      'Air-conditioned banquet floor with timber acoustic paneling, formal chandeliers, stage sightlines, and elevator access.',
-    specs: [
-      { label: 'Seated Capacity', value: '100 Guests' },
-      { label: 'Climate Control', value: 'Central AC' },
-      { label: 'Alcohol Policy', value: 'Non-Alcoholic' },
-      { label: 'Culinary Service', value: 'In-House Only' },
-    ],
-    privileges: [
-      'Pure veg, non-veg & Jain menus tailored by house chefs',
-      'Mandap lighting & empanelled floral decorators',
-      'Complimentary on-site parking & lift access',
-      'Upstairs room blocks for family guests',
-    ],
-  },
-  {
-    name: 'Floating Reception Floor',
-    subtitle: 'Expansive evening flow for sangeet, rituals & high-tea',
-    headlineMetric: '150 Floating Guests',
-    image: '/images/banquets/sharda-banquet-buffet.webp',
-    alt: 'Covered chafing buffet line and brass dinnerware stand prepared for banquets',
-    summaryTitle: '150-Guest Floating Celebration Floor',
-    summaryCopy:
-      'Combines decorative entry arches, photo-stage loveseat focal points, circulating starter service, and heated brass buffet counters.',
-    specs: [
-      { label: 'Floating Capacity', value: '150 Guests' },
-      { label: 'Entry Foyer', value: 'Floral Arches' },
-      { label: 'Audio & Music', value: 'In-House DJ Desk' },
-      { label: 'Temple Proximity', value: '~1 km Mandir' },
-    ],
-    privileges: [
-      'Illuminated street foyer welcome with fresh floral frames',
-      'In-house DJ sound system matched to hall acoustics',
-      'Clean guest washrooms & on-site luggage security',
-      'Transparent single-point venue billing',
-    ],
-  },
-];
-
-const CELEBRATION_STREAM_TOP = [
-  { src: '/images/banquets/sharda-wedding-stage.webp', label: 'Engagements & Ivory Mandaps', shape: 'square' },
-  { src: '/images/banquets/sharda-banquet-yellow-chairs.webp', label: 'Haldi & Marigold Mornings', shape: 'landscape' },
-  { src: '/images/banquets/sharda-banquet-hall-floral.webp', label: 'White & Gold Floral Ring', shape: 'wide' },
-  { src: '/images/banquets/sharda-banquet-entrance-floral.webp', label: 'Welcome Foyer Archway', shape: 'portrait' },
-];
-
-const CELEBRATION_STREAM_BOTTOM = [
-  { src: '/images/banquets/sharda-wedding-stage-blue-sofa.webp', label: 'Royal Blue Reception Stage', shape: 'landscape' },
-  { src: '/images/banquets/sharda-banquet-pink-sofas.webp', label: 'Crimson Velvet Seating', shape: 'portrait' },
-  { src: '/images/banquets/sharda-banquet-pink-balloons.webp', label: 'Birthdays & Milestones', shape: 'landscape' },
-  { src: '/images/banquets/sharda-banquet-hall-tables.webp', label: 'Corporate Round-Table Meets', shape: 'square' },
-];
-
-const VENUE_GUIDELINES = [
-  {
-    index: '01',
-    title: 'Exclusive In-House Kitchens',
-    detail: 'All vegetarian, Jain-customised, and non-vegetarian banquet menus are prepared freshly inside Sharda Dinings kitchens; external caterers are not permitted.',
-  },
-  {
-    index: '02',
-    title: 'Strictly Non-Alcoholic Hospitality',
-    detail: 'To keep evening celebrations welcoming for all generations, outside liquor and bar counters are strictly prohibited on property.',
-  },
-  {
-    index: '03',
-    title: 'Empanelled Florists & Indoor DJ',
-    detail: 'Stage mandaps, balloon columns, floral welcome arches, and indoor DJ sound systems are coordinated directly through our event desk.',
-  },
-  {
-    index: '04',
-    title: 'Upstairs AC Guest Rooms & Parking',
-    detail: 'Pair banquet functions with 10–11 on-site air-conditioned guest rooms and complimentary on-site self-parking.',
-  },
-];
-
-export default function BanquetsPage({ onOpenVerification }) {
-  usePageSeo({
-    title: 'Banquet Hall & Event Venue in Gorakhpur (100 Seated / 150 Floating)',
-    description:
-      'Host engagements, receptions, Haldi ceremonies, birthdays, and corporate meets at Sharda Dinings Banquet Hall near Gorakhnath Mandir, Gorakhpur.',
-    image: '/images/banquets/sharda-wedding-stage-floral-rings.webp',
-  });
-
-  const [spaceIdx, setSpaceIdx] = useState(0);
-  const [showCardBack, setShowCardBack] = useState(false);
-
-  const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    eventType: 'Engagement / Ring Ceremony',
-    eventDate: '',
-    guestCount: '60–100 Seated',
-    cateringMode: 'Pure Vegetarian Menu',
-    notes: '',
-  });
-  const [error, setError] = useState('');
+export default function BanquetsPage({ onOpenEnquiry, onOpenVerification }) {
+  const [eventType, setEventType] = useState('Wedding Reception');
+  const [guestCount, setGuestCount] = useState('100');
+  const [foodPreference, setFoodPreference] = useState('Pure Vegetarian & Jain');
+  const [eventDate, setEventDate] = useState('');
+  const [organizerName, setOrganizerName] = useState('');
+  const [organizerPhone, setOrganizerPhone] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
-  const currentSpace = BANQUET_SPACES[spaceIdx];
+  const celebrationTypes = [
+    {
+      title: 'Engagements & Receptions',
+      tag: 'Grand Milestone',
+      desc: 'Illuminated stage backdrops, formal banquet dining, and comfortable seating clusters for extended family blessings.',
+      image: '/images/banquets/sharda-wedding-stage.webp',
+      capacity: '100–150 Guests',
+      features: ['Custom Stage & Floral Frames', 'Multi-Course Buffet', 'Upstairs Room Accommodation']
+    },
+    {
+      title: 'Haldi, Mehndi & Sangeet',
+      tag: 'Pre-Wedding Joy',
+      desc: 'Vibrant daytime rituals with specialized high-tea menus, chaat counters, and acoustic sound setup for musical evenings.',
+      image: '/images/banquets/sharda-wedding-stage-floral-rings.webp',
+      capacity: '60–120 Guests',
+      features: ['Dedicated Dance & Ritual Floor', 'Live Chaat & Beverage Counters', 'Flexible Seating Layouts']
+    },
+    {
+      title: 'Anniversaries & Milestone Feasts',
+      tag: 'Family Gatherings',
+      desc: 'Intimate to grand generational gatherings celebrating 25th/50th anniversaries, retirement honors, and birthdays.',
+      image: '/images/banquets/sharda-banquet-buffet.webp',
+      capacity: '50–100 Guests',
+      features: ['Personalized Audio Setup', 'Dedicated Captain & Service', 'Signature Awadhi Cuisine']
+    },
+    {
+      title: 'Corporate Meets & Seminars',
+      tag: 'Professional Excellence',
+      desc: 'Air-conditioned conclave hall equipped for regional dealer meets, academic seminars, and executive banquets.',
+      image: '/images/banquets/sharda-banquet-hall-tables.webp',
+      capacity: '40–90 Delegates',
+      features: ['Audio-Visual & Screen Setup', 'Continuous High-Tea Service', 'Power Backup with Silent Generator']
+    }
+  ];
 
-  const buildWhatsAppUrl = () => {
-    const lines = [
-      'Hello Sharda Dinings Banquet Desk, I would like to enquire about booking the banquet hall & pricing:',
-      `Host Name: ${formData.name || 'Guest'}`,
-      `Phone: ${formData.phone || 'Not specified'}`,
-      `Event Type: ${formData.eventType}`,
-      `Preferred Date: ${formData.eventDate || 'Flexible'}`,
-      `Estimated Gathering: ${formData.guestCount}`,
-      `Catering Preference: ${formData.cateringMode}`,
-      formData.notes ? `Additional Requirements: ${formData.notes}` : '',
-    ].filter(Boolean);
-
-    return `https://wa.me/${BUSINESS_INFO.whatsapp.number.replace('+', '')}?text=${encodeURIComponent(
-      lines.join('\n')
-    )}`;
-  };
-
-  const handleSubmit = (e) => {
+  const handleQuotationSubmit = (e) => {
     e.preventDefault();
-    const digits = formData.phone.replace(/[^\d+]/g, '');
-    if (formData.name.trim().length < 2) {
-      setError('Please provide the host or coordinator name.');
-      return;
-    }
-    if (digits.length < 10) {
-      setError('Please enter a valid 10-digit phone or WhatsApp number.');
-      return;
-    }
-    setError('');
+    if (!organizerName || !organizerPhone) return;
+
+    const message = `Hello Sharda Dinings Banquet Desk, I would like to enquire about Event Booking:\n\nOrganizer: ${organizerName}\nPhone: ${organizerPhone}\nEvent Type: ${eventType}\nGuest Count: ${guestCount} Guests\nCatering: ${foodPreference}\nTentative Date: ${eventDate || 'Flexible'}\n\nPlease share hall availability and menu packages.`;
+    const whatsappUrl = `https://wa.me/${BUSINESS_INFO.phones[1].number.replace('+', '')}?text=${encodeURIComponent(message)}`;
+
     setSubmitted(true);
+    window.open(whatsappUrl, '_blank');
   };
 
   return (
-    <div className="bg-[#FFFDF8] text-[#2C1D18]">
-      {/* SECTION 1: STEPPED CELEBRATION TRIPTYCH HERO — Velvet Plum */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-[#3E1F38] via-[#4C2D5C] to-[#261425] text-[#FFFDF8]">
-        <FloatingLanternParticles color="#EAB963" count={7} />
-        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-12 lg:pt-16 lg:pb-16 space-y-12">
-          <div className="max-w-3xl mx-auto text-center space-y-4">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#EAB963] tabular-nums">
-              Air-Conditioned Banquet Hall · 100 Seated · 150 Floating
-            </p>
-            <h1 className="font-serif text-[clamp(2.3rem,4vw,3.6rem)] font-medium leading-[1.06] tracking-tight text-white">
-              Celebration spaces <em className="italic font-normal text-[#EAB963]">tailored</em> to family milestones.
-            </h1>
-            <p className="text-sm sm:text-base text-[#E6DCF0] leading-relaxed max-w-xl mx-auto">
-              Engagements, Haldi mornings, milestone birthdays, and corporate meets along Sonauli Road with exclusive kitchens and upstairs guest rooms.
-            </p>
-            <div className="flex flex-wrap justify-center gap-3 pt-2">
-              <a
-                href="#banquet-enquiry"
-                className="gloss-btn min-h-[44px] px-6 py-3 bg-[#EAB963] hover:bg-[#D8A852] text-[#2C1D18] text-xs font-semibold uppercase tracking-wider rounded-lg inline-flex items-center gap-2 whitespace-nowrap"
-              >
-                <span>Request Event Pricing</span>
-                <ArrowRight className="w-4 h-4" />
-              </a>
-              <a
-                href={`tel:${BUSINESS_INFO.phones[1].number}`}
-                className="min-h-[44px] px-5 py-3 border border-[#7D578F] hover:bg-white/10 text-white text-xs font-semibold uppercase tracking-wider rounded-lg inline-flex items-center gap-2 tabular-nums whitespace-nowrap"
-              >
-                <Phone className="w-4 h-4 text-[#EAB963]" />
-                <span>{BUSINESS_INFO.phones[1].display}</span>
-              </a>
-            </div>
-          </div>
-
-          {/* 3-Image Stepped Editorial Collage (Zero Sliders) */}
-          <div className="grid grid-cols-2 sm:grid-cols-12 gap-4 sm:gap-5 items-end max-w-5xl mx-auto">
-            <div className="col-span-1 sm:col-span-3 order-2 sm:order-1">
-              <EditorialImage
-                src="/images/banquets/sharda-banquet-entrance-floral.webp"
-                alt="Floral-draped entrance welcome archway leading into banquet foyer"
-                frameClassName="arch-frame shadow-lg border border-[#EAB963]/25"
-                aspect="aspect-[3/4]"
-                loading="eager"
-              />
-            </div>
-            <div className="col-span-2 sm:col-span-6 order-1 sm:order-2">
-              <EditorialImage
-                src="/images/banquets/sharda-wedding-stage-floral-rings.webp"
-                alt="Panoramic view of floral circular wedding stage inside Sharda Dinings banquet hall"
-                frameClassName="rounded-2xl shadow-2xl border border-[#EAB963]/30"
-                aspect="aspect-[16/10]"
-                loading="eager"
-              />
-            </div>
-            <div className="col-span-1 sm:col-span-3 order-3">
-              <EditorialImage
-                src="/images/banquets/sharda-wedding-stage.webp"
-                alt="Tufted ivory mandap loveseat beneath draped pastel florals"
-                frameClassName="rounded-2xl shadow-lg border border-[#EAB963]/25"
-                aspect="aspect-[3/4]"
-                loading="eager"
-              />
-            </div>
-          </div>
-        </div>
-        <AnimatedWaveDivider waveFill="#FAF3E8" />
-      </section>
-
-      {/* SECTION 2: SEATED VS FLOATING ARCHITECTURAL TOGGLE — Champagne Cream */}
-      <section className="py-16 lg:py-22 bg-[#FAF3E8] border-b border-[#E6D9CB]">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <SectionHeader
-              accentClass="text-[#4C2D5C]"
-              eyebrow="Interactive Capacity Folio"
-              title="Compare Seated Dining vs. Floating Reception setups."
-            />
-            <div className="flex flex-wrap gap-2">
-              {BANQUET_SPACES.map((space, idx) => (
-                <button
-                  key={space.name}
-                  type="button"
-                  onClick={() => {
-                    setSpaceIdx(idx);
-                    setShowCardBack(false);
-                  }}
-                  className={`min-h-[40px] px-4 py-2 text-xs font-semibold rounded-lg border transition-colors whitespace-nowrap ${
-                    spaceIdx === idx
-                      ? 'bg-[#4C2D5C] text-white border-[#4C2D5C]'
-                      : 'bg-white text-[#4F445C] border-[#D8CCE9] hover:text-[#2C1D18]'
-                  }`}
-                >
-                  {space.name}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            {/* Spec Ledger + Flip Card */}
-            <div className="lg:col-span-6 space-y-6">
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#6E2434] tabular-nums">
-                  {currentSpace.headlineMetric}
-                </p>
-                <h3 className="font-serif text-3xl text-[#2C1D18] mt-1">{currentSpace.name}</h3>
-                <p className="text-sm text-[#61524A] mt-1">{currentSpace.subtitle}</p>
-              </div>
-
-              <dl className="divide-y divide-[#E3D4C3] border-y border-[#E3D4C3] text-xs sm:text-sm">
-                {currentSpace.specs.map((row) => (
-                  <div key={row.label} className="py-3 flex justify-between gap-4">
-                    <dt className="text-[#61524A]">{row.label}</dt>
-                    <dd className="font-semibold text-[#2C1D18] tabular-nums">{row.value}</dd>
-                  </div>
-                ))}
-              </dl>
-
-              <ul className="space-y-2 text-xs text-[#4F445C]">
-                {currentSpace.privileges.map((item) => (
-                  <li key={item} className="flex items-start gap-2">
-                    <Check className="w-3.5 h-3.5 text-[#4C2D5C] shrink-0 mt-0.5" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="lg:col-span-6">
-              {showCardBack ? (
-                <div className="aspect-[16/10] rounded-2xl bg-[#3E1F38] text-white p-7 flex flex-col justify-between shadow-lg">
-                  <div className="space-y-3">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#EAB963]">
-                      Hall Architecture Summary
-                    </p>
-                    <h4 className="font-serif text-2xl sm:text-3xl text-white">
-                      {currentSpace.summaryTitle}
-                    </h4>
-                    <p className="text-sm text-[#EAE0F2] leading-relaxed">{currentSpace.summaryCopy}</p>
-                  </div>
-                  <div className="flex justify-end">
-                    <button
-                      type="button"
-                      onClick={() => setShowCardBack(false)}
-                      className="min-h-[38px] px-4 py-2 rounded-lg bg-white text-[#2C1D18] text-xs font-semibold inline-flex items-center gap-1.5"
-                    >
-                      <RotateCw className="w-3.5 h-3.5" />
-                      <span>View Photograph</span>
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div className="relative media-frame aspect-[16/10] rounded-2xl shadow-lg">
-                  <img src={currentSpace.image} alt={currentSpace.alt} referrerPolicy="no-referrer" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-                  <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between gap-3">
-                    <span className="text-xs font-serif italic text-white">{currentSpace.headlineMetric}</span>
-                    <button
-                      type="button"
-                      onClick={() => setShowCardBack(true)}
-                      className="min-h-[36px] px-3.5 py-1.5 rounded-lg bg-white/95 text-[#2C1D18] text-xs font-semibold inline-flex items-center gap-1.5 shadow-sm"
-                    >
-                      <RotateCw className="w-3.5 h-3.5" />
-                      <span>Hall Brief</span>
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 3: UNIFIED CELEBRATION MOODS STREAM — Soft Lavender */}
-      <section className="py-16 lg:py-22 bg-[#F0ECF8] border-b border-[#D8CCE9] space-y-10">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <SectionHeader
-            accentClass="text-[#4C2D5C]"
-            eyebrow="Eight Event Styling Moods"
-            title="Staged cleanly for each chapter of your celebration."
+    <div className="min-h-screen bg-[#FAF7F2] text-[#1C1617] overflow-hidden">
+      
+      {/* ─────────────────────────────────────────────────────────────
+          SECTION 1: HERO — Royal Wine & Gilded Grandeur
+      ───────────────────────────────────────────────────────────── */}
+      <section className="relative min-h-[85vh] flex items-center justify-center pt-8 pb-16 px-4 sm:px-6 lg:px-8 bg-[#2A1319] text-[#FAF7F2] overflow-hidden">
+        <div className="absolute inset-0 z-0 image-zoom-container">
+          <img
+            src="/images/banquets/sharda-banquet-hall.webp"
+            alt="Grand banquet hall at Sharda Dinings Gorakhpur"
+            className="w-full h-full object-cover object-center filter brightness-[0.35] contrast-[1.2]"
           />
-          <p className="text-xs sm:text-sm text-[#4F445C] max-w-xs leading-relaxed">
-            Adapting effortlessly from yellow Haldi mornings to velvet engagement receptions and corporate tables.
+          <div className="absolute inset-0 bg-gradient-to-t from-[#2A1319] via-[#2A1319]/60 to-transparent"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#2A1319]/50 to-[#2A1319]"></div>
+        </div>
+
+        <div className="relative z-10 max-w-4xl mx-auto text-center space-y-4">
+          <div className="flex items-center justify-center space-x-2">
+            <NumberedPill current="05" total="07" label="INDOOR BANQUETS & GRAND GALAS" />
+          </div>
+
+          <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal tracking-tight text-[#FAF7F2] leading-tight">
+            Banquets & <span className="text-[#D4AF37] italic font-normal">Celebrations</span>
+          </h1>
+
+          <p className="max-w-xl mx-auto text-xs sm:text-sm text-[#EFE8DC]/85 font-light leading-relaxed">
+            Gorakhpur’s premier air-conditioned celebration venue. Hosting 100 seated and 150 floating guests with 
+            exquisite in-house royal catering and 11 guest rooms under one roof.
           </p>
-        </div>
 
-        <UnifiedGalleryStream
-          pauseLabel="Moods"
-          items={[...CELEBRATION_STREAM_TOP, ...CELEBRATION_STREAM_BOTTOM]}
-        />
-      </section>
+          <GildedDivider className="my-4" />
 
-      {/* SECTION 4: NUMBERED VENUE POLICIES LEDGER — Apricot Peach */}
-      <section className="py-16 lg:py-22 bg-[#FCECE2] border-b border-[#EAD1C2]">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <SectionHeader
-              eyebrow="Venue Policies &amp; Logistics"
-              title="Clear guidelines built around multi-generational family events."
-            />
-            <button
-              type="button"
-              onClick={onOpenVerification}
-              className="text-xs font-semibold text-[#6E2434] underline underline-offset-4 whitespace-nowrap self-start md:self-auto"
+          {/* Key Metrics Strip */}
+          <div className="flex flex-wrap items-center justify-center gap-6 pt-1 text-xs font-mono text-[#D4AF37]">
+            <span>100 Seated Guests</span>
+            <span>•</span>
+            <span>150 Floating Capacity</span>
+            <span>•</span>
+            <span>100% In-House Master Chefs</span>
+            <span>•</span>
+            <span>Non-Alcoholic Sanctuary</span>
+          </div>
+
+          <div className="pt-4 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="#estimator-suite"
+              className="px-7 py-3 bg-[#D4AF37] hover:bg-[#c29e2f] text-[#1C1617] text-xs uppercase tracking-wider font-semibold rounded-full shadow-lg shadow-[#D4AF37]/20 transition-all hover:scale-105"
             >
-              Inspect Capacity in Register
-            </button>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8 pt-2">
-            {VENUE_GUIDELINES.map((item) => (
-              <Reveal key={item.index} className="border-t border-[#DEC0AF] pt-5 space-y-2">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#6E2434] tabular-nums">
-                  {item.index} · Operational Policy
-                </p>
-                <h3 className="font-serif text-2xl text-[#2C1D18]">{item.title}</h3>
-                <p className="text-sm text-[#61524A] leading-relaxed">{item.detail}</p>
-              </Reveal>
-            ))}
+              Get Event Quotation
+            </a>
+            <a
+              href={`tel:${BUSINESS_INFO.phones[1].number}`}
+              className="px-7 py-3 border border-[#D4AF37] hover:bg-[#D4AF37]/15 text-[#D4AF37] text-xs uppercase tracking-wider font-semibold rounded-full transition-all"
+            >
+              Call Banquet Desk: {BUSINESS_INFO.phones[1].display}
+            </a>
           </div>
         </div>
       </section>
 
-      {/* SECTION 5: BANQUET ENQUIRY DESK — Dusty Slate-Blue */}
-      <section id="banquet-enquiry" className="scroll-mt-20 py-16 lg:py-22 bg-[#EAF1F7]">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <div className="lg:col-span-5 space-y-4">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#4C2D5C]">
-              Walk-Through &amp; Pricing
-            </p>
-            <h2 className="font-serif text-3xl text-[#2C1D18] leading-tight">
-              Book a hall tour or request per-plate event pricing.
+      {/* ─────────────────────────────────────────────────────────────
+          SECTION 2: VENUE SPECIFICATIONS & METRICS (Editorial Split)
+      ───────────────────────────────────────────────────────────── */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#FAF7F2] border-b border-[#EFE8DC]">
+        <div className="max-w-6xl mx-auto space-y-12">
+          
+          <div className="text-center max-w-xl mx-auto space-y-2">
+            <span className="text-[10px] uppercase tracking-widest text-[#3D1B24] font-mono font-bold block">
+              Architectural Specifications
+            </span>
+            <h2 className="font-serif text-2xl sm:text-4xl text-[#1C1617]">
+              Designed for Seamless Flow & Grandeur
             </h2>
-            <p className="text-sm text-[#3F5166] leading-relaxed">
-              Specify your date, guest count (up to 150 floating), and catering menu style to send an instant WhatsApp brief to our banquet coordinator.
+            <p className="text-xs text-[#1C1617]/70 leading-relaxed font-light">
+              Carefully engineered layout ensuring stage sightlines, smooth buffet circulation, and peaceful family hospitality.
             </p>
-            <div className="pt-2 border-t border-[#CBD9E8] text-sm tabular-nums">
-              <a
-                href={`tel:${BUSINESS_INFO.phones[1].number}`}
-                className="inline-flex items-center gap-2 font-semibold text-[#2C1D18] hover:text-[#6E2434]"
-              >
-                <Phone className="w-4 h-4 text-[#4C2D5C]" />
-                <span>{BUSINESS_INFO.phones[1].display} (Banquet Desk)</span>
-              </a>
+          </div>
+
+          {/* Dual Capacity Showcase */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="p-6 sm:p-8 rounded-2xl bg-white border border-[#EFE8DC] shadow-sm">
+              <div className="flex items-baseline space-x-3">
+                <span className="font-serif text-5xl font-bold text-[#3D1B24]">100</span>
+                <span className="text-xs uppercase font-mono tracking-widest text-[#D4AF37] font-bold">SEATED GUESTS</span>
+              </div>
+              <h3 className="font-serif text-lg font-bold text-[#1C1617] mt-3">Formal Dining & Ritual Layouts</h3>
+              <p className="text-xs text-[#1C1617]/70 mt-1 leading-relaxed">
+                Spaced round banquet tables with stage sightlines. Ideal for sacred rituals, engagement blessings, and seated feasts.
+              </p>
+            </div>
+
+            <div className="p-6 sm:p-8 rounded-2xl bg-[#2A1319] text-[#FAF7F2] border border-[#D4AF37]/30 shadow-md">
+              <div className="flex items-baseline space-x-3">
+                <span className="font-serif text-5xl font-bold text-[#D4AF37]">150</span>
+                <span className="text-xs uppercase font-mono tracking-widest text-[#FAF7F2]/60 font-bold">FLOATING GUESTS</span>
+              </div>
+              <h3 className="font-serif text-lg font-bold text-[#FAF7F2] mt-3">Evening Receptions & Sangeet Flow</h3>
+              <p className="text-xs text-[#FAF7F2]/75 mt-1 leading-relaxed">
+                Open-floor configuration featuring a central stage, photo lounge, and continuous live starter circulation.
+              </p>
             </div>
           </div>
 
-          <div className="lg:col-span-7 bg-white border border-[#D4E0EC] rounded-2xl p-6 sm:p-8 shadow-sm">
-            {submitted ? (
-              <div className="py-6 text-center space-y-4">
-                <CheckCircle2 className="w-8 h-8 text-[#4C2D5C] mx-auto" />
-                <h3 className="font-serif text-2xl text-[#2C1D18]">Banquet Brief Prepared</h3>
-                <p className="text-sm text-[#61524A]">
-                  Prepared for <strong className="text-[#2C1D18]">{formData.eventType}</strong> ({formData.guestCount}). Dispatch via WhatsApp directly.
-                </p>
-                <div className="flex flex-wrap justify-center gap-3 pt-2">
-                  <a
-                    href={buildWhatsAppUrl()}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="gloss-btn min-h-[42px] px-5 py-2.5 bg-[#4C2D5C] text-white text-xs font-semibold uppercase tracking-wider rounded-lg inline-flex items-center gap-2"
-                  >
-                    <MessageSquare className="w-4 h-4" />
-                    <span>Send via WhatsApp</span>
-                  </a>
+          {/* Integrated Pillars Strip (Horizontal Architecture) */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 pt-4 border-t border-[#EFE8DC]">
+            <div className="space-y-1">
+              <span className="font-mono text-xs font-bold text-[#3D1B24] block">Non-Alcoholic Sanctuary</span>
+              <p className="text-[11px] text-[#1C1617]/65">Strict sober environment ensuring dignity and comfort for all generations.</p>
+            </div>
+            <div className="space-y-1">
+              <span className="font-mono text-xs font-bold text-[#3D1B24] block">11 Upstairs AC Rooms</span>
+              <p className="text-[11px] text-[#1C1617]/65">Reserve guest rooms for bride/groom prep and out-of-town wedding guests.</p>
+            </div>
+            <div className="space-y-1">
+              <span className="font-mono text-xs font-bold text-[#3D1B24] block">100% Power Generator</span>
+              <p className="text-[11px] text-[#1C1617]/65">Heavy-duty silent generator ensures uninterrupted cooling and sound.</p>
+            </div>
+            <div className="space-y-1">
+              <span className="font-mono text-xs font-bold text-[#3D1B24] block">Single Point Manager</span>
+              <p className="text-[11px] text-[#1C1617]/65">One dedicated captain coordinating sound, catering, and event timing.</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────────
+          SECTION 3: CELEBRATIONS PORTFOLIO (2x2 Asymmetric Stagger)
+      ───────────────────────────────────────────────────────────── */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#EFE8DC]">
+        <div className="max-w-7xl mx-auto space-y-12">
+          
+          <div className="text-center max-w-xl mx-auto space-y-2">
+            <span className="text-[10px] uppercase tracking-widest text-[#3D1B24] font-mono font-bold block">
+              Event Portfolio
+            </span>
+            <h2 className="font-serif text-2xl sm:text-4xl text-[#1C1617]">
+              Every Milestone Celebrated with Grace
+            </h2>
+            <p className="text-xs text-[#1C1617]/70 leading-relaxed font-light">
+              Tailored event layouts for sacred family occasions, corporate conclaves, and community milestones.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {celebrationTypes.map((item, idx) => (
+              <div
+                key={idx}
+                className="rounded-2xl overflow-hidden bg-white border border-[#D4AF37]/30 shadow-md group hover:shadow-xl transition-all flex flex-col justify-between"
+              >
+                <div>
+                  <div className="relative h-56 overflow-hidden image-zoom-container">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-full h-full object-cover filter contrast-[1.05]"
+                    />
+                    <div className="absolute top-3 left-3 bg-[#2A1319]/85 backdrop-blur-md px-2.5 py-1 rounded-full text-[#D4AF37] font-mono text-[10px] uppercase border border-[#D4AF37]/30">
+                      {item.tag}
+                    </div>
+                    <div className="absolute bottom-3 right-3 bg-[#1C1617]/85 backdrop-blur-md px-2.5 py-0.5 rounded text-[11px] font-mono text-[#FAF7F2]">
+                      {item.capacity}
+                    </div>
+                  </div>
+
+                  <div className="p-5 space-y-2">
+                    <h3 className="font-serif text-xl font-bold text-[#1C1617] group-hover:text-[#3D1B24] transition-colors">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs text-[#1C1617]/70 leading-relaxed font-light">
+                      {item.desc}
+                    </p>
+                    <div className="pt-2 flex flex-wrap gap-2 text-[11px] text-[#1C1617]/65">
+                      {item.features.map((f, fi) => (
+                        <span key={fi} className="px-2 py-0.5 rounded bg-[#FAF7F2] border border-[#EFE8DC]">
+                          {f}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-5 pt-0">
                   <button
-                    type="button"
-                    onClick={() => setSubmitted(false)}
-                    className="min-h-[42px] px-4 py-2.5 border border-[#D4E0EC] text-xs font-semibold uppercase tracking-wider rounded-lg"
+                    onClick={() => {
+                      setEventType(item.title);
+                      const el = document.getElementById('estimator-suite');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className="w-full py-2 bg-[#FAF7F2] hover:bg-[#3D1B24] hover:text-[#FAF7F2] text-[#3D1B24] border border-[#3D1B24]/20 rounded-lg text-xs font-mono uppercase tracking-wider font-bold transition-all cursor-pointer flex items-center justify-center space-x-1.5"
                   >
-                    Modify Enquiry
+                    <span>Enquire for {item.title}</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
               </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────────
+          SECTION 4: ITEMIZED EVENT QUOTATION BUILDER
+      ───────────────────────────────────────────────────────────── */}
+      <section id="estimator-suite" className="py-20 px-4 sm:px-6 lg:px-8 bg-[#2A1319] text-[#FAF7F2]">
+        <div className="max-w-3xl mx-auto space-y-8">
+          
+          <div className="text-center space-y-2">
+            <span className="text-[10px] font-mono tracking-widest uppercase text-[#D4AF37] font-bold block">
+              Event Concierge
+            </span>
+            <h2 className="font-serif text-2xl sm:text-4xl font-normal">
+              Build Your Custom Celebration Package
+            </h2>
+            <p className="text-xs text-[#FAF7F2]/80 max-w-md mx-auto">
+              Tell us about your tentative dates, guest count, and catering preferences. 
+              Our banquet manager will share hall availability and tailored menus.
+            </p>
+          </div>
+
+          <div className="bg-[#1C1617] rounded-2xl p-6 sm:p-8 border border-[#D4AF37]/30 shadow-xl">
+            {submitted ? (
+              <div className="text-center py-8 space-y-3">
+                <CheckCircle2 className="w-12 h-12 text-[#D4AF37] mx-auto" />
+                <h3 className="font-serif text-xl font-bold">Quotation Enquiry Dispatched</h3>
+                <p className="text-xs text-[#FAF7F2]/70 max-w-sm mx-auto">
+                  Your event specifications have opened on WhatsApp to our banquet team.
+                </p>
+                <button
+                  onClick={() => setSubmitted(false)}
+                  className="px-5 py-2 bg-[#D4AF37] text-[#1C1617] text-xs font-bold uppercase tracking-wider rounded-full cursor-pointer"
+                >
+                  Create Another Enquiry
+                </button>
+              </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-                {error && (
-                  <div role="alert" className="p-3 bg-[#FFF8EB] border border-[#D8A852] text-xs text-[#6B4A12] rounded-lg">
-                    {error}
-                  </div>
-                )}
+              <form onSubmit={handleQuotationSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="banquet-name" className="block text-[11px] uppercase tracking-wider font-semibold text-[#61524A] mb-1.5">
-                      Host Name *
+                    <label className="block text-[10px] font-mono uppercase tracking-wider text-[#D4AF37] mb-1">
+                      Organizer Name *
                     </label>
                     <input
-                      id="banquet-name"
                       type="text"
                       required
-                      placeholder="Suresh Mishra"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full min-h-[42px] px-3.5 py-2 bg-[#FFFDF8] border border-[#D4E0EC] text-sm rounded-lg focus:border-[#4C2D5C] focus:outline-none"
+                      placeholder="e.g. Anand Swarup Verma"
+                      value={organizerName}
+                      onChange={(e) => setOrganizerName(e.target.value)}
+                      className="w-full px-3.5 py-2.5 rounded-lg bg-white/5 border border-white/20 text-[#FAF7F2] placeholder-white/30 text-xs focus:outline-none focus:border-[#D4AF37]"
                     />
                   </div>
+
                   <div>
-                    <label htmlFor="banquet-phone" className="block text-[11px] uppercase tracking-wider font-semibold text-[#61524A] mb-1.5">
-                      Phone / WhatsApp *
+                    <label className="block text-[10px] font-mono uppercase tracking-wider text-[#D4AF37] mb-1">
+                      Phone Number *
                     </label>
                     <input
-                      id="banquet-phone"
                       type="tel"
                       required
-                      placeholder="+91 98765 43210"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full min-h-[42px] px-3.5 py-2 bg-[#FFFDF8] border border-[#D4E0EC] text-sm rounded-lg tabular-nums focus:border-[#4C2D5C] focus:outline-none"
+                      placeholder="e.g. +91 99724 03294"
+                      value={organizerPhone}
+                      onChange={(e) => setOrganizerPhone(e.target.value)}
+                      className="w-full px-3.5 py-2.5 rounded-lg bg-white/5 border border-white/20 text-[#FAF7F2] placeholder-white/30 text-xs focus:outline-none focus:border-[#D4AF37]"
                     />
                   </div>
-                </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="banquet-type" className="block text-[11px] uppercase tracking-wider font-semibold text-[#61524A] mb-1.5">
-                      Occasion
+                    <label className="block text-[10px] font-mono uppercase tracking-wider text-[#D4AF37] mb-1">
+                      Celebration Nature
                     </label>
                     <select
-                      id="banquet-type"
-                      value={formData.eventType}
-                      onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
-                      className="w-full min-h-[42px] px-3 py-2 bg-[#FFFDF8] border border-[#D4E0EC] text-sm rounded-lg focus:border-[#4C2D5C] focus:outline-none"
+                      value={eventType}
+                      onChange={(e) => setEventType(e.target.value)}
+                      className="w-full px-3.5 py-2.5 rounded-lg bg-[#2A1319] border border-white/20 text-[#FAF7F2] text-xs focus:outline-none focus:border-[#D4AF37]"
                     >
-                      <option value="Engagement / Ring Ceremony">Engagement / Ring Ceremony</option>
-                      <option value="Wedding / Reception">Wedding / Reception</option>
-                      <option value="Haldi / Mehndi Function">Haldi / Mehndi Function</option>
-                      <option value="Birthday / Anniversary">Birthday / Anniversary</option>
-                      <option value="Corporate Conference">Corporate Conference</option>
+                      <option value="Wedding Reception">Wedding Reception</option>
+                      <option value="Ring Ceremony / Sagai">Ring Ceremony / Sagai</option>
+                      <option value="Haldi / Mehndi / Sangeet">Haldi / Mehndi / Sangeet</option>
+                      <option value="Milestone Birthday / Anniversary">Milestone Birthday / Anniversary</option>
+                      <option value="Corporate Conclave / Conference">Corporate Conclave / Conference</option>
                     </select>
                   </div>
+
                   <div>
-                    <label htmlFor="banquet-date" className="block text-[11px] uppercase tracking-wider font-semibold text-[#61524A] mb-1.5">
-                      Event Date
+                    <label className="block text-[10px] font-mono uppercase tracking-wider text-[#D4AF37] mb-1">
+                      Expected Guest Count
+                    </label>
+                    <select
+                      value={guestCount}
+                      onChange={(e) => setGuestCount(e.target.value)}
+                      className="w-full px-3.5 py-2.5 rounded-lg bg-[#2A1319] border border-white/20 text-[#FAF7F2] text-xs focus:outline-none focus:border-[#D4AF37]"
+                    >
+                      <option value="50">50 Guests (Intimate Gathering)</option>
+                      <option value="75">75 Guests (Medium Gathering)</option>
+                      <option value="100">100 Guests (Full Seated Banquet)</option>
+                      <option value="125">125 Guests (Spacious Reception)</option>
+                      <option value="150">150 Guests (Maximum Floating Capacity)</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-mono uppercase tracking-wider text-[#D4AF37] mb-1">
+                      Catering Preference
+                    </label>
+                    <select
+                      value={foodPreference}
+                      onChange={(e) => setFoodPreference(e.target.value)}
+                      className="w-full px-3.5 py-2.5 rounded-lg bg-[#2A1319] border border-white/20 text-[#FAF7F2] text-xs focus:outline-none focus:border-[#D4AF37]"
+                    >
+                      <option value="Pure Vegetarian (Standard)">Pure Vegetarian (Standard)</option>
+                      <option value="Pure Vegetarian with Jain Counters">Pure Vegetarian with Jain Counters</option>
+                      <option value="Multi-Cuisine Veg & Non-Veg">Multi-Cuisine Veg & Non-Veg</option>
+                      <option value="High Tea & Snacks Buffet">High Tea & Snacks Buffet</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-mono uppercase tracking-wider text-[#D4AF37] mb-1">
+                      Tentative Date
                     </label>
                     <input
-                      id="banquet-date"
                       type="date"
-                      value={formData.eventDate}
-                      onChange={(e) => setFormData({ ...formData, eventDate: e.target.value })}
-                      className="w-full min-h-[42px] px-3 py-2 bg-[#FFFDF8] border border-[#D4E0EC] text-sm rounded-lg focus:border-[#4C2D5C] focus:outline-none"
+                      value={eventDate}
+                      onChange={(e) => setEventDate(e.target.value)}
+                      className="w-full px-3.5 py-2.5 rounded-lg bg-white/5 border border-white/20 text-[#FAF7F2] text-xs focus:outline-none focus:border-[#D4AF37]"
                     />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="banquet-guests" className="block text-[11px] uppercase tracking-wider font-semibold text-[#61524A] mb-1.5">
-                      Guest Range (Max 150)
-                    </label>
-                    <select
-                      id="banquet-guests"
-                      value={formData.guestCount}
-                      onChange={(e) => setFormData({ ...formData, guestCount: e.target.value })}
-                      className="w-full min-h-[42px] px-3 py-2 bg-[#FFFDF8] border border-[#D4E0EC] text-sm rounded-lg focus:border-[#4C2D5C] focus:outline-none"
-                    >
-                      <option value="30–60 Guests">30 – 60 Guests</option>
-                      <option value="60–100 Seated">60 – 100 Seated</option>
-                      <option value="100–150 Floating">100 – 150 Floating</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label htmlFor="banquet-catering" className="block text-[11px] uppercase tracking-wider font-semibold text-[#61524A] mb-1.5">
-                      Catering Style
-                    </label>
-                    <select
-                      id="banquet-catering"
-                      value={formData.cateringMode}
-                      onChange={(e) => setFormData({ ...formData, cateringMode: e.target.value })}
-                      className="w-full min-h-[42px] px-3 py-2 bg-[#FFFDF8] border border-[#D4E0EC] text-sm rounded-lg focus:border-[#4C2D5C] focus:outline-none"
-                    >
-                      <option value="Pure Vegetarian Menu">Pure Vegetarian Menu</option>
-                      <option value="Vegetarian + Non-Veg Menu">Vegetarian + Non-Veg Menu</option>
-                      <option value="Jain Customised Menu">Jain Customised Menu</option>
-                    </select>
-                  </div>
+                <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
+                  <span className="text-[11px] text-[#FAF7F2]/60">
+                    Banquet Desk Direct: {BUSINESS_INFO.phones[1].display}
+                  </span>
+                  <button
+                    type="submit"
+                    className="w-full sm:w-auto px-7 py-2.5 bg-[#D4AF37] hover:bg-[#c29e2f] text-[#1C1617] text-xs font-bold uppercase tracking-wider rounded-full shadow-md transition-all cursor-pointer flex items-center justify-center space-x-1.5"
+                  >
+                    <MessageSquare className="w-3.5 h-3.5" />
+                    <span>Send WhatsApp Enquiry</span>
+                  </button>
                 </div>
-
-                <div>
-                  <label htmlFor="banquet-notes" className="block text-[11px] uppercase tracking-wider font-semibold text-[#61524A] mb-1.5">
-                    Decor, DJ or Room Needs
-                  </label>
-                  <textarea
-                    id="banquet-notes"
-                    rows="2"
-                    placeholder="Floral arch stage, afternoon buffet, plus Deluxe guest rooms..."
-                    value={formData.notes}
-                    onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                    className="w-full px-3.5 py-2 bg-[#FFFDF8] border border-[#D4E0EC] text-sm rounded-lg focus:border-[#4C2D5C] focus:outline-none"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="gloss-btn w-full min-h-[44px] px-6 py-3 bg-[#4C2D5C] hover:bg-[#3A2147] text-white text-xs font-semibold uppercase tracking-wider rounded-lg transition-colors"
-                >
-                  Prepare Banquet Enquiry
-                </button>
               </form>
             )}
           </div>
+
         </div>
       </section>
+
     </div>
   );
 }
