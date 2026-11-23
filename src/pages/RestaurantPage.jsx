@@ -108,7 +108,7 @@ export default function RestaurantPage({ onOpenEnquiry, onOpenVerification }) {
               src="/images/food/sharda-dining-biryani.webp"
               alt="Awadhi Biryani"
               title="Dum Handi Biryani"
-              price="₹380"
+              subtitle="Awadhi Dum Special"
               size="sm"
               depth={1}
               rotation={-6}
@@ -123,7 +123,7 @@ export default function RestaurantPage({ onOpenEnquiry, onOpenVerification }) {
               src="/images/food/tandoori-veg-platter.webp"
               alt="Tandoori Platter"
               title="Clay Tandoor"
-              price="₹390"
+              subtitle="Charcoal Embers"
               size="sm"
               depth={2}
               rotation={5}

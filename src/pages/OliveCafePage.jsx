@@ -22,26 +22,26 @@ export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
 
   const cafeMenuHighlights = {
     brews: [
-      { name: 'Signature Classic Cold Coffee', price: '₹180', desc: 'Slow-brewed dark roast espresso shaken over whole milk and crushed ice.', badge: 'Bestseller' },
-      { name: 'Iced Caramel Frappuccino', price: '₹210', desc: 'Salted caramel swirl, chilled espresso base, whipped cream cap.', badge: 'Sweet & Creamy' },
-      { name: 'Double Shot Americano', price: '₹140', desc: 'Bold, dark extracted espresso pulled over hot mountain spring water.', badge: 'Purist Roast' },
-      { name: 'Hazelnut Cafe Latte', price: '₹190', desc: 'Velvety steamed micro-foam over roasted hazelnut extract and espresso.', badge: 'Barista Choice' }
+      { name: 'Signature Classic Cold Coffee', category: 'Chilled Brew', desc: 'Slow-brewed dark roast espresso shaken over whole milk and crushed ice.', badge: 'Bestseller' },
+      { name: 'Iced Caramel Frappuccino', category: 'Sweet & Creamy', desc: 'Salted caramel swirl, chilled espresso base, whipped cream cap.', badge: 'Barista Special' },
+      { name: 'Double Shot Americano', category: 'Purist Roast', desc: 'Bold, dark extracted espresso pulled over hot mountain spring water.', badge: 'Dark Roast' },
+      { name: 'Hazelnut Cafe Latte', category: 'Micro-Foam', desc: 'Velvety steamed micro-foam over roasted hazelnut extract and espresso.', badge: 'Artisan Blend' }
     ],
     shakes: [
-      { name: 'Nutella Hazelnut Thick Shake', price: '₹240', desc: 'Generous Nutella spread blended with vanilla ice cream and toasted hazelnuts.', badge: 'Indulgent' },
-      { name: 'Oreo Crumb Cream Frappe', price: '₹230', desc: 'Real chocolate sandwich cookies pulverized into creamy ice cream shake.', badge: 'Crowd Favorite' },
-      { name: 'KitKat Crisp Chocolate Shake', price: '₹230', desc: 'Crushed chocolate wafers blended with dark cacao ganache and cream.', badge: 'Crispy Crunch' },
-      { name: 'Belgian Chocolate Fudge Shake', price: '₹250', desc: 'Bittersweet chocolate fudge sauce with dense dark chocolate ice cream.', badge: 'Rich Dark' }
+      { name: 'Nutella Hazelnut Thick Shake', category: 'Indulgent Thick', desc: 'Generous Nutella spread blended with vanilla ice cream and toasted hazelnuts.', badge: 'Indulgent' },
+      { name: 'Oreo Crumb Cream Frappe', category: 'Cookie Crumble', desc: 'Real chocolate sandwich cookies pulverized into creamy ice cream shake.', badge: 'Crowd Favorite' },
+      { name: 'KitKat Crisp Chocolate Shake', category: 'Crisp Crunch', desc: 'Crushed chocolate wafers blended with dark cacao ganache and cream.', badge: 'Crispy Crunch' },
+      { name: 'Belgian Chocolate Fudge Shake', category: 'Dense Ganache', desc: 'Bittersweet chocolate fudge sauce with dense dark chocolate ice cream.', badge: 'Rich Dark' }
     ],
     bites: [
-      { name: 'Stone-Baked Margherita Pizza', price: '₹320', desc: 'Hand-stretched thin dough, rich San Marzano tomato reduction, melted mozzarella.', badge: 'Stone-Baked' },
-      { name: 'Farm Fresh Corn & Pepper Pizza', price: '₹340', desc: 'Golden sweetcorn, crisp bell peppers, red onion pearls and mozzarella.', badge: 'Vegetarian' },
-      { name: 'White Sauce Creamy Alfredo Penne', price: '₹320', desc: 'Al dente durum wheat penne tossed in parmesan cream butter glaze with garlic toast.', badge: 'Chef Special' },
-      { name: 'Spicy Red Sauce Arrabbiata Penne', price: '₹310', desc: 'Slow-simmered tomato, chilli flakes, garlic, black olives, fresh basil leaves.', badge: 'Zesty Tang' }
+      { name: 'Stone-Baked Margherita Pizza', category: 'Artisan Crust', desc: 'Hand-stretched thin dough, rich San Marzano tomato reduction, melted mozzarella.', badge: 'Stone-Baked' },
+      { name: 'Farm Fresh Corn & Pepper Pizza', category: 'Vegetarian Feast', desc: 'Golden sweetcorn, crisp bell peppers, red onion pearls and mozzarella.', badge: 'Garden Fresh' },
+      { name: 'White Sauce Creamy Alfredo Penne', category: 'Durum Wheat', desc: 'Al dente durum wheat penne tossed in parmesan cream butter glaze with garlic toast.', badge: 'Chef Special' },
+      { name: 'Spicy Red Sauce Arrabbiata Penne', category: 'San Marzano', desc: 'Slow-simmered tomato, chilli flakes, garlic, black olives, fresh basil leaves.', badge: 'Zesty Tang' }
     ],
     desserts: [
-      { name: 'Lotus Biscoff Cheesecake', price: '₹220', desc: 'Velvety baked cream cheese over buttery caramelized biscuit crumb.', badge: 'Patisserie' },
-      { name: 'Sizzling Brownie with Vanilla Scoop', price: '₹220', desc: 'Cast-iron sizzler plate, warm walnut brownie, hot fudge sauce, cold scoop.', badge: 'House Legend' }
+      { name: 'Lotus Biscoff Cheesecake', category: 'Baked Patisserie', desc: 'Velvety baked cream cheese over buttery caramelized biscuit crumb.', badge: 'Patisserie' },
+      { name: 'Sizzling Brownie with Vanilla Scoop', category: 'Cast Iron Sizzler', desc: 'Cast-iron sizzler plate, warm walnut brownie, hot fudge sauce, cold scoop.', badge: 'House Legend' }
     ]
   };
 
@@ -73,7 +73,7 @@ export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
               src="/images/olive-cafe/olive-cafe-coffee.webp"
               alt="Signature Classic Cold Coffee"
               title="Classic Cold Coffee"
-              price="₹180"
+              subtitle="Signature Arabica"
               size="sm"
               depth={1}
               rotation={-6}
@@ -89,7 +89,7 @@ export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
               src="/images/olive-cafe/corn-margherita-pizza.jpg"
               alt="Stone-Baked Margherita Pizza"
               title="Stone Margherita Pizza"
-              price="₹320"
+              subtitle="Wood-Fired Crust"
               size="sm"
               depth={2}
               rotation={5}
@@ -290,8 +290,8 @@ export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
                       <h3 className="font-serif font-bold text-sm text-[#1C1617] group-hover:text-[#2D6A4F] transition-colors truncate">
                         {item.name}
                       </h3>
-                      <span className="font-mono font-bold text-xs text-[#2D6A4F] bg-[#A8D5BA]/25 px-2.5 py-1 rounded-full shrink-0">
-                        {item.price}
+                      <span className="font-mono text-[10px] font-bold text-[#2D6A4F] bg-[#A8D5BA]/25 px-2.5 py-1 rounded-full shrink-0 uppercase tracking-wider">
+                        {item.category}
                       </span>
                     </div>
                     <p className="text-[11px] text-[#1C1617]/70 mt-1 leading-relaxed font-light">
@@ -326,7 +326,7 @@ export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
                   </div>
                   <div className="p-3 text-center bg-white">
                     <p className="font-serif font-bold text-xs text-[#1C1617]">Creamy Alfredo Penne</p>
-                    <p className="text-[10px] font-mono font-bold text-[#C84B31]">₹320</p>
+                    <p className="text-[10px] font-mono font-bold text-[#2D6A4F] uppercase tracking-wider">Durum Wheat Alfredo</p>
                   </div>
                 </div>
               </ScrollZoom>
@@ -342,7 +342,7 @@ export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
                   </div>
                   <div className="p-3 text-center bg-white">
                     <p className="font-serif font-bold text-xs text-[#1C1617]">Spicy Arrabbiata Penne</p>
-                    <p className="text-[10px] font-mono font-bold text-[#C84B31]">₹310</p>
+                    <p className="text-[10px] font-mono font-bold text-[#2D6A4F] uppercase tracking-wider">San Marzano Herb</p>
                   </div>
                 </div>
               </ScrollZoom>
@@ -358,7 +358,7 @@ export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
                   </div>
                   <div className="p-3 text-center bg-white">
                     <p className="font-serif font-bold text-xs text-[#1C1617]">French Toast & Scoop</p>
-                    <p className="text-[10px] font-mono font-bold text-[#C84B31]">₹220</p>
+                    <p className="text-[10px] font-mono font-bold text-[#2D6A4F] uppercase tracking-wider">Brioche & Vanilla</p>
                   </div>
                 </div>
               </ScrollZoom>
@@ -374,7 +374,7 @@ export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
                   </div>
                   <div className="p-3 text-center bg-white">
                     <p className="font-serif font-bold text-xs text-[#1C1617]">Open Stuffed Mushroom</p>
-                    <p className="text-[10px] font-mono font-bold text-[#C84B31]">₹280</p>
+                    <p className="text-[10px] font-mono font-bold text-[#2D6A4F] uppercase tracking-wider">Clay Oven Charred</p>
                   </div>
                 </div>
               </ScrollZoom>

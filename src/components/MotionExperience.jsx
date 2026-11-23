@@ -276,7 +276,7 @@ export function KineticTitle({
         scrollTrigger: {
           trigger: el,
           start: 'top 88%',
-          toggleActions: 'play none none none'
+          toggleActions: 'restart reverse restart reverse'
         }
       }
     );
@@ -541,7 +541,7 @@ export function ScrollPop({
         scrollTrigger: {
           trigger: el,
           start: `top ${threshold}`,
-          toggleActions: "play none none none"
+          toggleActions: "restart reverse restart reverse"
         }
       }
     );
@@ -591,7 +591,7 @@ export function ScrollSlide({
         scrollTrigger: {
           trigger: el,
           start: `top ${threshold}`,
-          toggleActions: "play none none none"
+          toggleActions: "restart reverse restart reverse"
         }
       }
     );
@@ -633,7 +633,7 @@ export function ScrollZoom({
         scrollTrigger: {
           trigger: el,
           start: `top ${threshold}`,
-          toggleActions: "play none none none"
+          toggleActions: "restart reverse restart reverse"
         }
       }
     );
@@ -676,7 +676,7 @@ export function ScrollRotate({
         scrollTrigger: {
           trigger: el,
           start: `top ${threshold}`,
-          toggleActions: "play none none none"
+          toggleActions: "restart reverse restart reverse"
         }
       }
     );
@@ -796,7 +796,7 @@ export function StaggerGrid({
         scrollTrigger: {
           trigger: el,
           start: `top ${threshold}`,
-          toggleActions: "play none none none"
+          toggleActions: "restart reverse restart reverse"
         }
       }
     );
@@ -830,7 +830,7 @@ export function AnimatedCounter({ end, suffix = "", duration = 1.8, className = 
       scrollTrigger: {
         trigger: el,
         start: "top 88%",
-        toggleActions: "play none none none"
+        toggleActions: "restart reverse restart reverse"
       },
       onUpdate: () => {
         setCount(Math.floor(obj.val));

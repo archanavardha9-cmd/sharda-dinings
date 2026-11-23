@@ -89,7 +89,7 @@ export default function HomePage({ onOpenEnquiry, onOpenVerification }) {
               src="/images/food/tandoori-veg-platter.webp"
               alt="Tandoori Vegetable Platter"
               title="Clay Tandoor Platter"
-              price="₹390"
+              subtitle="Charcoal Charred"
               size="sm"
               depth={1}
               rotation={-6}
@@ -105,7 +105,7 @@ export default function HomePage({ onOpenEnquiry, onOpenVerification }) {
               src="/images/food/shanghai-chilli-paneer.webp"
               alt="Shanghai Chilli Paneer"
               title="Shanghai Chilli Paneer"
-              price="₹320"
+              subtitle="Sichuan Glaze"
               size="sm"
               depth={2}
               rotation={8}
@@ -121,7 +121,7 @@ export default function HomePage({ onOpenEnquiry, onOpenVerification }) {
               src="/images/food/garlic-lemon-herb-chicken.webp"
               alt="Garlic Lemon Herb Roast"
               title="Garlic Herb Roast"
-              price="₹410"
+              subtitle="Live Lump Charcoal"
               size="sm"
               depth={2}
               rotation={4}
@@ -136,7 +136,7 @@ export default function HomePage({ onOpenEnquiry, onOpenVerification }) {
               src="/images/olive-cafe/olive-cafe-coffee.webp"
               alt="Artisanal Cold Brew"
               title="Espresso Cold Brew"
-              price="₹180"
+              subtitle="Dark Arabica Roast"
               size="sm"
               depth={1}
               rotation={-5}
@@ -174,7 +174,7 @@ export default function HomePage({ onOpenEnquiry, onOpenVerification }) {
                   src="/images/food/sharda-dining-biryani.webp"
                   alt="Awadhi Dum Handi Biryani"
                   title="Signature Awadhi Dum Biryani"
-                  price="₹380 · Saffron & Cardamom"
+                  subtitle="Saffron & Cardamom Dum"
                   size="lg"
                   depth={1}
                   rotation={0}
@@ -375,10 +375,10 @@ export default function HomePage({ onOpenEnquiry, onOpenVerification }) {
                 {/* Staggered Numbered Tasting Items */}
                 <StaggerGrid stagger={0.12} animation="rise" className="space-y-4">
                   {[
-                    { num: '01', name: 'Awadhi Dum Handi Biryani', sub: 'Saffron basmati rice sealed with rosewater & cardamom', price: '₹380' },
-                    { num: '02', name: 'Clay Tandoori Vegetable Platter', sub: 'Charred paneer tikka, stuffed mushrooms & spiced kebabs', price: '₹390' },
-                    { num: '03', name: 'Crispy Shanghai Chilli Paneer', sub: 'Wok-tossed with fresh ginger, scallions & dark soy glaze', price: '₹320' },
-                    { num: '04', name: 'Garlic Lemon Herb Roast Chicken', sub: 'Whole roasted over natural lump charcoal with herb glaze', price: '₹410' }
+                    { num: '01', name: 'Awadhi Dum Handi Biryani', sub: 'Saffron basmati rice sealed with rosewater & cardamom', badge: 'Awadhi Dum' },
+                    { num: '02', name: 'Clay Tandoori Vegetable Platter', sub: 'Charred paneer tikka, stuffed mushrooms & spiced kebabs', badge: 'Charcoal Roasted' },
+                    { num: '03', name: 'Crispy Shanghai Chilli Paneer', sub: 'Wok-tossed with fresh ginger, scallions & dark soy glaze', badge: 'Sichuan Crisp' },
+                    { num: '04', name: 'Garlic Lemon Herb Roast Chicken', sub: 'Whole roasted over natural lump charcoal with herb glaze', badge: 'Chef Special' }
                   ].map((item, idx) => (
                     <div key={idx} className="group border-b border-[#EFE8DC] pb-3 last:border-b-0 flex items-start justify-between hover:translate-x-1.5 transition-transform duration-300">
                       <div className="space-y-0.5 max-w-sm">
@@ -388,7 +388,7 @@ export default function HomePage({ onOpenEnquiry, onOpenVerification }) {
                         </div>
                         <p className="text-[11px] text-[#1C1617]/70 pl-8">{item.sub}</p>
                       </div>
-                      <span className="font-mono text-xs font-bold text-[#1B4332] bg-[#A8D5BA]/25 px-2.5 py-1 rounded-full shrink-0">{item.price}</span>
+                      <span className="font-mono text-[10px] font-bold text-[#1B4332] bg-[#A8D5BA]/25 px-2.5 py-1 rounded-full shrink-0 uppercase tracking-wider">{item.badge}</span>
                     </div>
                   ))}
                 </StaggerGrid>
@@ -552,7 +552,7 @@ export default function HomePage({ onOpenEnquiry, onOpenVerification }) {
                     src="/images/olive-cafe/corn-margherita-pizza.jpg"
                     alt="Stone baked pizza"
                     title="Stone-Baked Pizza"
-                    price="₹320"
+                    subtitle="San Marzano Sauce"
                     size="sm"
                     depth={1}
                     glowColor="rgba(244, 162, 97, 0.5)"
@@ -587,11 +587,11 @@ export default function HomePage({ onOpenEnquiry, onOpenVerification }) {
               <StaggerGrid stagger={0.15} animation="pop" className="pt-2 grid grid-cols-2 gap-4 text-xs font-mono">
                 <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 shadow-md">
                   <span className="text-[#A8D5BA] font-bold block text-sm">Espresso Roasts</span>
-                  <span className="text-[#FAF7F2]/80 mt-1 block">From ₹140 · Arabica Blends</span>
+                  <span className="text-[#FAF7F2]/80 mt-1 block">Fresh Single Origin · Arabica Blends</span>
                 </div>
                 <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 shadow-md">
                   <span className="text-[#F4A261] font-bold block text-sm">Stone Pizzas & Pasta</span>
-                  <span className="text-[#FAF7F2]/80 mt-1 block">From ₹320 · Durum Wheat</span>
+                  <span className="text-[#FAF7F2]/80 mt-1 block">Artisan Hand-Stretched · Durum Wheat</span>
                 </div>
               </StaggerGrid>
 
