@@ -1,8 +1,21 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Coffee, Wifi, Clock, ArrowRight, MessageSquare, ChevronRight, Sparkles } from 'lucide-react';
+import { Coffee, Wifi, Clock, ArrowRight, MessageSquare, ChevronRight, Sparkles, Heart, Zap, Flame } from 'lucide-react';
 import { BUSINESS_INFO } from '../data/businessInfo';
 import { GildedDivider, NumberedPill, CoffeeBeanFlourish, SpiceStar } from '../components/DecorativeGraphics';
+import {
+  FloatingDishPortal,
+  KineticTitle,
+  FloatingSpiceCanvas,
+  CoffeeBeanVector,
+  ScrollPop,
+  ScrollSlide,
+  ScrollZoom,
+  ScrollRotate,
+  FloatingCard,
+  StaggerGrid,
+  AnimatedCounter
+} from '../components/MotionExperience';
 
 export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
   const [activeTab, setActiveTab] = useState('brews');
@@ -36,126 +49,184 @@ export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
     <div className="min-h-screen bg-[#FAF7F2] text-[#1C1617] overflow-hidden">
       
       {/* ─────────────────────────────────────────────────────────────
-          SECTION 1: HERO — Botanical Olive & Espresso Atmosphere
+          SECTION 1: HERO — Lush Emerald Forest & Warm Amber
       ───────────────────────────────────────────────────────────── */}
-      <section className="relative min-h-[85vh] flex items-center justify-center pt-8 pb-16 px-4 sm:px-6 lg:px-8 bg-[#18211A] text-[#FAF7F2] overflow-hidden">
-        <div className="absolute inset-0 z-0 image-zoom-container">
+      <section className="relative min-h-[92vh] flex items-center justify-center pt-10 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#16291E] via-[#101E16] to-[#0A140E] text-[#FAF7F2] overflow-hidden">
+        {/* Subtle Ambient Background with Glow */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
           <img
             src="/images/olive-cafe/olive-cafe-coffee.webp"
             alt="Olive Cafe interior ambience inside Sharda Dinings"
-            className="w-full h-full object-cover object-center filter brightness-[0.38] contrast-[1.15]"
+            className="w-full h-full object-cover object-center filter brightness-[0.32] contrast-[1.25] scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#18211A] via-[#18211A]/60 to-transparent"></div>
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#18211A]/40 to-[#18211A]"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0A140E] via-[#16291E]/70 to-[#16291E]/50"></div>
+          <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] rounded-full bg-[#A8D5BA]/20 blur-3xl animate-pulse-glow"></div>
         </div>
 
-        <div className="relative z-10 max-w-4xl mx-auto text-center space-y-4">
+        {/* Ambient Coffee Beans and Mint Sprigs */}
+        <FloatingSpiceCanvas theme="cafe" density="rich" />
+
+        {/* Floating Dish Portals Left & Right */}
+        <div className="hidden lg:block absolute left-10 top-28 z-10">
+          <FloatingCard type="vertical" intensity={15} duration={5}>
+            <FloatingDishPortal
+              src="/images/olive-cafe/olive-cafe-coffee.webp"
+              alt="Signature Classic Cold Coffee"
+              title="Classic Cold Coffee"
+              price="₹180"
+              size="sm"
+              depth={1}
+              rotation={-6}
+              glowColor="rgba(168, 213, 186, 0.5)"
+              badge="Bestseller"
+            />
+          </FloatingCard>
+        </div>
+
+        <div className="hidden lg:block absolute right-10 top-24 z-10">
+          <FloatingCard type="reverse" intensity={14} duration={4.8}>
+            <FloatingDishPortal
+              src="/images/olive-cafe/corn-margherita-pizza.jpg"
+              alt="Stone-Baked Margherita Pizza"
+              title="Stone Margherita Pizza"
+              price="₹320"
+              size="sm"
+              depth={2}
+              rotation={5}
+              glowColor="rgba(244, 162, 97, 0.45)"
+              badge="Wood Oven"
+            />
+          </FloatingCard>
+        </div>
+
+        <div className="relative z-10 max-w-4xl mx-auto text-center space-y-6">
           <div className="flex items-center justify-center space-x-2">
             <NumberedPill current="04" total="07" label="OLIVE CAFE & ARTISANAL BREWS" />
           </div>
 
-          <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal tracking-tight text-[#FAF7F2] leading-tight">
-            Olive Cafe <span className="text-[#8FB386] italic font-normal">& Brews</span>
-          </h1>
+          <KineticTitle as="h1" className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal tracking-tight text-[#FAF7F2] leading-tight">
+            Olive Cafe & Brews
+          </KineticTitle>
 
-          <p className="max-w-xl mx-auto text-xs sm:text-sm text-[#EFE8DC]/85 font-light leading-relaxed">
+          <p className="max-w-xl mx-auto text-xs sm:text-sm text-[#EFE8DC]/90 font-light leading-relaxed">
             Gorakhpur’s quiet espresso haven inside Sharda Dinings. 
-            Cold brews, Nutella thickshakes, bubbling thin-crust pizzas, and relaxed work-friendly booths.
+            Cold brews, thick Nutella shakes, bubbling thin-crust pizzas, and relaxed work-friendly booths.
           </p>
 
           <GildedDivider className="my-4" />
 
-          {/* Quick Badges Strip */}
-          <div className="flex flex-wrap items-center justify-center gap-6 pt-1 text-xs font-mono text-[#8FB386]">
-            <span>11:00 AM – 11:00 PM Daily</span>
-            <span>•</span>
-            <span>High-Speed Wi-Fi</span>
-            <span>•</span>
-            <span>Table Power Sockets</span>
-          </div>
+          {/* Quick Badges Strip with Spring Pop */}
+          <StaggerGrid stagger={0.1} animation="pop" className="flex flex-wrap items-center justify-center gap-3 pt-1 text-xs font-mono">
+            <span className="bg-white/10 px-3.5 py-1.5 rounded-full border border-white/15 text-[#A8D5BA] font-bold">11:00 AM – 11:00 PM Daily</span>
+            <span className="bg-white/10 px-3.5 py-1.5 rounded-full border border-white/15 text-white">High-Speed Wi-Fi</span>
+            <span className="bg-white/10 px-3.5 py-1.5 rounded-full border border-white/15 text-[#F4A261] font-bold">Individual Power Outlets</span>
+          </StaggerGrid>
 
           <div className="pt-4 flex flex-wrap items-center justify-center gap-3">
-            <button
-              onClick={() => onOpenEnquiry('cafe')}
-              className="px-7 py-3 bg-[#4E5D4E] hover:bg-[#3D4B3D] text-[#FAF7F2] text-xs uppercase tracking-wider font-semibold rounded-full shadow-lg shadow-[#4E5D4E]/30 transition-all hover:scale-105 cursor-pointer"
-            >
-              Reserve Cafe Corner
-            </button>
-            <a
-              href="#cafe-menu"
-              className="px-7 py-3 border border-[#8FB386] hover:bg-[#8FB386]/15 text-[#8FB386] text-xs uppercase tracking-wider font-semibold rounded-full transition-all"
-            >
-              Explore Cafe Menu
-            </a>
+            <ScrollPop delay={0.2}>
+              <button
+                onClick={() => onOpenEnquiry('cafe')}
+                className="px-8 py-3.5 bg-gradient-to-r from-[#2D6A4F] to-[#1B4332] hover:brightness-110 text-[#FAF7F2] text-xs uppercase tracking-wider font-bold rounded-full shadow-xl shadow-[#2D6A4F]/40 transition-all hover:scale-105 cursor-pointer"
+              >
+                Reserve Cafe Corner
+              </button>
+            </ScrollPop>
+            <ScrollPop delay={0.3}>
+              <a
+                href="#cafe-menu"
+                className="px-8 py-3.5 border-2 border-[#A8D5BA] hover:bg-[#A8D5BA]/20 text-[#FAF7F2] text-xs uppercase tracking-wider font-bold rounded-full transition-all hover:scale-105"
+              >
+                Explore Cafe Menu
+              </a>
+            </ScrollPop>
           </div>
         </div>
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
-          SECTION 2: CASUAL SANCTUARY (Editorial Split Composition - NO REPETITIVE CARDS)
+          SECTION 2: CASUAL SANCTUARY (Soft Botanical Sage & Champagne)
       ───────────────────────────────────────────────────────────── */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#FAF7F2] border-b border-[#EFE8DC]">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#FAF5EF] via-[#F4EDE2] to-[#EFE7D8] border-b-2 border-[#A8D5BA]/30">
         <div className="max-w-7xl mx-auto space-y-12">
           
           <div className="text-center max-w-xl mx-auto space-y-2">
-            <div className="flex items-center justify-center space-x-2 text-[#4E5D4E]">
-              <CoffeeBeanFlourish className="w-4 h-4" />
-              <span className="text-[10px] uppercase font-mono tracking-widest font-bold">The Daytime Haven</span>
-            </div>
-            <h2 className="font-serif text-2xl sm:text-4xl text-[#1C1617]">
-              Where Coffee Meets Quiet Focus
-            </h2>
-            <p className="text-xs text-[#1C1617]/70 leading-relaxed font-light">
-              Crafted for afternoon study, laptop work, and relaxed evening catch-ups until 11:00 PM.
-            </p>
+            <ScrollSlide direction="down" distance={40}>
+              <div className="flex items-center justify-center space-x-2 text-[#2D6A4F]">
+                <CoffeeBeanFlourish className="w-4 h-4 animate-badge-levitate" />
+                <span className="text-[11px] uppercase font-mono tracking-widest font-bold">The Daytime Haven</span>
+              </div>
+            </ScrollSlide>
+            <ScrollSlide direction="up" distance={50} delay={0.1}>
+              <h2 className="font-serif text-2xl sm:text-4xl text-[#1C1617]">
+                Where Coffee Meets Quiet Focus
+              </h2>
+            </ScrollSlide>
+            <ScrollSlide direction="up" distance={40} delay={0.2}>
+              <p className="text-xs text-[#1C1617]/75 leading-relaxed font-light">
+                Crafted for afternoon study, laptop work, and relaxed evening catch-ups until 11:00 PM.
+              </p>
+            </ScrollSlide>
           </div>
 
-          {/* Asymmetric Split Layout: Left Neon Visual + Right Editorial Strip */}
+          {/* Asymmetric Split Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
-            {/* Left 6 cols: Ambient Neon Lounge Visual */}
+            {/* Left 6 cols: Ambient Neon Lounge Visual with 3D Tilt */}
             <div className="lg:col-span-6 relative">
-              <div className="rounded-2xl overflow-hidden shadow-xl border border-[#4E5D4E]/30 image-zoom-container">
-                <img
-                  src="/images/olive-cafe/sharda-good-vibes-neon.webp"
-                  alt="Good vibes neon sign and cafe seating"
-                  className="w-full h-80 sm:h-96 object-cover"
-                />
-              </div>
-              <div className="absolute bottom-5 left-5 right-5 bg-[#18211A]/90 backdrop-blur-md p-4 rounded-xl text-[#FAF7F2] border border-[#8FB386]/30">
-                <p className="text-[10px] font-mono uppercase tracking-widest text-[#8FB386]">Atmosphere</p>
-                <p className="font-serif text-base font-bold mt-0.5">Quiet Pacing & Warm Ambient Glow</p>
-              </div>
+              <ScrollRotate rotateFrom={6} duration={1}>
+                <div className="rounded-3xl overflow-hidden shadow-2xl border-2 border-[#2D6A4F]/30 group">
+                  <img
+                    src="/images/olive-cafe/sharda-good-vibes-neon.webp"
+                    alt="Good vibes neon sign and cafe seating"
+                    className="w-full h-80 sm:h-96 object-cover filter contrast-[1.08] group-hover:scale-105 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#16291E]/90 via-transparent to-transparent"></div>
+                  
+                  <div className="absolute bottom-6 left-6 right-6 bg-[#18211A]/90 backdrop-blur-md p-4 rounded-2xl text-[#FAF7F2] border border-[#A8D5BA]/30 shadow-xl">
+                    <p className="text-[10px] font-mono uppercase tracking-widest text-[#A8D5BA] font-bold">Atmosphere</p>
+                    <p className="font-serif text-lg font-bold mt-0.5">Quiet Pacing & Warm Ambient Glow</p>
+                  </div>
+                </div>
+              </ScrollRotate>
             </div>
 
-            {/* Right 6 cols: 3 Highlights (Editorial Flow, No Card Grids) */}
-            <div className="lg:col-span-6 space-y-6 lg:pl-4">
-              <div className="border-l-2 border-[#4E5D4E] pl-5 space-y-1">
-                <h3 className="font-serif text-lg font-bold text-[#1C1617]">
-                  Study & Remote Work Ready
-                </h3>
-                <p className="text-xs sm:text-sm text-[#1C1617]/70 leading-relaxed font-light">
-                  Complimentary high-speed Wi-Fi and accessible power outlets make it easy to work on presentations, read, or conduct small team discussions.
-                </p>
-              </div>
+            {/* Right 6 cols: 3 Highlights */}
+            <div className="lg:col-span-6 space-y-5 lg:pl-6">
+              <ScrollSlide direction="right" distance={60}>
+                <div className="p-5 rounded-2xl bg-white shadow-md border-l-4 border-[#2D6A4F] space-y-1 hover:translate-x-1.5 transition-transform">
+                  <div className="flex items-center space-x-2 text-[#2D6A4F]">
+                    <Wifi className="w-4 h-4" />
+                    <h3 className="font-serif text-lg font-bold text-[#1C1617]">Study & Remote Work Ready</h3>
+                  </div>
+                  <p className="text-xs sm:text-sm text-[#1C1617]/75 leading-relaxed font-light">
+                    Complimentary high-speed Wi-Fi and accessible power outlets make it easy to work on presentations, read, or conduct small team discussions.
+                  </p>
+                </div>
+              </ScrollSlide>
 
-              <div className="border-l-2 border-[#8C6D37] pl-5 space-y-1">
-                <h3 className="font-serif text-lg font-bold text-[#1C1617]">
-                  Authentic Espresso Extraction
-                </h3>
-                <p className="text-xs sm:text-sm text-[#1C1617]/70 leading-relaxed font-light">
-                  Freshly ground Arabica roasts pulled with rich crema. From velvety flat whites and iced Americanos to double-blended hazelnut frappes.
-                </p>
-              </div>
+              <ScrollSlide direction="right" distance={70} delay={0.15}>
+                <div className="p-5 rounded-2xl bg-white shadow-md border-l-4 border-[#D4AF37] space-y-1 hover:translate-x-1.5 transition-transform">
+                  <div className="flex items-center space-x-2 text-[#927318]">
+                    <Coffee className="w-4 h-4" />
+                    <h3 className="font-serif text-lg font-bold text-[#1C1617]">Authentic Espresso Extraction</h3>
+                  </div>
+                  <p className="text-xs sm:text-sm text-[#1C1617]/75 leading-relaxed font-light">
+                    Freshly ground Arabica roasts pulled with rich crema. From velvety flat whites and iced Americanos to double-blended hazelnut frappes.
+                  </p>
+                </div>
+              </ScrollSlide>
 
-              <div className="border-l-2 border-[#B94E35] pl-5 space-y-1">
-                <h3 className="font-serif text-lg font-bold text-[#1C1617]">
-                  Evening Desserts & Sizzlers
-                </h3>
-                <p className="text-xs sm:text-sm text-[#1C1617]/70 leading-relaxed font-light">
-                  Open until 11:00 PM nightly. Meet friends after dinner for cast-iron sizzling brownies, cheesecakes, and sundaes under glowing pendant lights.
-                </p>
-              </div>
+              <ScrollSlide direction="right" distance={80} delay={0.25}>
+                <div className="p-5 rounded-2xl bg-white shadow-md border-l-4 border-[#E76F51] space-y-1 hover:translate-x-1.5 transition-transform">
+                  <div className="flex items-center space-x-2 text-[#E76F51]">
+                    <Flame className="w-4 h-4" />
+                    <h3 className="font-serif text-lg font-bold text-[#1C1617]">Evening Desserts & Sizzlers</h3>
+                  </div>
+                  <p className="text-xs sm:text-sm text-[#1C1617]/75 leading-relaxed font-light">
+                    Open until 11:00 PM nightly. Meet friends after dinner for cast-iron sizzling brownies, cheesecakes, and sundaes under glowing pendant lights.
+                  </p>
+                </div>
+              </ScrollSlide>
             </div>
 
           </div>
@@ -164,22 +235,24 @@ export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
-          SECTION 3: ARTISANAL FOOD COLLAGE & CAFÉ LEDGER
+          SECTION 3: ARTISANAL CAFÉ LEDGER (Warm Dusty Peach & Sand)
       ───────────────────────────────────────────────────────────── */}
-      <section id="cafe-menu" className="py-20 px-4 sm:px-6 lg:px-8 bg-[#EFE8DC]">
+      <section id="cafe-menu" className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#FDF0E9] via-[#FAF0E6] to-[#F5E6DC]">
         <div className="max-w-7xl mx-auto space-y-12">
           
-          <div className="flex flex-col md:flex-row md:items-end justify-between pb-4 border-b border-[#1C1617]/10 gap-4">
-            <div>
-              <span className="text-[10px] uppercase font-mono tracking-widest text-[#4E5D4E] font-bold block mb-1">
-                Artisanal Curations
-              </span>
-              <h2 className="font-serif text-2xl sm:text-4xl text-[#1C1617]">
-                The Olive Cafe <span className="text-[#4E5D4E] italic font-normal">Ledger</span>
-              </h2>
-            </div>
+          <div className="flex flex-col md:flex-row md:items-end justify-between pb-4 border-b-2 border-[#1C1617]/10 gap-4">
+            <ScrollSlide direction="left" distance={50}>
+              <div>
+                <span className="text-[11px] uppercase font-mono tracking-widest text-[#2D6A4F] font-bold block mb-1">
+                  Artisanal Curations
+                </span>
+                <h2 className="font-serif text-2xl sm:text-4xl text-[#1C1617]">
+                  The Olive Cafe <span className="text-[#2D6A4F] italic font-normal">Ledger</span>
+                </h2>
+              </div>
+            </ScrollSlide>
 
-            {/* Menu Tabs */}
+            {/* Menu Tabs with Spring Pop */}
             <div className="flex items-center space-x-2 overflow-x-auto pb-1 md:pb-0">
               {[
                 { id: 'brews', label: 'Brews & Coffees' },
@@ -190,10 +263,10 @@ export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-mono tracking-wider transition-all cursor-pointer border ${
+                  className={`px-4 py-2 rounded-full text-xs font-mono tracking-wider transition-all cursor-pointer border-2 ${
                     activeTab === tab.id
-                      ? 'bg-[#4E5D4E] text-[#FAF7F2] border-[#4E5D4E] font-bold shadow-sm'
-                      : 'bg-white border-[#EFE8DC] text-[#1C1617]/70 hover:border-[#4E5D4E]'
+                      ? 'bg-[#2D6A4F] text-[#FAF7F2] border-[#2D6A4F] font-bold shadow-lg shadow-[#2D6A4F]/25 scale-105'
+                      : 'bg-white border-[#EFE8DC] text-[#1C1617]/70 hover:border-[#2D6A4F] hover:scale-102'
                   }`}
                 >
                   {tab.label}
@@ -207,122 +280,108 @@ export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
             
             {/* Left 6 cols: Tabbed Menu Items */}
             <div className="lg:col-span-6 space-y-3">
-              {cafeMenuHighlights[activeTab].map((item, idx) => (
-                <div
-                  key={idx}
-                  className="p-3.5 rounded-xl bg-white border border-[#EFE8DC] hover:border-[#4E5D4E] transition-all group shadow-sm flex flex-col justify-between"
-                >
-                  <div className="flex items-baseline justify-between gap-2">
-                    <h3 className="font-serif font-bold text-sm text-[#1C1617] group-hover:text-[#4E5D4E] transition-colors truncate">
-                      {item.name}
-                    </h3>
-                    <span className="font-mono font-bold text-xs text-[#1C1617] shrink-0">
-                      {item.price}
-                    </span>
+              <StaggerGrid key={activeTab} stagger={0.1} animation="pop" className="space-y-3">
+                {cafeMenuHighlights[activeTab].map((item, idx) => (
+                  <div
+                    key={idx}
+                    className="p-4 rounded-2xl bg-white border-2 border-[#EFE8DC] hover:border-[#2D6A4F] transition-all group shadow-sm hover:shadow-md flex flex-col justify-between"
+                  >
+                    <div className="flex items-baseline justify-between gap-2">
+                      <h3 className="font-serif font-bold text-sm text-[#1C1617] group-hover:text-[#2D6A4F] transition-colors truncate">
+                        {item.name}
+                      </h3>
+                      <span className="font-mono font-bold text-xs text-[#2D6A4F] bg-[#A8D5BA]/25 px-2.5 py-1 rounded-full shrink-0">
+                        {item.price}
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-[#1C1617]/70 mt-1 leading-relaxed font-light">
+                      {item.desc}
+                    </p>
+                    <div className="mt-2 pt-2 border-t border-[#FAF7F2] flex items-center justify-between text-[10px] font-mono">
+                      <span className="text-[#C84B31] font-bold">
+                        {item.badge}
+                      </span>
+                      <button
+                        onClick={() => onOpenEnquiry('cafe')}
+                        className="text-[#2D6A4F] hover:underline font-bold uppercase tracking-wider cursor-pointer"
+                      >
+                        Reserve Table →
+                      </button>
+                    </div>
                   </div>
-                  <p className="text-[11px] text-[#1C1617]/65 mt-1 leading-relaxed">
-                    {item.desc}
-                  </p>
-                  <div className="mt-2 pt-2 border-t border-[#FAF7F2] flex items-center justify-between text-[10px] font-mono">
-                    <span className="text-[#4E5D4E] font-semibold">
-                      {item.badge}
-                    </span>
-                    <button
-                      onClick={() => onOpenEnquiry('cafe')}
-                      className="text-[#4E5D4E] hover:underline font-bold uppercase tracking-wider"
-                    >
-                      Order Table →
-                    </button>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </StaggerGrid>
             </div>
 
-            {/* Right 6 cols: 4 Authentic Food Visuals in Asymmetrical Grid */}
-            <div className="lg:col-span-6 grid grid-cols-2 gap-3.5">
-              <div className="rounded-xl overflow-hidden shadow-md border border-[#D4AF37]/30 image-zoom-container">
-                <img
-                  src="/images/olive-cafe/creamy-alfredo-pasta.webp"
-                  alt="Creamy Alfredo Penne at Olive Cafe"
-                  className="w-full h-44 object-cover"
-                />
-                <div className="p-2 bg-white text-center">
-                  <p className="font-serif font-bold text-xs text-[#1C1617]">Creamy Alfredo Penne</p>
+            {/* Right 6 cols: 4 Authentic Food Visuals in Asymmetrical Grid with Zoom on Scroll */}
+            <div className="lg:col-span-6 grid grid-cols-2 gap-4">
+              <ScrollZoom scaleFrom={0.88} duration={0.8}>
+                <div className="rounded-2xl overflow-hidden shadow-md border-2 border-[#D4AF37]/35 bg-white group hover:shadow-xl transition-all">
+                  <div className="h-44 overflow-hidden">
+                    <img
+                      src="/images/olive-cafe/creamy-alfredo-pasta.webp"
+                      alt="Creamy Alfredo Penne at Olive Cafe"
+                      className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
+                    />
+                  </div>
+                  <div className="p-3 text-center bg-white">
+                    <p className="font-serif font-bold text-xs text-[#1C1617]">Creamy Alfredo Penne</p>
+                    <p className="text-[10px] font-mono font-bold text-[#C84B31]">₹320</p>
+                  </div>
                 </div>
-              </div>
+              </ScrollZoom>
 
-              <div className="rounded-xl overflow-hidden shadow-md border border-[#D4AF37]/30 image-zoom-container">
-                <img
-                  src="/images/olive-cafe/arrabita-pasta.webp"
-                  alt="Arrabbiata pasta"
-                  className="w-full h-44 object-cover"
-                />
-                <div className="p-2 bg-white text-center">
-                  <p className="font-serif font-bold text-xs text-[#1C1617]">Spicy Arrabbiata</p>
+              <ScrollZoom scaleFrom={0.88} duration={0.8} delay={0.1}>
+                <div className="rounded-2xl overflow-hidden shadow-md border-2 border-[#D4AF37]/35 bg-white group hover:shadow-xl transition-all">
+                  <div className="h-44 overflow-hidden">
+                    <img
+                      src="/images/olive-cafe/arrabita-pasta.webp"
+                      alt="Arrabbiata pasta at Olive Cafe"
+                      className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
+                    />
+                  </div>
+                  <div className="p-3 text-center bg-white">
+                    <p className="font-serif font-bold text-xs text-[#1C1617]">Spicy Arrabbiata Penne</p>
+                    <p className="text-[10px] font-mono font-bold text-[#C84B31]">₹310</p>
+                  </div>
                 </div>
-              </div>
+              </ScrollZoom>
 
-              <div className="rounded-xl overflow-hidden shadow-md border border-[#D4AF37]/30 image-zoom-container">
-                <img
-                  src="/images/olive-cafe/sharda-dinings-cheese-cake.webp"
-                  alt="Lotus Biscoff cheesecake"
-                  className="w-full h-44 object-cover"
-                />
-                <div className="p-2 bg-white text-center">
-                  <p className="font-serif font-bold text-xs text-[#1C1617]">Biscoff Cheesecake</p>
+              <ScrollZoom scaleFrom={0.88} duration={0.8} delay={0.2}>
+                <div className="rounded-2xl overflow-hidden shadow-md border-2 border-[#D4AF37]/35 bg-white group hover:shadow-xl transition-all">
+                  <div className="h-44 overflow-hidden">
+                    <img
+                      src="/images/olive-cafe/french-toast-with-vanilla-ice-cream.webp"
+                      alt="French toast with vanilla ice cream"
+                      className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
+                    />
+                  </div>
+                  <div className="p-3 text-center bg-white">
+                    <p className="font-serif font-bold text-xs text-[#1C1617]">French Toast & Scoop</p>
+                    <p className="text-[10px] font-mono font-bold text-[#C84B31]">₹220</p>
+                  </div>
                 </div>
-              </div>
+              </ScrollZoom>
 
-              <div className="rounded-xl overflow-hidden shadow-md border border-[#D4AF37]/30 image-zoom-container">
-                <img
-                  src="/images/olive-cafe/sharda-dinings-ice-cream-sundae.webp"
-                  alt="Ice cream sundae"
-                  className="w-full h-44 object-cover"
-                />
-                <div className="p-2 bg-white text-center">
-                  <p className="font-serif font-bold text-xs text-[#1C1617]">Choco Fudge Sundae</p>
+              <ScrollZoom scaleFrom={0.88} duration={0.8} delay={0.3}>
+                <div className="rounded-2xl overflow-hidden shadow-md border-2 border-[#D4AF37]/35 bg-white group hover:shadow-xl transition-all">
+                  <div className="h-44 overflow-hidden">
+                    <img
+                      src="/images/food/open-stuffed-mushroom.webp"
+                      alt="Open stuffed mushroom"
+                      className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
+                    />
+                  </div>
+                  <div className="p-3 text-center bg-white">
+                    <p className="font-serif font-bold text-xs text-[#1C1617]">Open Stuffed Mushroom</p>
+                    <p className="text-[10px] font-mono font-bold text-[#C84B31]">₹280</p>
+                  </div>
                 </div>
-              </div>
+              </ScrollZoom>
             </div>
 
           </div>
 
-        </div>
-      </section>
-
-      {/* ─────────────────────────────────────────────────────────────
-          SECTION 4: DIRECT WHATSAPP ORDER STRIP
-      ───────────────────────────────────────────────────────────── */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#4E5D4E] text-[#FAF7F2]">
-        <div className="max-w-4xl mx-auto text-center space-y-4">
-          <span className="text-[10px] font-mono uppercase tracking-widest text-[#FAF7F2]/80 font-bold block">
-            Instant Counter Collection
-          </span>
-          <h2 className="font-serif text-2xl sm:text-4xl font-normal">
-            Drop by Olive Cafe or Order Ahead
-          </h2>
-          <p className="text-xs sm:text-sm text-[#FAF7F2]/85 max-w-md mx-auto leading-relaxed">
-            Need your cold brew or stone-baked pizza packaged for the road? 
-            Send a quick WhatsApp note to our barista for swift pickup.
-          </p>
-
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
-            <a
-              href={`https://wa.me/${BUSINESS_INFO.whatsapp.number.replace('+', '')}?text=${encodeURIComponent('Hello Olive Cafe at Sharda Dinings, I would like to order Coffee & Bites for pickup / table hold.')}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-7 py-3 bg-[#FAF7F2] text-[#18211A] text-xs font-bold uppercase tracking-wider rounded-full shadow-md hover:bg-white transition-all flex items-center space-x-1.5"
-            >
-              <MessageSquare className="w-3.5 h-3.5 text-[#25D366]" />
-              <span>WhatsApp Cafe Order</span>
-            </a>
-            <a
-              href={`tel:${BUSINESS_INFO.phones[0].number}`}
-              className="px-7 py-3 border border-[#FAF7F2] text-[#FAF7F2] hover:bg-white/10 text-xs font-bold uppercase tracking-wider rounded-full transition-all"
-            >
-              Call Cafe Desk: {BUSINESS_INFO.phones[0].display}
-            </a>
-          </div>
         </div>
       </section>
 

@@ -1,8 +1,21 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, Clock, Users, Calendar, Sparkles, CheckCircle2, ChevronRight, MessageSquare, Utensils } from 'lucide-react';
+import { Phone, Clock, Users, Calendar, Sparkles, CheckCircle2, ChevronRight, MessageSquare, Utensils, Star, ShieldCheck, HeartHandshake, Baby } from 'lucide-react';
 import { BUSINESS_INFO } from '../data/businessInfo';
 import { GildedDivider, NumberedPill, WheatFlourish, SpiceStar } from '../components/DecorativeGraphics';
+import {
+  FloatingDishPortal,
+  KineticTitle,
+  FloatingSpiceCanvas,
+  InteractiveDishStage,
+  ScrollPop,
+  ScrollSlide,
+  ScrollZoom,
+  ScrollRotate,
+  FloatingCard,
+  StaggerGrid,
+  AnimatedCounter
+} from '../components/MotionExperience';
 
 export default function RestaurantPage({ onOpenEnquiry, onOpenVerification }) {
   const [activeTradition, setActiveTradition] = useState(0);
@@ -22,7 +35,7 @@ export default function RestaurantPage({ onOpenEnquiry, onOpenVerification }) {
       roman: 'I',
       title: 'Awadhi Dum & Handi',
       subtitle: 'Fragrant Kacchi Handi & Slow-Simmered Gravies',
-      desc: 'Meat and paneer simmered in copper handis sealed with dough, infusing saffron, rose petals, and hand-ground garam masalas.',
+      desc: 'Meat and paneer simmered in copper handis sealed with dough, infusing saffron, rose petals, and hand-ground garam masalas over slow embers.',
       image: '/images/food/sharda-dining-biryani.webp',
       badge: 'Chef Signature',
       highlights: ['Handi Dum Biryani with saffron rice', 'Dal Makhani slow-simmered 18 hours', 'Shahi Malai Kofta in cashew glaze']
@@ -71,130 +84,193 @@ export default function RestaurantPage({ onOpenEnquiry, onOpenVerification }) {
     <div className="min-h-screen bg-[#FAF7F2] text-[#1C1617] overflow-hidden">
       
       {/* ─────────────────────────────────────────────────────────────
-          SECTION 1: HERO — Ambiente & Mikuni Influence
-          Full-bleed dusk dining photography with layered typography
+          SECTION 1: HERO — Deep Royal Burgundy & Terracotta
       ───────────────────────────────────────────────────────────── */}
-      <section className="relative min-h-[85vh] flex items-center justify-center pt-8 pb-16 px-4 sm:px-6 lg:px-8 bg-[#1C1617] text-[#FAF7F2] overflow-hidden">
-        <div className="absolute inset-0 z-0 image-zoom-container">
+      <section className="relative min-h-[92vh] flex items-center justify-center pt-10 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#2B101D] via-[#1F0C15] to-[#14080E] text-[#FAF7F2] overflow-hidden">
+        {/* Cinematic Backdrop with Depth & Color Pulse */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
           <img
             src="/images/restaurant/sharda-dining-hall.webp"
             alt="Sharda Dinings main dining hall"
-            className="w-full h-full object-cover object-center filter brightness-[0.35] contrast-[1.2]"
+            className="w-full h-full object-cover object-center filter brightness-[0.32] contrast-[1.25] scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#1C1617] via-[#1C1617]/50 to-transparent"></div>
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#1C1617]/40 to-[#1C1617]"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#14080E] via-[#2B101D]/70 to-[#2B101D]/50"></div>
+          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#E76F51]/20 blur-3xl animate-pulse-glow"></div>
         </div>
 
-        <div className="relative z-10 max-w-4xl mx-auto text-center space-y-4">
+        {/* Ambient Floating Spices */}
+        <FloatingSpiceCanvas theme="culinary" density="rich" />
+
+        {/* Floating Side Dishes */}
+        <div className="hidden lg:block absolute left-8 top-32 z-10">
+          <FloatingCard type="vertical" intensity={15} duration={5}>
+            <FloatingDishPortal
+              src="/images/food/sharda-dining-biryani.webp"
+              alt="Awadhi Biryani"
+              title="Dum Handi Biryani"
+              price="₹380"
+              size="sm"
+              depth={1}
+              rotation={-6}
+              glowColor="rgba(244, 162, 97, 0.5)"
+            />
+          </FloatingCard>
+        </div>
+
+        <div className="hidden lg:block absolute right-8 top-28 z-10">
+          <FloatingCard type="reverse" intensity={14} duration={4.8}>
+            <FloatingDishPortal
+              src="/images/food/tandoori-veg-platter.webp"
+              alt="Tandoori Platter"
+              title="Clay Tandoor"
+              price="₹390"
+              size="sm"
+              depth={2}
+              rotation={5}
+              glowColor="rgba(231, 111, 81, 0.5)"
+            />
+          </FloatingCard>
+        </div>
+
+        <div className="relative z-10 max-w-4xl mx-auto text-center space-y-6">
           <div className="flex items-center justify-center space-x-2">
             <NumberedPill current="02" total="07" label="RESTAURANT & GASTRONOMY" />
           </div>
 
-          <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal tracking-tight text-[#FAF7F2] leading-tight">
-            The Culinary <span className="text-[#D4AF37] italic font-normal">Sanctum</span>
-          </h1>
+          <KineticTitle as="h1" className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal tracking-tight text-[#FAF7F2] leading-tight">
+            The Culinary Sanctum
+          </KineticTitle>
 
-          <p className="max-w-xl mx-auto text-xs sm:text-sm text-[#EFE8DC]/80 font-light leading-relaxed">
-            Gorakhpur’s destination for slow-cooked Awadhi curries, live charcoal tandoor platters, 
-            and private booth dining just minutes from Gorakhnath Temple.
+          <p className="max-w-xl mx-auto text-xs sm:text-sm text-[#FDE8E1]/90 font-light leading-relaxed">
+            Gorakhpur’s destination for slow-simmered Awadhi handi curries, live charcoal tandoor skewers, 
+            and private velvet booth dining just minutes from sacred Gorakhnath Temple.
           </p>
 
           <GildedDivider className="my-4" />
 
           {/* Quick Metrics Strip */}
-          <div className="flex flex-wrap items-center justify-center gap-6 pt-1 text-xs font-mono text-[#D4AF37]">
-            <span>11:00 AM – 11:00 PM Daily</span>
-            <span>•</span>
-            <span>North Indian & Chinese</span>
-            <span>•</span>
-            <span>Separate Veg & Jain Kitchen</span>
-          </div>
+          <StaggerGrid stagger={0.1} animation="pop" className="flex flex-wrap items-center justify-center gap-3 pt-1 text-xs font-mono">
+            <span className="bg-white/10 px-3.5 py-1.5 rounded-full border border-white/15 text-[#F4A261] font-bold">11:00 AM – 11:00 PM Daily</span>
+            <span className="bg-white/10 px-3.5 py-1.5 rounded-full border border-white/15 text-[#FAF7F2]">North Indian & Indo-Chinese</span>
+            <span className="bg-white/10 px-3.5 py-1.5 rounded-full border border-white/15 text-[#A8D5BA] font-bold">Dedicated Satvik & Jain Cookware</span>
+          </StaggerGrid>
 
           <div className="pt-4 flex flex-wrap items-center justify-center gap-3">
-            <a
-              href="#reservation-suite"
-              className="px-7 py-3 bg-[#B94E35] hover:bg-[#9E3F28] text-[#FAF7F2] text-xs uppercase tracking-wider font-semibold rounded-full shadow-lg shadow-[#B94E35]/30 transition-all hover:scale-105"
-            >
-              Reserve a Table
-            </a>
-            <Link
-              to="/menu"
-              className="px-7 py-3 border border-[#D4AF37] hover:bg-[#D4AF37]/15 text-[#D4AF37] text-xs uppercase tracking-wider font-semibold rounded-full transition-all"
-            >
-              Explore Full Menu
-            </Link>
+            <ScrollPop delay={0.2}>
+              <a
+                href="#reservation-suite"
+                className="px-8 py-3.5 bg-gradient-to-r from-[#E76F51] to-[#C84B31] hover:brightness-110 text-[#FAF7F2] text-xs uppercase tracking-wider font-bold rounded-full shadow-xl shadow-[#C84B31]/40 transition-all hover:scale-105"
+              >
+                Reserve a Table
+              </a>
+            </ScrollPop>
+            <ScrollPop delay={0.3}>
+              <Link
+                to="/menu"
+                className="px-8 py-3.5 border-2 border-[#D4AF37] hover:bg-[#D4AF37]/20 text-[#FAF7F2] text-xs uppercase tracking-wider font-bold rounded-full transition-all hover:scale-105"
+              >
+                Explore Full Menu
+              </Link>
+            </ScrollPop>
           </div>
         </div>
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
-          SECTION 2: DINING EXPERIENCE (Côte & Cendre Editorial Stagger)
-          Warm Cream & Rich Sand with Asymmetric Photo Flow (No repetitive cards)
+          SECTION 2: ARCHITECTURAL COMFORT & VELVET BOOTHS
+          Rich Warm Peach, Terracotta & Champagne
       ───────────────────────────────────────────────────────────── */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#FAF7F2] border-b border-[#EFE8DC]">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#FFF8F3] via-[#FDE8E1] to-[#F7E5DE] border-b-2 border-[#C84B31]/20">
         <div className="max-w-7xl mx-auto space-y-12">
           
           <div className="text-center max-w-xl mx-auto space-y-2">
-            <span className="text-[10px] uppercase tracking-widest text-[#B94E35] font-mono font-bold block">
-              Architectural Comfort
-            </span>
-            <h2 className="font-serif text-2xl sm:text-4xl text-[#1C1617]">
-              Crafted for Pacing, Family & Rest
-            </h2>
-            <p className="text-xs text-[#1C1617]/70 leading-relaxed font-light">
-              From intimate couples to multi-generational family groups, our dining bays prioritize aisle privacy and acoustic calm.
-            </p>
+            <ScrollSlide direction="down" distance={40}>
+              <span className="text-[11px] uppercase tracking-widest text-[#C84B31] font-mono font-bold block">
+                Architectural Comfort
+              </span>
+            </ScrollSlide>
+            <ScrollSlide direction="up" distance={50} delay={0.1}>
+              <h2 className="font-serif text-2xl sm:text-4xl text-[#1C1617]">
+                Crafted for Pacing, Family & Rest
+              </h2>
+            </ScrollSlide>
+            <ScrollSlide direction="up" distance={40} delay={0.2}>
+              <p className="text-xs text-[#1C1617]/75 leading-relaxed font-light">
+                From intimate couples to multi-generational family groups, our dining bays prioritize aisle privacy and acoustic calm.
+              </p>
+            </ScrollSlide>
           </div>
 
-          {/* 3-Tier Staggered Visual Flow */}
+          {/* Staggered Visual Flow */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
-            {/* Left 6 cols: Arch-topped velvet booth frame */}
+            {/* Left 6 cols: Velvet booth frame with 3D Tilt */}
             <div className="lg:col-span-6 relative">
-              <div className="relative overflow-hidden rounded-t-[120px] rounded-b-2xl border border-[#D4AF37]/40 shadow-xl bg-[#1C1617] image-zoom-container">
-                <img
-                  src="/images/restaurant/sharda-dining-booth.webp"
-                  alt="Teal velvet and teak family booths at Sharda Dinings"
-                  className="w-full h-[400px] object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1C1617] via-transparent to-transparent opacity-75"></div>
-                <div className="absolute bottom-5 left-5 right-5 text-[#FAF7F2]">
-                  <span className="text-[10px] uppercase font-mono tracking-widest text-[#D4AF37]">Booth Comfort</span>
-                  <p className="font-serif text-lg font-bold">Deep Velvet & Teak Dining Booths</p>
-                  <p className="text-xs text-[#EFE8DC]/80 mt-0.5">Spacious seating with privacy for family conversations.</p>
+              <ScrollRotate rotateFrom={-6} duration={1}>
+                <div className="relative overflow-hidden rounded-3xl border-2 border-[#C84B31]/30 shadow-2xl bg-[#1C1617] group">
+                  <img
+                    src="/images/restaurant/sharda-dining-booth.webp"
+                    alt="Teal velvet and teak family booths at Sharda Dinings"
+                    className="w-full h-[420px] object-cover filter contrast-[1.08] group-hover:scale-105 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#1C1617] via-transparent to-transparent opacity-80"></div>
+                  
+                  <div className="absolute bottom-6 left-6 right-6 text-[#FAF7F2] bg-black/40 backdrop-blur-md p-4 rounded-2xl border border-white/20">
+                    <span className="text-[10px] uppercase font-mono tracking-widest text-[#F4A261] font-bold">Booth Comfort</span>
+                    <p className="font-serif text-xl font-bold text-white mt-0.5">Deep Velvet & Teak Dining Booths</p>
+                    <p className="text-xs text-[#FDE8E1]/85 mt-1 font-light">Spacious seating with privacy for relaxed family dinners.</p>
+                  </div>
                 </div>
-              </div>
+              </ScrollRotate>
             </div>
 
-            {/* Right 6 cols: Editorial Narrative Strip (NO BOX CARDS) */}
-            <div className="lg:col-span-6 space-y-6 lg:pl-4">
+            {/* Right 6 cols: Editorial Narrative Strip */}
+            <div className="lg:col-span-6 space-y-5 lg:pl-6">
               
-              <div className="border-l-2 border-[#B94E35] pl-5 space-y-2">
-                <h3 className="font-serif text-xl font-bold text-[#1C1617]">
-                  Toddler Care & Elder Ease
-                </h3>
-                <p className="text-xs sm:text-sm text-[#1C1617]/75 leading-relaxed font-light">
-                  Equipped with high chairs for young children, wheelchair ground access, and 
-                  gentle no-spice broths suited for elderly family members.
-                </p>
-              </div>
+              <ScrollSlide direction="right" distance={60}>
+                <div className="p-5 rounded-2xl bg-white shadow-md border-l-4 border-[#C84B31] space-y-1.5 hover:translate-x-1.5 transition-transform">
+                  <div className="flex items-center space-x-2 text-[#C84B31]">
+                    <Baby className="w-4 h-4" />
+                    <h3 className="font-serif text-lg font-bold text-[#1C1617]">Toddler Care & Elder Ease</h3>
+                  </div>
+                  <p className="text-xs sm:text-sm text-[#1C1617]/75 leading-relaxed font-light">
+                    Equipped with high chairs for young children, wheelchair ground access, and 
+                    gentle no-spice broths suited for elderly family members.
+                  </p>
+                </div>
+              </ScrollSlide>
 
-              <div className="border-l-2 border-[#D4AF37] pl-5 space-y-2">
-                <h3 className="font-serif text-xl font-bold text-[#1C1617]">
-                  The Buddha Sanctuary Alcove
-                </h3>
-                <p className="text-xs sm:text-sm text-[#1C1617]/75 leading-relaxed font-light">
-                  Carved fluted marble relief walls provide acoustic softening, creating a tranquil 
-                  setting after morning Darshan at Gorakhnath Mandir.
-                </p>
-              </div>
+              <ScrollSlide direction="right" distance={70} delay={0.15}>
+                <div className="p-5 rounded-2xl bg-white shadow-md border-l-4 border-[#D4AF37] space-y-1.5 hover:translate-x-1.5 transition-transform">
+                  <div className="flex items-center space-x-2 text-[#927318]">
+                    <Sparkles className="w-4 h-4" />
+                    <h3 className="font-serif text-lg font-bold text-[#1C1617]">The Buddha Sanctuary Alcove</h3>
+                  </div>
+                  <p className="text-xs sm:text-sm text-[#1C1617]/75 leading-relaxed font-light">
+                    Carved fluted relief walls provide acoustic softening, creating a tranquil 
+                    setting after morning Darshan at Gorakhnath Mandir.
+                  </p>
+                </div>
+              </ScrollSlide>
 
-              <div className="pt-2 flex items-center space-x-6 text-xs font-mono text-[#8C6D37]">
-                <span>High Chairs Available</span>
+              <ScrollSlide direction="right" distance={80} delay={0.25}>
+                <div className="p-5 rounded-2xl bg-white shadow-md border-l-4 border-[#2D6A4F] space-y-1.5 hover:translate-x-1.5 transition-transform">
+                  <div className="flex items-center space-x-2 text-[#2D6A4F]">
+                    <ShieldCheck className="w-4 h-4" />
+                    <h3 className="font-serif text-lg font-bold text-[#1C1617]">100% Non-Alcoholic Sanctum</h3>
+                  </div>
+                  <p className="text-xs sm:text-sm text-[#1C1617]/75 leading-relaxed font-light">
+                    A strictly sober, pious family atmosphere upholding the dignity of visiting pilgrims and devotees.
+                  </p>
+                </div>
+              </ScrollSlide>
+
+              <div className="pt-2 flex items-center space-x-6 text-xs font-mono text-[#C84B31]">
+                <div><AnimatedCounter end={100} suffix="%" className="font-bold text-base text-[#1C1617]" /> Pure Dining</div>
                 <span>•</span>
-                <span>100% Non-Alcoholic</span>
+                <div><AnimatedCounter end={18} suffix=" Hrs" className="font-bold text-base text-[#1C1617]" /> Dal Simmer</div>
                 <span>•</span>
-                <span>Wheelchair Friendly</span>
+                <div><AnimatedCounter end={4} suffix=" Styles" className="font-bold text-base text-[#1C1617]" /> Traditions</div>
               </div>
             </div>
 
@@ -204,33 +280,37 @@ export default function RestaurantPage({ onOpenEnquiry, onOpenVerification }) {
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
-          SECTION 3: FOUR HERITAGE TRADITIONS (Mikuni Tabbed Showcase)
-          Deep Slate with Tabbed Roman Numerals & Circular Dish Cutout
+          SECTION 3: FOUR HERITAGE TRADITIONS (Interactive 3D Dish Stage)
+          Deep Forest Charcoal & Gilded Gold
       ───────────────────────────────────────────────────────────── */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#1C1617] text-[#FAF7F2]">
-        <div className="max-w-7xl mx-auto space-y-10">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#18211A] via-[#121B14] to-[#0D140F] text-[#FAF7F2] relative overflow-hidden border-t-2 border-[#A8D5BA]/20">
+        <FloatingSpiceCanvas theme="culinary" density="medium" />
+
+        <div className="max-w-7xl mx-auto space-y-12 relative z-10">
           
-          <div className="flex flex-col md:flex-row md:items-end justify-between pb-4 border-b border-white/10 gap-4">
-            <div>
-              <div className="flex items-center space-x-2 text-[#D4AF37] mb-1">
-                <SpiceStar className="w-3.5 h-3.5" />
-                <span className="text-[10px] uppercase tracking-widest font-mono font-semibold">Culinary Lineage</span>
+          <div className="flex flex-col md:flex-row md:items-end justify-between pb-6 border-b-2 border-white/15 gap-4">
+            <ScrollSlide direction="left" distance={50}>
+              <div>
+                <div className="flex items-center space-x-2 text-[#F4A261] mb-1">
+                  <SpiceStar className="w-4 h-4 animate-badge-levitate" />
+                  <span className="text-[11px] uppercase tracking-widest font-mono font-bold">Culinary Lineage</span>
+                </div>
+                <h2 className="font-serif text-2xl sm:text-4xl text-[#FAF7F2]">
+                  Four Cooking <span className="text-[#D4AF37] italic font-normal">Traditions</span>
+                </h2>
               </div>
-              <h2 className="font-serif text-2xl sm:text-4xl text-[#FAF7F2]">
-                Four Cooking <span className="text-[#D4AF37] italic font-normal">Traditions</span>
-              </h2>
-            </div>
+            </ScrollSlide>
             
-            {/* Roman Numerals Navigation */}
+            {/* Roman Numerals Navigation with Spring Pop */}
             <div className="flex items-center space-x-2 overflow-x-auto pb-1 md:pb-0">
               {traditions.map((t, idx) => (
                 <button
                   key={idx}
                   onClick={() => setActiveTradition(idx)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-mono tracking-wider transition-all cursor-pointer flex items-center space-x-1.5 border ${
+                  className={`px-4 py-2 rounded-full text-xs font-mono tracking-wider transition-all cursor-pointer flex items-center space-x-2 border-2 ${
                     activeTradition === idx
-                      ? 'bg-[#D4AF37] text-[#1C1617] border-[#D4AF37] font-bold shadow-md'
-                      : 'border-white/20 text-white/70 hover:border-white/40'
+                      ? 'bg-gradient-to-r from-[#D4AF37] to-[#F4A261] text-[#1C1617] border-[#D4AF37] font-bold shadow-xl shadow-[#D4AF37]/30 scale-108'
+                      : 'border-white/20 text-white/70 hover:border-white/50 hover:text-white hover:scale-102'
                   }`}
                 >
                   <span className="font-serif text-sm font-bold">{t.roman}.</span>
@@ -240,52 +320,67 @@ export default function RestaurantPage({ onOpenEnquiry, onOpenVerification }) {
             </div>
           </div>
 
-          {/* Active Tradition: Sculptural Focus */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          {/* Active Tradition: 3D Stage Composition */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             
             {/* Left 6 cols: Details */}
-            <div className="lg:col-span-6 space-y-4">
-              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/10 text-xs font-mono text-[#D4AF37]">
-                <span>Tradition {traditions[activeTradition].roman}</span>
-                <span>•</span>
-                <span>{traditions[activeTradition].badge}</span>
-              </div>
+            <div className="lg:col-span-6 space-y-5">
+              <ScrollSlide direction="left" distance={50} key={`detail-${activeTradition}`}>
+                <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-white/10 text-xs font-mono text-[#F4A261] border border-white/15">
+                  <span className="font-bold">Tradition {traditions[activeTradition].roman}</span>
+                  <span>•</span>
+                  <span>{traditions[activeTradition].badge}</span>
+                </div>
 
-              <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#FAF7F2]">
-                {traditions[activeTradition].title}
-              </h3>
-              <p className="font-serif italic text-[#D4AF37] text-base">
-                {traditions[activeTradition].subtitle}
-              </p>
-              <p className="text-xs sm:text-sm text-[#FAF7F2]/75 leading-relaxed font-light">
-                {traditions[activeTradition].desc}
-              </p>
+                <h3 className="font-serif text-2xl sm:text-4xl font-bold text-[#FAF7F2] mt-2">
+                  {traditions[activeTradition].title}
+                </h3>
+                <p className="font-serif italic text-[#D4AF37] text-lg mt-1">
+                  {traditions[activeTradition].subtitle}
+                </p>
+                <p className="text-xs sm:text-sm text-[#FDE8E1]/85 leading-relaxed font-light mt-2">
+                  {traditions[activeTradition].desc}
+                </p>
 
-              <div className="space-y-1.5 pt-3 border-t border-white/10">
-                <p className="text-[10px] uppercase tracking-widest text-[#D4AF37] font-mono font-bold">Featured Dishes</p>
-                {traditions[activeTradition].highlights.map((h, i) => (
-                  <div key={i} className="flex items-center space-x-2 text-xs text-[#FAF7F2]/85">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]"></span>
-                    <span>{h}</span>
-                  </div>
-                ))}
-              </div>
+                <div className="space-y-2 pt-4 border-t border-white/15 mt-4">
+                  <p className="text-[10px] uppercase tracking-widest text-[#F4A261] font-mono font-bold">Featured Dishes in this Style</p>
+                  {traditions[activeTradition].highlights.map((h, i) => (
+                    <div key={i} className="flex items-center space-x-3 text-xs text-[#FAF7F2]/90">
+                      <span className="w-2 h-2 rounded-full bg-[#E76F51]"></span>
+                      <span>{h}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="pt-4">
+                  <Link
+                    to="/menu"
+                    className="inline-flex items-center space-x-2 text-xs uppercase tracking-widest text-[#D4AF37] hover:text-white font-mono font-bold transition-colors"
+                  >
+                    <span>See full menu tariffs</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              </ScrollSlide>
             </div>
 
-            {/* Right 6 cols: Dish Focus */}
+            {/* Right 6 cols: Floating 3D Dish Portal with Interactive Orbit */}
             <div className="lg:col-span-6 flex items-center justify-center">
-              <div className="relative w-full max-w-sm aspect-square">
-                <div className="absolute inset-0 rounded-full border border-dashed border-[#D4AF37]/30 animate-rotate-seal"></div>
-                <div className="absolute inset-4 rounded-full overflow-hidden border-2 border-white/10 shadow-2xl bg-[#110D0E] image-zoom-container">
-                  <img
-                    key={activeTradition}
+              <ScrollPop key={`dish-${activeTradition}`} duration={0.8} overshoot={1.6}>
+                <FloatingCard type="vertical" intensity={12} duration={4.5}>
+                  <FloatingDishPortal
                     src={traditions[activeTradition].image}
                     alt={traditions[activeTradition].title}
-                    className="w-full h-full object-cover filter contrast-[1.1] animate-fade-in"
+                    title={traditions[activeTradition].title}
+                    subtitle={traditions[activeTradition].badge}
+                    size="lg"
+                    depth={1}
+                    rotation={activeTradition % 2 === 0 ? -4 : 4}
+                    glowColor="rgba(244, 162, 97, 0.55)"
+                    badge={traditions[activeTradition].badge}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#1C1617]/70 via-transparent to-transparent"></div>
-                </div>
-              </div>
+                </FloatingCard>
+              </ScrollPop>
             </div>
 
           </div>
@@ -294,221 +389,136 @@ export default function RestaurantPage({ onOpenEnquiry, onOpenVerification }) {
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
-          SECTION 4: PRIVATE CELEBRATION WING (Atelier Split-Screen)
-          Dark mood left panel vs Warm ivory details right panel
+          SECTION 4: RESERVATION SUITE (Warm Coral Peach & Cream)
       ───────────────────────────────────────────────────────────── */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#EFE8DC]">
-        <div className="max-w-6xl mx-auto rounded-3xl overflow-hidden shadow-xl border border-[#D4AF37]/30 grid grid-cols-1 lg:grid-cols-12 bg-white">
+      <section id="reservation-suite" className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#FAF0E6] via-[#FDE8E1] to-[#FBE8E2] border-t-2 border-[#C84B31]/30">
+        <div className="max-w-4xl mx-auto">
           
-          {/* Left 6 cols: Deep Charcoal */}
-          <div className="lg:col-span-6 relative p-8 sm:p-10 bg-[#1C1617] text-[#FAF7F2] flex flex-col justify-between">
-            <div className="absolute inset-0 z-0 image-zoom-container">
-              <img
-                src="/images/restaurant/sharda-dining-hall-wide.webp"
-                alt="Sharda Dinings private group wing for celebrations"
-                className="w-full h-full object-cover filter brightness-[0.25] contrast-[1.2]"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#1C1617] via-[#1C1617]/80 to-transparent"></div>
-            </div>
-
-            <div className="relative z-10 space-y-4">
-              <span className="text-[10px] font-mono tracking-widest text-[#D4AF37] uppercase">
-                PRIVATE WING · 15 TO 30 GUESTS
+          <div className="text-center max-w-xl mx-auto space-y-2 mb-10">
+            <ScrollSlide direction="down" distance={30}>
+              <span className="text-[11px] uppercase font-mono tracking-widest text-[#C84B31] font-bold block">
+                Direct Concierge Table Service
               </span>
-              <h3 className="font-serif text-2xl sm:text-3xl font-bold leading-tight">
-                The Family Celebration Wing
-              </h3>
-              <p className="text-xs sm:text-sm text-[#FAF7F2]/80 leading-relaxed font-light">
-                When a single table isn't enough, reserve our dedicated private cluster for birthday dinners, 
-                anniversary feasts, and pilgrimage tour gatherings.
+            </ScrollSlide>
+            <ScrollSlide direction="up" distance={40} delay={0.1}>
+              <h2 className="font-serif text-2xl sm:text-4xl text-[#1C1617]">
+                Table Reservation Desk
+              </h2>
+            </ScrollSlide>
+            <ScrollSlide direction="up" distance={30} delay={0.2}>
+              <p className="text-xs text-[#1C1617]/70 leading-relaxed font-light">
+                Reserve your velvet booth or family celebration table with immediate WhatsApp confirmation.
               </p>
-            </div>
-
-            <div className="relative z-10 pt-6 mt-6 border-t border-white/10 flex items-center justify-between">
-              <div>
-                <p className="text-[11px] text-[#FAF7F2]/60">Call directly for reservations:</p>
-                <p className="font-mono text-xs font-bold text-[#D4AF37]">{BUSINESS_INFO.phones[0].display}</p>
-              </div>
-              <button
-                onClick={() => onOpenEnquiry('restaurant')}
-                className="px-5 py-2 bg-[#D4AF37] hover:bg-[#c29e2f] text-[#1C1617] text-xs font-semibold uppercase tracking-wider rounded-full transition-all cursor-pointer"
-              >
-                Enquire Wing
-              </button>
-            </div>
+            </ScrollSlide>
           </div>
 
-          {/* Right 6 cols: Curated Tasting Inclusions */}
-          <div className="lg:col-span-6 p-8 sm:p-10 bg-[#FAF7F2] flex flex-col justify-between space-y-6">
-            <div className="space-y-4">
-              <h4 className="font-serif text-xl sm:text-2xl font-bold text-[#1C1617]">
-                What Awaits Your Party
-              </h4>
-              <ul className="space-y-3 text-xs sm:text-sm text-[#1C1617]/75">
-                <li className="flex items-start space-x-2.5">
-                  <span className="font-mono text-xs font-bold text-[#B94E35] shrink-0 mt-0.5">01</span>
-                  <span><strong>Custom Pre-Fixed Menus:</strong> Curated selections of starters, rich curries, tandoor breads, and hot desserts served seamlessly.</span>
-                </li>
-                <li className="flex items-start space-x-2.5">
-                  <span className="font-mono text-xs font-bold text-[#B94E35] shrink-0 mt-0.5">02</span>
-                  <span><strong>Dedicated Butler Service:</strong> Assigned dining captains ensuring timely refills and beverage pacing.</span>
-                </li>
-                <li className="flex items-start space-x-2.5">
-                  <span className="font-mono text-xs font-bold text-[#B94E35] shrink-0 mt-0.5">03</span>
-                  <span><strong>Acoustic Privacy:</strong> Cushioned high booth backs soften ambient sound so family celebrations remain intimate.</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="pt-4 border-t border-[#EFE8DC] flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <img
-                  src="/images/food/open-stuffed-mushroom.webp"
-                  alt="Stuffed mushrooms appetiser"
-                  className="w-10 h-10 rounded-lg object-cover border border-[#D4AF37]"
-                />
-                <span className="text-xs font-serif font-bold text-[#1C1617]">Herb Stuffed Mushrooms</span>
-              </div>
-              <Link to="/menu" className="text-xs font-mono font-bold text-[#B94E35] hover:underline">
-                View Appetisers →
-              </Link>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* ─────────────────────────────────────────────────────────────
-          SECTION 5: RESERVATION SUITE (Minimal Terracotta Panel)
-          Direct WhatsApp Table Booking Form
-      ───────────────────────────────────────────────────────────── */}
-      <section id="reservation-suite" className="py-20 px-4 sm:px-6 lg:px-8 bg-[#B94E35] text-[#FAF7F2]">
-        <div className="max-w-3xl mx-auto space-y-8">
-          
-          <div className="text-center space-y-2">
-            <span className="text-[10px] uppercase font-mono tracking-widest text-[#FAF7F2]/80 font-bold block">
-              Direct Desk Reservation
-            </span>
-            <h2 className="font-serif text-2xl sm:text-4xl font-normal">
-              Reserve Your Table at Sharda Dinings
-            </h2>
-            <p className="text-xs text-[#FAF7F2]/80 max-w-md mx-auto">
-              Skip peak-evening waits. Reserve your table preferences directly with our hospitality host.
-            </p>
-          </div>
-
-          <div className="bg-[#1C1617] rounded-2xl p-6 sm:p-8 border border-[#D4AF37]/30 shadow-xl text-[#FAF7F2]">
-            {formSubmitted ? (
-              <div className="text-center py-8 space-y-3">
-                <CheckCircle2 className="w-12 h-12 text-[#D4AF37] mx-auto" />
-                <h3 className="font-serif text-xl font-bold">Reservation Dispatched</h3>
-                <p className="text-xs text-[#FAF7F2]/70 max-w-sm mx-auto">
-                  Your table request has opened on WhatsApp. Our host will confirm table allocation shortly.
-                </p>
-                <button
-                  onClick={() => setFormSubmitted(false)}
-                  className="px-5 py-2 bg-[#FAF7F2] text-[#1C1617] text-xs font-bold uppercase tracking-wider rounded-full cursor-pointer"
-                >
-                  Book Another Table
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleReservationSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-[10px] font-mono uppercase tracking-wider text-[#D4AF37] mb-1">
-                      Full Name *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. Ramesh Srivastava"
-                      value={reservation.name}
-                      onChange={(e) => setReservation({ ...reservation, name: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-lg bg-white/5 border border-white/20 text-[#FAF7F2] placeholder-white/30 text-xs focus:outline-none focus:border-[#D4AF37]"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-[10px] font-mono uppercase tracking-wider text-[#D4AF37] mb-1">
-                      Phone Number *
-                    </label>
-                    <input
-                      type="tel"
-                      required
-                      placeholder="e.g. +91 98765 43210"
-                      value={reservation.phone}
-                      onChange={(e) => setReservation({ ...reservation, phone: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-lg bg-white/5 border border-white/20 text-[#FAF7F2] placeholder-white/30 text-xs focus:outline-none focus:border-[#D4AF37]"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-[10px] font-mono uppercase tracking-wider text-[#D4AF37] mb-1">
-                      Reservation Date
-                    </label>
-                    <input
-                      type="date"
-                      value={reservation.date}
-                      onChange={(e) => setReservation({ ...reservation, date: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-lg bg-white/5 border border-white/20 text-[#FAF7F2] text-xs focus:outline-none focus:border-[#D4AF37]"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-[10px] font-mono uppercase tracking-wider text-[#D4AF37] mb-1">
-                      Party Size
-                    </label>
-                    <select
-                      value={reservation.guests}
-                      onChange={(e) => setReservation({ ...reservation, guests: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-lg bg-[#2A2022] border border-white/20 text-[#FAF7F2] text-xs focus:outline-none focus:border-[#D4AF37]"
-                    >
-                      <option value="2 Guests">2 Guests (Couple)</option>
-                      <option value="4 Guests">4 Guests (Family)</option>
-                      <option value="6 Guests">6 Guests (Large Table)</option>
-                      <option value="8–12 Guests">8–12 Guests (Group Cluster)</option>
-                      <option value="15–30 Guests">15–30 Guests (Private Wing)</option>
-                    </select>
-                  </div>
-                </div>
-
+          <ScrollPop delay={0.25}>
+            <form onSubmit={handleReservationSubmit} className="bg-white p-8 sm:p-10 rounded-3xl shadow-2xl border-2 border-[#D4AF37]/35 space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-[10px] font-mono uppercase tracking-wider text-[#D4AF37] mb-1">
-                    Special Notes (Toddler high chair, Jain meal, anniversary)
+                  <label className="block text-[11px] font-mono uppercase tracking-wider text-[#1C1617] font-semibold mb-1">
+                    Full Name *
                   </label>
                   <input
                     type="text"
-                    placeholder="e.g. High chair required, mild spice preferred"
-                    value={reservation.notes}
-                    onChange={(e) => setReservation({ ...reservation, notes: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-lg bg-white/5 border border-white/20 text-[#FAF7F2] placeholder-white/30 text-xs focus:outline-none focus:border-[#D4AF37]"
+                    required
+                    value={reservation.name}
+                    onChange={(e) => setReservation({ ...reservation, name: e.target.value })}
+                    placeholder="e.g. Rajesh Sharma"
+                    className="w-full px-4 py-3 rounded-xl border-2 border-[#EFE8DC] focus:border-[#C84B31] focus:outline-none text-xs bg-[#FAF7F2] transition-colors"
                   />
                 </div>
 
-                <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
-                  <span className="text-[11px] text-[#FAF7F2]/60">
-                    Instant confirmation via WhatsApp.
-                  </span>
-                  <div className="flex items-center space-x-2 w-full sm:w-auto">
-                    <a
-                      href={`tel:${BUSINESS_INFO.phones[0].number}`}
-                      className="px-4 py-2.5 rounded-full border border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/10 text-xs font-semibold uppercase tracking-wider flex items-center justify-center space-x-1.5"
-                    >
-                      <Phone className="w-3.5 h-3.5" />
-                      <span>Call Host</span>
-                    </a>
-                    <button
-                      type="submit"
-                      className="flex-1 sm:flex-none px-6 py-2.5 bg-[#D4AF37] hover:bg-[#c29e2f] text-[#1C1617] text-xs font-bold uppercase tracking-wider rounded-full shadow-md transition-all cursor-pointer"
-                    >
-                      Book via WhatsApp
-                    </button>
-                  </div>
+                <div>
+                  <label className="block text-[11px] font-mono uppercase tracking-wider text-[#1C1617] font-semibold mb-1">
+                    Phone Number *
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    value={reservation.phone}
+                    onChange={(e) => setReservation({ ...reservation, phone: e.target.value })}
+                    placeholder="+91 98765 43210"
+                    className="w-full px-4 py-3 rounded-xl border-2 border-[#EFE8DC] focus:border-[#C84B31] focus:outline-none text-xs bg-[#FAF7F2] transition-colors"
+                  />
                 </div>
-              </form>
-            )}
-          </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                <div>
+                  <label className="block text-[11px] font-mono uppercase tracking-wider text-[#1C1617] font-semibold mb-1">
+                    Date
+                  </label>
+                  <input
+                    type="date"
+                    value={reservation.date}
+                    onChange={(e) => setReservation({ ...reservation, date: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl border-2 border-[#EFE8DC] focus:border-[#C84B31] focus:outline-none text-xs bg-[#FAF7F2] transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-mono uppercase tracking-wider text-[#1C1617] font-semibold mb-1">
+                    Preferred Time
+                  </label>
+                  <select
+                    value={reservation.time}
+                    onChange={(e) => setReservation({ ...reservation, time: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl border-2 border-[#EFE8DC] focus:border-[#C84B31] focus:outline-none text-xs bg-[#FAF7F2] transition-colors"
+                  >
+                    <option value="12:30">12:30 PM (Lunch)</option>
+                    <option value="13:30">01:30 PM (Lunch)</option>
+                    <option value="19:30">07:30 PM (Dinner)</option>
+                    <option value="20:30">08:30 PM (Dinner)</option>
+                    <option value="21:30">09:30 PM (Late Dinner)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-mono uppercase tracking-wider text-[#1C1617] font-semibold mb-1">
+                    Party Size
+                  </label>
+                  <select
+                    value={reservation.guests}
+                    onChange={(e) => setReservation({ ...reservation, guests: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl border-2 border-[#EFE8DC] focus:border-[#C84B31] focus:outline-none text-xs bg-[#FAF7F2] transition-colors"
+                  >
+                    <option value="2 Guests">2 Guests (Couple)</option>
+                    <option value="4 Guests">4 Guests (Family)</option>
+                    <option value="6-8 Guests">6-8 Guests (Large Family)</option>
+                    <option value="10+ Guests">10+ Guests (Celebration)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-mono uppercase tracking-wider text-[#1C1617] font-semibold mb-1">
+                  Special Requests or Dietary Preference
+                </label>
+                <input
+                  type="text"
+                  value={reservation.notes}
+                  onChange={(e) => setReservation({ ...reservation, notes: e.target.value })}
+                  placeholder="e.g. Jain / No Onion No Garlic, High Chair for baby, Birthday celebration"
+                  className="w-full px-4 py-3 rounded-xl border-2 border-[#EFE8DC] focus:border-[#C84B31] focus:outline-none text-xs bg-[#FAF7F2] transition-colors"
+                />
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+                <button
+                  type="submit"
+                  className="w-full sm:w-auto px-9 py-3.5 bg-gradient-to-r from-[#E76F51] to-[#C84B31] hover:brightness-110 text-white text-xs uppercase tracking-wider font-bold rounded-full shadow-xl shadow-[#C84B31]/30 transition-all hover:scale-105 cursor-pointer"
+                >
+                  Confirm via WhatsApp
+                </button>
+
+                <div className="flex items-center space-x-2 text-[11px] text-[#1C1617]/70 font-mono">
+                  <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                  <span>Instant WhatsApp confirmation · Zero reservation fee</span>
+                </div>
+              </div>
+            </form>
+          </ScrollPop>
 
         </div>
       </section>

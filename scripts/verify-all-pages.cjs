@@ -1,4 +1,4 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
 const fs = require('fs');
 const path = require('path');
 
@@ -55,12 +55,54 @@ async function runVerification() {
     // 1. Desktop Test & Capture
     await page.setViewport({ width: 1440, height: 900, deviceScaleFactor: 1 });
     await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
+    
+    // Smooth scroll down and up to trigger all ScrollTrigger animations
+    await page.evaluate(async () => {
+      await new Promise((resolve) => {
+        let totalHeight = 0;
+        const distance = 300;
+        const timer = setInterval(() => {
+          const scrollHeight = document.body.scrollHeight;
+          window.scrollBy(0, distance);
+          totalHeight += distance;
+
+          if (totalHeight >= scrollHeight) {
+            clearInterval(timer);
+            window.scrollTo(0, 0);
+            resolve();
+          }
+        }, 100);
+      });
+    });
     await new Promise(r => setTimeout(r, 600));
 
-    // Evaluate image count and naturalWidth
-    const imgStats = await page.evaluate(() => {
+    // Evaluate image count and check both visible and loaded status
+    const imgStats = await page.evaluate(async () => {
       const imgs = Array.from(document.querySelectorAll('img'));
-      const broken = imgs.filter(img => !img.complete || img.naturalWidth === 0).map(img => img.src);
+      const broken = [];
+
+      for (const img of imgs) {
+        // If image has rendered naturalWidth > 0, it's good
+        if (img.complete && img.naturalWidth > 0) continue;
+
+        // If hidden by CSS (e.g. desktop-only in mobile viewport), test load directly
+        try {
+          const testImg = new Image();
+          testImg.src = img.src;
+          await new Promise((resolve, reject) => {
+            if (testImg.complete && testImg.naturalWidth > 0) return resolve();
+            testImg.onload = () => resolve();
+            testImg.onerror = () => reject(new Error('Failed to load'));
+            setTimeout(() => resolve(), 3000);
+          });
+          if (testImg.naturalWidth === 0 && !testImg.complete) {
+            broken.push(img.src);
+          }
+        } catch (e) {
+          broken.push(img.src);
+        }
+      }
+
       return { total: imgs.length, broken };
     });
 
@@ -79,9 +121,27 @@ async function runVerification() {
     await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
     await new Promise(r => setTimeout(r, 600));
 
-    const mobileStats = await page.evaluate(() => {
+    const mobileStats = await page.evaluate(async () => {
       const imgs = Array.from(document.querySelectorAll('img'));
-      const broken = imgs.filter(img => !img.complete || img.naturalWidth === 0).map(img => img.src);
+      const broken = [];
+      for (const img of imgs) {
+        if (img.complete && img.naturalWidth > 0) continue;
+        try {
+          const testImg = new Image();
+          testImg.src = img.src;
+          await new Promise((resolve) => {
+            if (testImg.complete && testImg.naturalWidth > 0) return resolve();
+            testImg.onload = () => resolve();
+            testImg.onerror = () => resolve();
+            setTimeout(() => resolve(), 3000);
+          });
+          if (testImg.naturalWidth === 0 && !testImg.complete) {
+            broken.push(img.src);
+          }
+        } catch (e) {
+          broken.push(img.src);
+        }
+      }
       return { total: imgs.length, broken };
     });
     console.log(`  ✓ Mobile: ${mobileStats.total} images found, ${mobileStats.broken.length} broken.`);

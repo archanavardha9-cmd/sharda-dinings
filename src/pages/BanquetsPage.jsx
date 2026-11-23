@@ -1,7 +1,19 @@
 import React, { useState } from 'react';
-import { Calendar, Users, Phone, Sparkles, CheckCircle2, ChevronRight, MessageSquare, ShieldCheck, HeartHandshake, Building2 } from 'lucide-react';
+import { Calendar, Users, Phone, Sparkles, CheckCircle2, ChevronRight, MessageSquare, ShieldCheck, HeartHandshake, Building2, Flame, Award } from 'lucide-react';
 import { BUSINESS_INFO } from '../data/businessInfo';
 import { GildedDivider, NumberedPill, SpiceStar, WheatFlourish } from '../components/DecorativeGraphics';
+import {
+  FloatingDishPortal,
+  KineticTitle,
+  FloatingSpiceCanvas,
+  ScrollPop,
+  ScrollSlide,
+  ScrollZoom,
+  ScrollRotate,
+  FloatingCard,
+  StaggerGrid,
+  AnimatedCounter
+} from '../components/MotionExperience';
 
 export default function BanquetsPage({ onOpenEnquiry, onOpenVerification }) {
   const [eventType, setEventType] = useState('Wedding Reception');
@@ -64,176 +76,229 @@ export default function BanquetsPage({ onOpenEnquiry, onOpenVerification }) {
       {/* ─────────────────────────────────────────────────────────────
           SECTION 1: HERO — Royal Wine & Gilded Grandeur
       ───────────────────────────────────────────────────────────── */}
-      <section className="relative min-h-[85vh] flex items-center justify-center pt-8 pb-16 px-4 sm:px-6 lg:px-8 bg-[#2A1319] text-[#FAF7F2] overflow-hidden">
-        <div className="absolute inset-0 z-0 image-zoom-container">
+      <section className="relative min-h-[92vh] flex items-center justify-center pt-10 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#35101C] via-[#260A14] to-[#17050B] text-[#FAF7F2] overflow-hidden">
+        {/* Subtle Ambient Atmosphere with Color Aura */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
           <img
             src="/images/banquets/sharda-banquet-hall.webp"
             alt="Grand banquet hall at Sharda Dinings Gorakhpur"
-            className="w-full h-full object-cover object-center filter brightness-[0.35] contrast-[1.2]"
+            className="w-full h-full object-cover object-center filter brightness-[0.32] contrast-[1.25] scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#2A1319] via-[#2A1319]/60 to-transparent"></div>
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#2A1319]/50 to-[#2A1319]"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#17050B] via-[#260A14]/70 to-[#35101C]/50"></div>
+          <div className="absolute top-1/4 left-1/3 w-[550px] h-[550px] rounded-full bg-[#E76F51]/20 blur-3xl animate-pulse-glow"></div>
         </div>
 
-        <div className="relative z-10 max-w-4xl mx-auto text-center space-y-4">
+        {/* Floating Celebratory Particles */}
+        <FloatingSpiceCanvas theme="celebratory" density="rich" />
+
+        {/* Floating Stage and Buffet Visual Accents */}
+        <div className="hidden lg:block absolute left-10 top-28 z-10">
+          <FloatingCard type="vertical" intensity={15} duration={5}>
+            <FloatingDishPortal
+              src="/images/banquets/sharda-wedding-stage.webp"
+              alt="Wedding Stage"
+              title="Illuminated Stage"
+              subtitle="Floral Decor"
+              size="sm"
+              depth={1}
+              rotation={-5}
+              glowColor="rgba(244, 162, 97, 0.55)"
+            />
+          </FloatingCard>
+        </div>
+
+        <div className="hidden lg:block absolute right-10 top-24 z-10">
+          <FloatingCard type="reverse" intensity={14} duration={4.8}>
+            <FloatingDishPortal
+              src="/images/banquets/sharda-banquet-buffet.webp"
+              alt="Royal Buffet"
+              title="Royal In-House Buffet"
+              subtitle="Awadhi Feasts"
+              size="sm"
+              depth={2}
+              rotation={6}
+              glowColor="rgba(212, 175, 55, 0.5)"
+            />
+          </FloatingCard>
+        </div>
+
+        <div className="relative z-10 max-w-4xl mx-auto text-center space-y-6">
           <div className="flex items-center justify-center space-x-2">
             <NumberedPill current="05" total="07" label="INDOOR BANQUETS & GRAND GALAS" />
           </div>
 
-          <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal tracking-tight text-[#FAF7F2] leading-tight">
-            Banquets & <span className="text-[#D4AF37] italic font-normal">Celebrations</span>
-          </h1>
+          <KineticTitle as="h1" className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal tracking-tight text-[#FAF7F2] leading-tight">
+            Banquets & Celebrations
+          </KineticTitle>
 
-          <p className="max-w-xl mx-auto text-xs sm:text-sm text-[#EFE8DC]/85 font-light leading-relaxed">
+          <p className="max-w-xl mx-auto text-xs sm:text-sm text-[#FDE8E1]/90 font-light leading-relaxed">
             Gorakhpur’s premier air-conditioned celebration venue. Hosting 100 seated and 150 floating guests with 
             exquisite in-house royal catering and 11 guest rooms under one roof.
           </p>
 
           <GildedDivider className="my-4" />
 
-          {/* Key Metrics Strip */}
-          <div className="flex flex-wrap items-center justify-center gap-6 pt-1 text-xs font-mono text-[#D4AF37]">
-            <span>100 Seated Guests</span>
-            <span>•</span>
-            <span>150 Floating Capacity</span>
-            <span>•</span>
-            <span>100% In-House Master Chefs</span>
-            <span>•</span>
-            <span>Non-Alcoholic Sanctuary</span>
-          </div>
+          {/* Key Metrics Strip with Spring Pop */}
+          <StaggerGrid stagger={0.1} animation="pop" className="flex flex-wrap items-center justify-center gap-3 pt-1 text-xs font-mono">
+            <span className="bg-white/10 px-3.5 py-1.5 rounded-full border border-white/15 text-[#F4A261] font-bold">100 Seated Guests</span>
+            <span className="bg-white/10 px-3.5 py-1.5 rounded-full border border-white/15 text-white">150 Floating Capacity</span>
+            <span className="bg-white/10 px-3.5 py-1.5 rounded-full border border-white/15 text-[#A8D5BA] font-bold">100% In-House Master Chefs</span>
+            <span className="bg-white/10 px-3.5 py-1.5 rounded-full border border-white/15 text-[#FCD5CE]">Non-Alcoholic Sanctuary</span>
+          </StaggerGrid>
 
           <div className="pt-4 flex flex-wrap items-center justify-center gap-3">
-            <a
-              href="#estimator-suite"
-              className="px-7 py-3 bg-[#D4AF37] hover:bg-[#c29e2f] text-[#1C1617] text-xs uppercase tracking-wider font-semibold rounded-full shadow-lg shadow-[#D4AF37]/20 transition-all hover:scale-105"
-            >
-              Get Event Quotation
-            </a>
-            <a
-              href={`tel:${BUSINESS_INFO.phones[1].number}`}
-              className="px-7 py-3 border border-[#D4AF37] hover:bg-[#D4AF37]/15 text-[#D4AF37] text-xs uppercase tracking-wider font-semibold rounded-full transition-all"
-            >
-              Call Banquet Desk: {BUSINESS_INFO.phones[1].display}
-            </a>
+            <ScrollPop delay={0.2}>
+              <a
+                href="#estimator-suite"
+                className="px-8 py-3.5 bg-gradient-to-r from-[#D4AF37] to-[#F4A261] hover:brightness-110 text-[#1C1617] text-xs uppercase tracking-wider font-bold rounded-full shadow-xl shadow-[#D4AF37]/30 transition-all hover:scale-105"
+              >
+                Get Event Quotation
+              </a>
+            </ScrollPop>
+            <ScrollPop delay={0.3}>
+              <a
+                href={`tel:${BUSINESS_INFO.phones[1].number}`}
+                className="px-8 py-3.5 border-2 border-[#D4AF37] hover:bg-[#D4AF37]/20 text-[#FAF7F2] text-xs uppercase tracking-wider font-bold rounded-full transition-all hover:scale-105"
+              >
+                Call Banquet Desk: {BUSINESS_INFO.phones[1].display}
+              </a>
+            </ScrollPop>
           </div>
         </div>
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
-          SECTION 2: VENUE SPECIFICATIONS & METRICS (Editorial Split)
+          SECTION 2: VENUE SPECIFICATIONS & DUAL CAPACITY
+          Champagne & Wine Atmosphere with Animated Counters
       ───────────────────────────────────────────────────────────── */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#FAF7F2] border-b border-[#EFE8DC]">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#FAF5EF] via-[#F4EDE2] to-[#EFE7D8] border-b-2 border-[#D4AF37]/30">
         <div className="max-w-6xl mx-auto space-y-12">
           
           <div className="text-center max-w-xl mx-auto space-y-2">
-            <span className="text-[10px] uppercase tracking-widest text-[#3D1B24] font-mono font-bold block">
-              Architectural Specifications
-            </span>
-            <h2 className="font-serif text-2xl sm:text-4xl text-[#1C1617]">
-              Designed for Seamless Flow & Grandeur
-            </h2>
-            <p className="text-xs text-[#1C1617]/70 leading-relaxed font-light">
-              Carefully engineered layout ensuring stage sightlines, smooth buffet circulation, and peaceful family hospitality.
-            </p>
-          </div>
-
-          {/* Dual Capacity Showcase */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="p-6 sm:p-8 rounded-2xl bg-white border border-[#EFE8DC] shadow-sm">
-              <div className="flex items-baseline space-x-3">
-                <span className="font-serif text-5xl font-bold text-[#3D1B24]">100</span>
-                <span className="text-xs uppercase font-mono tracking-widest text-[#D4AF37] font-bold">SEATED GUESTS</span>
-              </div>
-              <h3 className="font-serif text-lg font-bold text-[#1C1617] mt-3">Formal Dining & Ritual Layouts</h3>
-              <p className="text-xs text-[#1C1617]/70 mt-1 leading-relaxed">
-                Spaced round banquet tables with stage sightlines. Ideal for sacred rituals, engagement blessings, and seated feasts.
+            <ScrollSlide direction="down" distance={40}>
+              <span className="text-[11px] uppercase tracking-widest text-[#4A1521] font-mono font-bold block">
+                Architectural Specifications
+              </span>
+            </ScrollSlide>
+            <ScrollSlide direction="up" distance={50} delay={0.1}>
+              <h2 className="font-serif text-2xl sm:text-4xl text-[#1C1617]">
+                Designed for Seamless Flow & Grandeur
+              </h2>
+            </ScrollSlide>
+            <ScrollSlide direction="up" distance={40} delay={0.2}>
+              <p className="text-xs text-[#1C1617]/75 leading-relaxed font-light">
+                Carefully engineered layout ensuring stage sightlines, smooth buffet circulation, and peaceful family hospitality.
               </p>
-            </div>
+            </ScrollSlide>
+          </div>
 
-            <div className="p-6 sm:p-8 rounded-2xl bg-[#2A1319] text-[#FAF7F2] border border-[#D4AF37]/30 shadow-md">
-              <div className="flex items-baseline space-x-3">
-                <span className="font-serif text-5xl font-bold text-[#D4AF37]">150</span>
-                <span className="text-xs uppercase font-mono tracking-widest text-[#FAF7F2]/60 font-bold">FLOATING GUESTS</span>
+          {/* Dual Capacity Showcase with Slide In */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <ScrollSlide direction="left" distance={60}>
+              <div className="p-8 sm:p-10 rounded-3xl bg-white border-2 border-[#D4AF37]/35 shadow-xl hover:shadow-2xl transition-all">
+                <div className="flex items-baseline space-x-3">
+                  <AnimatedCounter end={100} suffix="" className="font-serif text-5xl sm:text-6xl font-bold text-[#4A1521]" />
+                  <span className="text-xs uppercase font-mono tracking-widest text-[#C84B31] font-bold">SEATED GUESTS</span>
+                </div>
+                <h3 className="font-serif text-xl font-bold text-[#1C1617] mt-3">Formal Dining & Ritual Layouts</h3>
+                <p className="text-xs text-[#1C1617]/75 mt-1.5 leading-relaxed font-light">
+                  Spaced round banquet tables with unobstructed stage sightlines. Ideal for sacred rituals, engagement blessings, and seated thali feasts.
+                </p>
               </div>
-              <h3 className="font-serif text-lg font-bold text-[#FAF7F2] mt-3">Evening Receptions & Sangeet Flow</h3>
-              <p className="text-xs text-[#FAF7F2]/75 mt-1 leading-relaxed">
-                Open-floor configuration featuring a central stage, photo lounge, and continuous live starter circulation.
-              </p>
-            </div>
+            </ScrollSlide>
+
+            <ScrollSlide direction="right" distance={60} delay={0.15}>
+              <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-[#4A1521] to-[#2B0C15] text-[#FAF7F2] border-2 border-[#D4AF37]/50 shadow-2xl hover:shadow-2xl transition-all">
+                <div className="flex items-baseline space-x-3">
+                  <AnimatedCounter end={150} suffix="" className="font-serif text-5xl sm:text-6xl font-bold text-[#F4A261]" />
+                  <span className="text-xs uppercase font-mono tracking-widest text-[#FAF7F2]/70 font-bold">FLOATING GUESTS</span>
+                </div>
+                <h3 className="font-serif text-xl font-bold text-[#FAF7F2] mt-3">Evening Receptions & Sangeet Flow</h3>
+                <p className="text-xs text-[#FDE8E1]/85 mt-1.5 leading-relaxed font-light">
+                  Open-floor configuration featuring a central illuminated stage, photo lounge, and continuous live starter circulation.
+                </p>
+              </div>
+            </ScrollSlide>
           </div>
 
-          {/* Integrated Pillars Strip (Horizontal Architecture) */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 pt-4 border-t border-[#EFE8DC]">
-            <div className="space-y-1">
-              <span className="font-mono text-xs font-bold text-[#3D1B24] block">Non-Alcoholic Sanctuary</span>
-              <p className="text-[11px] text-[#1C1617]/65">Strict sober environment ensuring dignity and comfort for all generations.</p>
+          {/* Integrated Pillars Strip */}
+          <StaggerGrid stagger={0.1} animation="pop" className="grid grid-cols-2 lg:grid-cols-4 gap-4 pt-6 border-t-2 border-[#D4AF37]/20">
+            <div className="p-4 rounded-2xl bg-white border border-[#EFE8DC] space-y-1 shadow-sm">
+              <span className="font-mono text-xs font-bold text-[#4A1521] block">Non-Alcoholic Sanctuary</span>
+              <p className="text-[11px] text-[#1C1617]/70 font-light">Strict sober environment ensuring dignity and comfort for all generations.</p>
             </div>
-            <div className="space-y-1">
-              <span className="font-mono text-xs font-bold text-[#3D1B24] block">11 Upstairs AC Rooms</span>
-              <p className="text-[11px] text-[#1C1617]/65">Reserve guest rooms for bride/groom prep and out-of-town wedding guests.</p>
+            <div className="p-4 rounded-2xl bg-white border border-[#EFE8DC] space-y-1 shadow-sm">
+              <span className="font-mono text-xs font-bold text-[#4A1521] block">11 Upstairs AC Rooms</span>
+              <p className="text-[11px] text-[#1C1617]/70 font-light">Reserve guest rooms for bride/groom prep and out-of-town wedding guests.</p>
             </div>
-            <div className="space-y-1">
-              <span className="font-mono text-xs font-bold text-[#3D1B24] block">100% Power Generator</span>
-              <p className="text-[11px] text-[#1C1617]/65">Heavy-duty silent generator ensures uninterrupted cooling and sound.</p>
+            <div className="p-4 rounded-2xl bg-white border border-[#EFE8DC] space-y-1 shadow-sm">
+              <span className="font-mono text-xs font-bold text-[#4A1521] block">100% Power Generator</span>
+              <p className="text-[11px] text-[#1C1617]/70 font-light">Heavy-duty silent generator ensures uninterrupted cooling and sound.</p>
             </div>
-            <div className="space-y-1">
-              <span className="font-mono text-xs font-bold text-[#3D1B24] block">Single Point Manager</span>
-              <p className="text-[11px] text-[#1C1617]/65">One dedicated captain coordinating sound, catering, and event timing.</p>
+            <div className="p-4 rounded-2xl bg-white border border-[#EFE8DC] space-y-1 shadow-sm">
+              <span className="font-mono text-xs font-bold text-[#4A1521] block">Single Point Manager</span>
+              <p className="text-[11px] text-[#1C1617]/70 font-light">One dedicated captain coordinating sound, catering, and event timing.</p>
             </div>
-          </div>
+          </StaggerGrid>
 
         </div>
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
-          SECTION 3: CELEBRATIONS PORTFOLIO (2x2 Asymmetric Stagger)
+          SECTION 3: CELEBRATIONS PORTFOLIO (Warm Saffron Sand)
       ───────────────────────────────────────────────────────────── */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-[#EFE8DC]">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#FDF6EE] via-[#FAF0E6] to-[#F5E6D8]">
         <div className="max-w-7xl mx-auto space-y-12">
           
           <div className="text-center max-w-xl mx-auto space-y-2">
-            <span className="text-[10px] uppercase tracking-widest text-[#3D1B24] font-mono font-bold block">
-              Event Portfolio
-            </span>
-            <h2 className="font-serif text-2xl sm:text-4xl text-[#1C1617]">
-              Every Milestone Celebrated with Grace
-            </h2>
-            <p className="text-xs text-[#1C1617]/70 leading-relaxed font-light">
-              Tailored event layouts for sacred family occasions, corporate conclaves, and community milestones.
-            </p>
+            <ScrollSlide direction="down" distance={40}>
+              <span className="text-[11px] uppercase tracking-widest text-[#4A1521] font-mono font-bold block">
+                Event Portfolio
+              </span>
+            </ScrollSlide>
+            <ScrollSlide direction="up" distance={50} delay={0.1}>
+              <h2 className="font-serif text-2xl sm:text-4xl text-[#1C1617]">
+                Every Milestone Celebrated with Grace
+              </h2>
+            </ScrollSlide>
+            <ScrollSlide direction="up" distance={40} delay={0.2}>
+              <p className="text-xs text-[#1C1617]/75 leading-relaxed font-light">
+                Tailored event layouts for sacred family occasions, corporate conclaves, and community milestones.
+              </p>
+            </ScrollSlide>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <StaggerGrid stagger={0.12} animation="zoom" className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {celebrationTypes.map((item, idx) => (
               <div
                 key={idx}
-                className="rounded-2xl overflow-hidden bg-white border border-[#D4AF37]/30 shadow-md group hover:shadow-xl transition-all flex flex-col justify-between"
+                className="rounded-3xl overflow-hidden bg-white border-2 border-[#D4AF37]/35 shadow-md group hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
               >
                 <div>
-                  <div className="relative h-56 overflow-hidden image-zoom-container">
+                  <div className="relative h-60 overflow-hidden">
                     <img
                       src={item.image}
                       alt={item.title}
-                      className="w-full h-full object-cover filter contrast-[1.05]"
+                      className="w-full h-full object-cover filter contrast-[1.08] group-hover:scale-108 transition-transform duration-700"
                     />
-                    <div className="absolute top-3 left-3 bg-[#2A1319]/85 backdrop-blur-md px-2.5 py-1 rounded-full text-[#D4AF37] font-mono text-[10px] uppercase border border-[#D4AF37]/30">
+                    <div className="absolute top-4 left-4 bg-[#4A1521]/90 backdrop-blur-md px-3 py-1 rounded-full text-[#F4A261] font-mono text-[10px] uppercase font-bold border border-white/20">
                       {item.tag}
                     </div>
-                    <div className="absolute bottom-3 right-3 bg-[#1C1617]/85 backdrop-blur-md px-2.5 py-0.5 rounded text-[11px] font-mono text-[#FAF7F2]">
+                    <div className="absolute bottom-4 right-4 bg-[#1C1617]/90 backdrop-blur-md px-3 py-1 rounded-full text-[11px] font-mono text-[#FAF7F2] font-semibold">
                       {item.capacity}
                     </div>
                   </div>
 
-                  <div className="p-5 space-y-2">
-                    <h3 className="font-serif text-xl font-bold text-[#1C1617] group-hover:text-[#3D1B24] transition-colors">
+                  <div className="p-6 space-y-3">
+                    <h3 className="font-serif text-xl font-bold text-[#1C1617] group-hover:text-[#4A1521] transition-colors">
                       {item.title}
                     </h3>
-                    <p className="text-xs text-[#1C1617]/70 leading-relaxed font-light">
+                    <p className="text-xs text-[#1C1617]/75 leading-relaxed font-light">
                       {item.desc}
                     </p>
-                    <div className="pt-2 flex flex-wrap gap-2 text-[11px] text-[#1C1617]/65">
+                    <div className="pt-2 flex flex-wrap gap-2 text-[11px] text-[#1C1617]/70">
                       {item.features.map((f, fi) => (
-                        <span key={fi} className="px-2 py-0.5 rounded bg-[#FAF7F2] border border-[#EFE8DC]">
+                        <span key={fi} className="px-2.5 py-1 rounded-lg bg-[#FAF7F2] border border-[#EFE8DC] font-medium">
                           {f}
                         </span>
                       ))}
@@ -241,169 +306,159 @@ export default function BanquetsPage({ onOpenEnquiry, onOpenVerification }) {
                   </div>
                 </div>
 
-                <div className="p-5 pt-0">
+                <div className="p-6 pt-0">
                   <button
                     onClick={() => {
                       setEventType(item.title);
                       const el = document.getElementById('estimator-suite');
                       if (el) el.scrollIntoView({ behavior: 'smooth' });
                     }}
-                    className="w-full py-2 bg-[#FAF7F2] hover:bg-[#3D1B24] hover:text-[#FAF7F2] text-[#3D1B24] border border-[#3D1B24]/20 rounded-lg text-xs font-mono uppercase tracking-wider font-bold transition-all cursor-pointer flex items-center justify-center space-x-1.5"
+                    className="w-full py-3 rounded-xl border-2 border-[#4A1521]/20 hover:bg-[#4A1521] hover:text-white text-xs font-mono font-bold uppercase tracking-wider transition-all cursor-pointer"
                   >
-                    <span>Enquire for {item.title}</span>
-                    <ChevronRight className="w-3.5 h-3.5" />
+                    Select & Calculate Package
                   </button>
                 </div>
               </div>
             ))}
-          </div>
+          </StaggerGrid>
 
         </div>
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
-          SECTION 4: ITEMIZED EVENT QUOTATION BUILDER
+          SECTION 4: ESTIMATOR SUITE (Warm Terracotta & Peach)
       ───────────────────────────────────────────────────────────── */}
-      <section id="estimator-suite" className="py-20 px-4 sm:px-6 lg:px-8 bg-[#2A1319] text-[#FAF7F2]">
-        <div className="max-w-3xl mx-auto space-y-8">
+      <section id="estimator-suite" className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#FAF0E6] via-[#FDE8E1] to-[#FBE8E2] border-t-2 border-[#D4AF37]/30">
+        <div className="max-w-4xl mx-auto">
           
-          <div className="text-center space-y-2">
-            <span className="text-[10px] font-mono tracking-widest uppercase text-[#D4AF37] font-bold block">
-              Event Concierge
-            </span>
-            <h2 className="font-serif text-2xl sm:text-4xl font-normal">
-              Build Your Custom Celebration Package
-            </h2>
-            <p className="text-xs text-[#FAF7F2]/80 max-w-md mx-auto">
-              Tell us about your tentative dates, guest count, and catering preferences. 
-              Our banquet manager will share hall availability and tailored menus.
-            </p>
+          <div className="text-center max-w-xl mx-auto space-y-2 mb-10">
+            <ScrollSlide direction="down" distance={30}>
+              <span className="text-[11px] uppercase font-mono tracking-widest text-[#4A1521] font-bold block">
+                Event Planning Desk
+              </span>
+            </ScrollSlide>
+            <ScrollSlide direction="up" distance={40} delay={0.1}>
+              <h2 className="font-serif text-2xl sm:text-4xl text-[#1C1617]">
+                Get Instant Banquet Quotation
+              </h2>
+            </ScrollSlide>
+            <ScrollSlide direction="up" distance={30} delay={0.2}>
+              <p className="text-xs text-[#1C1617]/75 leading-relaxed font-light">
+                Select your specifications and send directly to our banquet management team via WhatsApp.
+              </p>
+            </ScrollSlide>
           </div>
 
-          <div className="bg-[#1C1617] rounded-2xl p-6 sm:p-8 border border-[#D4AF37]/30 shadow-xl">
-            {submitted ? (
-              <div className="text-center py-8 space-y-3">
-                <CheckCircle2 className="w-12 h-12 text-[#D4AF37] mx-auto" />
-                <h3 className="font-serif text-xl font-bold">Quotation Enquiry Dispatched</h3>
-                <p className="text-xs text-[#FAF7F2]/70 max-w-sm mx-auto">
-                  Your event specifications have opened on WhatsApp to our banquet team.
-                </p>
-                <button
-                  onClick={() => setSubmitted(false)}
-                  className="px-5 py-2 bg-[#D4AF37] text-[#1C1617] text-xs font-bold uppercase tracking-wider rounded-full cursor-pointer"
-                >
-                  Create Another Enquiry
-                </button>
+          <ScrollPop delay={0.25}>
+            <form onSubmit={handleQuotationSubmit} className="bg-white p-8 sm:p-10 rounded-3xl shadow-2xl border-2 border-[#D4AF37]/35 space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <label className="block text-[11px] font-mono uppercase tracking-wider text-[#1C1617] font-semibold mb-1">
+                    Organizer Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={organizerName}
+                    onChange={(e) => setOrganizerName(e.target.value)}
+                    placeholder="e.g. Mr. S. K. Gupta"
+                    className="w-full px-4 py-3 rounded-xl border-2 border-[#EFE8DC] focus:border-[#4A1521] focus:outline-none text-xs bg-[#FAF7F2] transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-mono uppercase tracking-wider text-[#1C1617] font-semibold mb-1">
+                    Contact Phone *
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    value={organizerPhone}
+                    onChange={(e) => setOrganizerPhone(e.target.value)}
+                    placeholder="+91 99724 03294"
+                    className="w-full px-4 py-3 rounded-xl border-2 border-[#EFE8DC] focus:border-[#4A1521] focus:outline-none text-xs bg-[#FAF7F2] transition-colors"
+                  />
+                </div>
               </div>
-            ) : (
-              <form onSubmit={handleQuotationSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-[10px] font-mono uppercase tracking-wider text-[#D4AF37] mb-1">
-                      Organizer Name *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. Anand Swarup Verma"
-                      value={organizerName}
-                      onChange={(e) => setOrganizerName(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-lg bg-white/5 border border-white/20 text-[#FAF7F2] placeholder-white/30 text-xs focus:outline-none focus:border-[#D4AF37]"
-                    />
-                  </div>
 
-                  <div>
-                    <label className="block text-[10px] font-mono uppercase tracking-wider text-[#D4AF37] mb-1">
-                      Phone Number *
-                    </label>
-                    <input
-                      type="tel"
-                      required
-                      placeholder="e.g. +91 99724 03294"
-                      value={organizerPhone}
-                      onChange={(e) => setOrganizerPhone(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-lg bg-white/5 border border-white/20 text-[#FAF7F2] placeholder-white/30 text-xs focus:outline-none focus:border-[#D4AF37]"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-[10px] font-mono uppercase tracking-wider text-[#D4AF37] mb-1">
-                      Celebration Nature
-                    </label>
-                    <select
-                      value={eventType}
-                      onChange={(e) => setEventType(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-lg bg-[#2A1319] border border-white/20 text-[#FAF7F2] text-xs focus:outline-none focus:border-[#D4AF37]"
-                    >
-                      <option value="Wedding Reception">Wedding Reception</option>
-                      <option value="Ring Ceremony / Sagai">Ring Ceremony / Sagai</option>
-                      <option value="Haldi / Mehndi / Sangeet">Haldi / Mehndi / Sangeet</option>
-                      <option value="Milestone Birthday / Anniversary">Milestone Birthday / Anniversary</option>
-                      <option value="Corporate Conclave / Conference">Corporate Conclave / Conference</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-[10px] font-mono uppercase tracking-wider text-[#D4AF37] mb-1">
-                      Expected Guest Count
-                    </label>
-                    <select
-                      value={guestCount}
-                      onChange={(e) => setGuestCount(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-lg bg-[#2A1319] border border-white/20 text-[#FAF7F2] text-xs focus:outline-none focus:border-[#D4AF37]"
-                    >
-                      <option value="50">50 Guests (Intimate Gathering)</option>
-                      <option value="75">75 Guests (Medium Gathering)</option>
-                      <option value="100">100 Guests (Full Seated Banquet)</option>
-                      <option value="125">125 Guests (Spacious Reception)</option>
-                      <option value="150">150 Guests (Maximum Floating Capacity)</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-[10px] font-mono uppercase tracking-wider text-[#D4AF37] mb-1">
-                      Catering Preference
-                    </label>
-                    <select
-                      value={foodPreference}
-                      onChange={(e) => setFoodPreference(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-lg bg-[#2A1319] border border-white/20 text-[#FAF7F2] text-xs focus:outline-none focus:border-[#D4AF37]"
-                    >
-                      <option value="Pure Vegetarian (Standard)">Pure Vegetarian (Standard)</option>
-                      <option value="Pure Vegetarian with Jain Counters">Pure Vegetarian with Jain Counters</option>
-                      <option value="Multi-Cuisine Veg & Non-Veg">Multi-Cuisine Veg & Non-Veg</option>
-                      <option value="High Tea & Snacks Buffet">High Tea & Snacks Buffet</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-[10px] font-mono uppercase tracking-wider text-[#D4AF37] mb-1">
-                      Tentative Date
-                    </label>
-                    <input
-                      type="date"
-                      value={eventDate}
-                      onChange={(e) => setEventDate(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-lg bg-white/5 border border-white/20 text-[#FAF7F2] text-xs focus:outline-none focus:border-[#D4AF37]"
-                    />
-                  </div>
-                </div>
-
-                <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
-                  <span className="text-[11px] text-[#FAF7F2]/60">
-                    Banquet Desk Direct: {BUSINESS_INFO.phones[1].display}
-                  </span>
-                  <button
-                    type="submit"
-                    className="w-full sm:w-auto px-7 py-2.5 bg-[#D4AF37] hover:bg-[#c29e2f] text-[#1C1617] text-xs font-bold uppercase tracking-wider rounded-full shadow-md transition-all cursor-pointer flex items-center justify-center space-x-1.5"
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                <div>
+                  <label className="block text-[11px] font-mono uppercase tracking-wider text-[#1C1617] font-semibold mb-1">
+                    Event Category
+                  </label>
+                  <select
+                    value={eventType}
+                    onChange={(e) => setEventType(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl border-2 border-[#EFE8DC] focus:border-[#4A1521] focus:outline-none text-xs bg-[#FAF7F2] transition-colors"
                   >
-                    <MessageSquare className="w-3.5 h-3.5" />
-                    <span>Send WhatsApp Enquiry</span>
-                  </button>
+                    <option value="Wedding Reception">Wedding Reception</option>
+                    <option value="Engagement / Roka">Engagement / Roka</option>
+                    <option value="Haldi / Mehndi / Sangeet">Haldi / Mehndi / Sangeet</option>
+                    <option value="Anniversary / Birthday">Anniversary / Birthday</option>
+                    <option value="Corporate Conclave">Corporate Conclave</option>
+                  </select>
                 </div>
-              </form>
-            )}
-          </div>
+
+                <div>
+                  <label className="block text-[11px] font-mono uppercase tracking-wider text-[#1C1617] font-semibold mb-1">
+                    Estimated Guests
+                  </label>
+                  <select
+                    value={guestCount}
+                    onChange={(e) => setGuestCount(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl border-2 border-[#EFE8DC] focus:border-[#4A1521] focus:outline-none text-xs bg-[#FAF7F2] transition-colors"
+                  >
+                    <option value="50">50 Guests (Intimate)</option>
+                    <option value="75">75 Guests</option>
+                    <option value="100">100 Guests (Standard Seated)</option>
+                    <option value="125">125 Guests</option>
+                    <option value="150">150 Guests (Max Floating)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-[11px] font-mono uppercase tracking-wider text-[#1C1617] font-semibold mb-1">
+                    Tentative Date
+                  </label>
+                  <input
+                    type="date"
+                    value={eventDate}
+                    onChange={(e) => setEventDate(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl border-2 border-[#EFE8DC] focus:border-[#4A1521] focus:outline-none text-xs bg-[#FAF7F2] transition-colors"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[11px] font-mono uppercase tracking-wider text-[#1C1617] font-semibold mb-1">
+                  Catering Preference
+                </label>
+                <select
+                  value={foodPreference}
+                  onChange={(e) => setFoodPreference(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl border-2 border-[#EFE8DC] focus:border-[#4A1521] focus:outline-none text-xs bg-[#FAF7F2] transition-colors"
+                >
+                  <option value="Pure Vegetarian & Jain (Dedicated Cookware)">Pure Vegetarian & Jain (Dedicated Cookware)</option>
+                  <option value="Multi-Cuisine Veg & Non-Veg Royal Buffet">Multi-Cuisine Veg & Non-Veg Royal Buffet</option>
+                  <option value="High-Tea & Chaat Counters Only">High-Tea & Chaat Counters Only</option>
+                </select>
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+                <button
+                  type="submit"
+                  className="w-full sm:w-auto px-9 py-3.5 bg-gradient-to-r from-[#4A1521] to-[#66182B] hover:brightness-110 text-white text-xs uppercase tracking-wider font-bold rounded-full shadow-xl shadow-[#4A1521]/30 transition-all hover:scale-105 cursor-pointer"
+                >
+                  Request Proposal on WhatsApp
+                </button>
+
+                <div className="flex items-center space-x-2 text-[11px] text-[#1C1617]/70 font-mono">
+                  <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                  <span>Direct Banquet Manager response within 2 business hours</span>
+                </div>
+              </div>
+            </form>
+          </ScrollPop>
 
         </div>
       </section>

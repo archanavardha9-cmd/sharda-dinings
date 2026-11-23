@@ -53,50 +53,110 @@
 
 /* Keyframe Animations */
 @keyframes continuousRotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes continuousRotateRev {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
 }
 
 @keyframes subtleFloat {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(1.5deg); }
+}
+
+@keyframes floatBobSlow {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(2.5deg); }
+}
+
+@keyframes floatBobReverse {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(18px) rotate(-2deg); }
+}
+
+@keyframes floatDiagonal {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(14px, -16px) rotate(3deg); }
+}
+
+@keyframes floatDiagonalRev {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(-14px, 16px) rotate(-3deg); }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.7) translateY(40px); opacity: 0; }
+  70% { transform: scale(1.06) translateY(-4px); opacity: 1; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+@keyframes slideLeftIn {
+  0% { transform: translateX(-70px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideRightIn {
+  0% { transform: translateX(70px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes zoomPulseSlow {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes pulseGlowWarm {
+  0%, 100% { opacity: 0.35; transform: scale(0.96); filter: blur(24px); }
+  50% { opacity: 0.75; transform: scale(1.08); filter: blur(32px); }
 }
 
 @keyframes goldShimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(35px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+@keyframes badgeLevitate {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.animate-rotate-seal {
+  animation: continuousRotate 40s linear infinite;
+}
+.animate-rotate-seal-rev {
+  animation: continuousRotateRev 35s linear infinite;
+}
+.animate-float-slow {
+  animation: floatBobSlow 6s ease-in-out infinite;
+}
+.animate-float-reverse {
+  animation: floatBobReverse 5.5s ease-in-out infinite;
+}
+.animate-float-diagonal {
+  animation: floatDiagonal 6.5s ease-in-out infinite;
+}
+.animate-float-diagonal-rev {
+  animation: floatDiagonalRev 6s ease-in-out infinite;
+}
+.animate-zoom-pulse {
+  animation: zoomPulseSlow 5s ease-in-out infinite;
+}
+.animate-pulse-glow {
+  animation: pulseGlowWarm 4s ease-in-out infinite;
+}
+.animate-badge-levitate {
+  animation: badgeLevitate 2.8s ease-in-out infinite;
+}
+.animate-pop-in {
+  animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 @keyframes scaleUp {
