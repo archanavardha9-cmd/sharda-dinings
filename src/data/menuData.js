@@ -306,7 +306,7 @@ export const MENU_ITEMS = [
     name: 'Pindi Chana Masala',
     category: 'veg-mains',
     isVeg: true,
-    image: '/images/food/sharda-dinings-naan-and-chole.webp',
+    image: '/images/food/pindi-chana-masala.webp',
     description: 'Slow-stewed kabuli chickpeas tossed with dried pomegranate seed powder, dry mango amchur, and carom seeds.',
     chefSpecial: false,
     spice: 'Medium',
