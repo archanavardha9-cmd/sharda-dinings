@@ -5,7 +5,6 @@ import {
   Printer,
   ExternalLink,
   ChevronRight,
-  ChevronLeft,
   ChevronDown,
   Utensils,
   ArrowDown,
@@ -168,6 +167,53 @@ export default function MenuPage({ onOpenEnquiry }) {
     }
   ];
 
+  // Curated hero showcase dishes that continuously change independently
+  const heroShowcaseImages = [
+    {
+      image: '/images/food/sharda-dining-biryani.webp',
+      dish: 'Chicken Dum Biryani & Awadhi Veg Handi',
+      tag: 'Heritage Signature',
+      pairing: 'Burani Garlic Raita & Mirchi Salan'
+    },
+    {
+      image: '/images/food/tandoori-chicken.webp',
+      dish: 'Paneer Tikka Classic & Whole Tandoori Chicken',
+      tag: 'Live Fire Clay Oven',
+      pairing: 'Pudina Laccha Chutney & Charred Lemons'
+    },
+    {
+      image: '/images/food/dal-makhani-naan.webp',
+      dish: 'Dal Makhani Sharda Signature & Butter Chicken',
+      tag: 'Imperial Mughlai',
+      pairing: 'Live Butter Garlic Naan & Tandoori Kulcha'
+    },
+    {
+      image: '/images/olive-cafe/corn-margherita-pizza.webp',
+      dish: 'Stone-Baked Margherita & Creamy Alfredo Penne',
+      tag: 'Stone-Baked & Handcrafted',
+      pairing: 'Signature Chilled Arabica Cold Brew'
+    },
+    {
+      image: '/images/food/shahi-gulab-jamun.webp',
+      dish: 'Royal Shahi Gulab Jamun & Choco Fudge Sundae',
+      tag: 'Artisanal Dessert Feast',
+      pairing: 'Rabri Cream or Vanilla Bean Scoop'
+    }
+  ];
+
+  const [activeHeroImgIdx, setActiveHeroImgIdx] = useState(0);
+
+  // Independent automatic rotation for Hero Section images (every 5 seconds)
+  useEffect(() => {
+    const heroTimer = setInterval(() => {
+      setActiveHeroImgIdx((prev) => (prev + 1) % heroShowcaseImages.length);
+    }, 5000);
+
+    return () => clearInterval(heroTimer);
+  }, [heroShowcaseImages.length]);
+
+  const currentHeroShowcase = heroShowcaseImages[activeHeroImgIdx];
+
   // Automatic cycling for Gastronomic Spotlight (every 4.5 seconds)
   useEffect(() => {
     if (isSpotlightPaused) return;
@@ -177,14 +223,6 @@ export default function MenuPage({ onOpenEnquiry }) {
 
     return () => clearInterval(timer);
   }, [isSpotlightPaused, spotlightCurations.length]);
-
-  const handleNextSpotlight = () => {
-    setActiveSpotlightIdx((prev) => (prev + 1) % spotlightCurations.length);
-  };
-
-  const handlePrevSpotlight = () => {
-    setActiveSpotlightIdx((prev) => (prev - 1 + spotlightCurations.length) % spotlightCurations.length);
-  };
 
   // Dietary counts calculated accurately against active category & search or global totals
   const dietaryCounts = useMemo(() => ({
@@ -357,27 +395,29 @@ export default function MenuPage({ onOpenEnquiry }) {
                 </div>
               </ScrollSlide>
 
-              {/* Gastronomic Credentials Strip */}
-              <ScrollSlide direction="up" distance={30} delay={0.4}>
-                <div className="pt-6 border-t border-[#FAF7F2]/10 grid grid-cols-3 gap-4 text-center sm:text-left">
-                  <div>
-                    <p className="text-2xl font-serif font-light text-[#D4AF37]">100%</p>
-                    <p className="text-[11px] font-mono text-[#FAF7F2]/60 uppercase tracking-wider mt-0.5">Separate Satvik Kitchen</p>
+              {/* Desktop & Tablet: Gastronomic Credentials Strip in Left Column */}
+              <div className="hidden sm:block">
+                <ScrollSlide direction="up" distance={30} delay={0.4}>
+                  <div className="pt-6 border-t border-[#FAF7F2]/10 grid grid-cols-3 gap-4 text-left">
+                    <div>
+                      <p className="text-2xl font-serif font-light text-[#D4AF37]">100%</p>
+                      <p className="text-[11px] font-mono text-[#FAF7F2]/60 uppercase tracking-wider mt-0.5">Separate Satvik Kitchen</p>
+                    </div>
+                    <div>
+                      <p className="text-2xl font-serif font-light text-[#D4AF37]">480°C</p>
+                      <p className="text-[11px] font-mono text-[#FAF7F2]/60 uppercase tracking-wider mt-0.5">Live Charcoal Tandoor</p>
+                    </div>
+                    <div>
+                      <p className="text-2xl font-serif font-light text-[#D4AF37]">16 hrs</p>
+                      <p className="text-[11px] font-mono text-[#FAF7F2]/60 uppercase tracking-wider mt-0.5">Slow Coal Dal Makhani</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-2xl font-serif font-light text-[#D4AF37]">480°C</p>
-                    <p className="text-[11px] font-mono text-[#FAF7F2]/60 uppercase tracking-wider mt-0.5">Live Charcoal Tandoor</p>
-                  </div>
-                  <div>
-                    <p className="text-2xl font-serif font-light text-[#D4AF37]">16 hrs</p>
-                    <p className="text-[11px] font-mono text-[#FAF7F2]/60 uppercase tracking-wider mt-0.5">Slow Coal Dal Makhani</p>
-                  </div>
-                </div>
-              </ScrollSlide>
+                </ScrollSlide>
+              </div>
             </div>
 
-            {/* Right 5 cols: Centerpiece Plating Breakout */}
-            <div className="lg:col-span-5 flex items-center justify-center relative">
+            {/* Right 5 cols: Centerpiece Plating Breakout (Independent Automatic Rotation) */}
+            <div className="lg:col-span-5 flex flex-col items-center justify-center relative">
               <ScrollRotate rotateFrom={-8} duration={1.2}>
                 <div className="relative w-72 h-72 sm:w-96 sm:h-96">
                   {/* Outer Glowing Halos */}
@@ -387,62 +427,46 @@ export default function MenuPage({ onOpenEnquiry }) {
                   {/* Circular Plated Masterpiece */}
                   <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-[#FAF7F2]/80 shadow-2xl bg-[#1A0E13] group cursor-pointer">
                     <img
-                      src={currentSpotlight.image}
-                      alt={currentSpotlight.dish}
-                      className="w-full h-full object-cover filter contrast-[1.08] brightness-[0.98] group-hover:scale-110 transition-transform duration-700"
+                      key={currentHeroShowcase.image}
+                      src={currentHeroShowcase.image}
+                      alt={currentHeroShowcase.dish}
+                      className="w-full h-full object-cover filter contrast-[1.08] brightness-[0.98] group-hover:scale-110 transition-transform duration-700 animate-fadeIn"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
 
                     {/* Dish Floating Label */}
                     <div className="absolute bottom-6 inset-x-6 text-center text-[#FAF7F2] space-y-1">
                       <span className="text-[10px] font-mono tracking-widest uppercase text-[#D4AF37] font-semibold bg-black/60 px-3 py-1 rounded-full backdrop-blur-sm border border-[#D4AF37]/30">
-                        {currentSpotlight.tag}
+                        {currentHeroShowcase.tag}
                       </span>
                       <h3 className="font-serif text-lg sm:text-xl font-normal tracking-wide">
-                        {currentSpotlight.dish}
+                        {currentHeroShowcase.dish}
                       </h3>
                       <p className="text-[11px] font-mono text-[#FAF7F2]/75">
-                        {currentSpotlight.pairing}
+                        {currentHeroShowcase.pairing}
                       </p>
                     </div>
                   </div>
                 </div>
               </ScrollRotate>
+
+              {/* Mobile-Only: 3 Hero Statistics Displayed Directly Below Hero Image */}
+              <div className="sm:hidden w-full max-w-sm mt-8 pt-6 border-t border-[#FAF7F2]/15 grid grid-cols-3 gap-3 text-center">
+                <div>
+                  <p className="text-xl font-serif font-light text-[#D4AF37]">100%</p>
+                  <p className="text-[10px] font-mono text-[#FAF7F2]/70 uppercase tracking-wider mt-0.5 leading-tight">Separate Satvik Kitchen</p>
+                </div>
+                <div>
+                  <p className="text-xl font-serif font-light text-[#D4AF37]">480°C</p>
+                  <p className="text-[10px] font-mono text-[#FAF7F2]/70 uppercase tracking-wider mt-0.5 leading-tight">Live Charcoal Tandoor</p>
+                </div>
+                <div>
+                  <p className="text-xl font-serif font-light text-[#D4AF37]">16 hrs</p>
+                  <p className="text-[10px] font-mono text-[#FAF7F2]/70 uppercase tracking-wider mt-0.5 leading-tight">Slow Coal Dal Makhani</p>
+                </div>
+              </div>
             </div>
 
-          </div>
-        </div>
-
-        {/* Ambient Bottom Curation Bar */}
-        <div className="relative z-10 max-w-7xl mx-auto w-full pt-6 border-t border-[#FAF7F2]/10">
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-3 sm:gap-4">
-            {spotlightCurations.map((curation, idx) => {
-              const isSelected = activeSpotlightIdx === idx;
-              return (
-                <button
-                  key={curation.id}
-                  onClick={() => setActiveSpotlightIdx(idx)}
-                  className={`text-left p-3.5 rounded-xl border transition-all duration-300 cursor-pointer ${
-                    isSelected
-                      ? 'bg-white/15 border-[#D4AF37] shadow-lg shadow-[#D4AF37]/20 translate-y-[-2px]'
-                      : 'bg-white/5 border-white/10 hover:bg-white/8 hover:border-white/20'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-mono font-bold text-[#D4AF37]">
-                      COLLECTION {curation.num}
-                    </span>
-                    {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]"></span>}
-                  </div>
-                  <h4 className="font-serif text-xs sm:text-sm font-semibold text-[#FAF7F2] mt-1 truncate">
-                    {curation.collection}
-                  </h4>
-                  <p className="text-[10px] text-[#FAF7F2]/60 truncate font-light mt-0.5">
-                    {curation.dish}
-                  </p>
-                </button>
-              );
-            })}
           </div>
         </div>
       </section>
@@ -457,7 +481,7 @@ export default function MenuPage({ onOpenEnquiry }) {
 
         <div className="max-w-7xl mx-auto relative z-10">
           
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
             <ScrollSlide direction="down" distance={30}>
               <div className="text-center sm:text-left space-y-1">
                 <div className="flex items-center space-x-2 justify-center sm:justify-start">
@@ -472,13 +496,13 @@ export default function MenuPage({ onOpenEnquiry }) {
               </div>
             </ScrollSlide>
 
-            {/* Spotlight Controls & Carousel Indicator */}
+            {/* Spotlight Controls: Pause / Resume Button */}
             <div className="flex items-center space-x-3">
               <button
                 type="button"
                 onClick={() => setIsSpotlightPaused((prev) => !prev)}
                 aria-label={isSpotlightPaused ? "Resume auto-rotation" : "Pause auto-rotation"}
-                className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full border border-white/20 bg-white/10 hover:bg-white/20 hover:border-[#D4AF37] text-xs font-mono transition-all text-[#FAF7F2] cursor-pointer mr-2 shadow-sm"
+                className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full border border-white/20 bg-white/10 hover:bg-white/20 hover:border-[#D4AF37] text-xs font-mono transition-all text-[#FAF7F2] cursor-pointer shadow-sm"
               >
                 {isSpotlightPaused ? (
                   <>
@@ -492,36 +516,41 @@ export default function MenuPage({ onOpenEnquiry }) {
                   </>
                 )}
               </button>
-
-              <button
-                onClick={handlePrevSpotlight}
-                aria-label="Previous spotlight dish"
-                className="w-9 h-9 rounded-full border border-white/20 hover:border-[#D4AF37] flex items-center justify-center text-white/80 hover:text-white hover:bg-white/10 transition-all cursor-pointer"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-
-              <div className="flex items-center space-x-1.5 px-2">
-                {spotlightCurations.map((_, dotIdx) => (
-                  <button
-                    key={dotIdx}
-                    onClick={() => setActiveSpotlightIdx(dotIdx)}
-                    aria-label={`View spotlight ${dotIdx + 1}`}
-                    className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                      activeSpotlightIdx === dotIdx ? 'w-6 bg-[#D4AF37]' : 'w-2 bg-white/25 hover:bg-white/50'
-                    }`}
-                  />
-                ))}
-              </div>
-
-              <button
-                onClick={handleNextSpotlight}
-                aria-label="Next spotlight dish"
-                className="w-9 h-9 rounded-full border border-white/20 hover:border-[#D4AF37] flex items-center justify-center text-white/80 hover:text-white hover:bg-white/10 transition-all cursor-pointer"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
             </div>
+          </div>
+
+          {/* Chapter 1–5 Interactive Selection Cards (Visible navigation for Gastronomic Spotlight) */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 sm:gap-3.5 mb-8">
+            {spotlightCurations.map((curation, idx) => {
+              const isSelected = activeSpotlightIdx === idx;
+              return (
+                <button
+                  key={curation.id}
+                  onClick={() => setActiveSpotlightIdx(idx)}
+                  className={`text-left p-3 sm:p-3.5 rounded-xl border transition-all duration-300 cursor-pointer ${
+                    idx === 4 ? 'col-span-2 sm:col-span-1' : ''
+                  } ${
+                    isSelected
+                      ? 'bg-white/15 border-[#D4AF37] shadow-lg shadow-[#D4AF37]/20 scale-[1.01]'
+                      : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-mono font-bold text-[#D4AF37] tracking-wider uppercase">
+                      CHAPTER {curation.num}
+                    </span>
+                    {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse"></span>}
+                  </div>
+                  <h4 className="font-serif text-xs sm:text-sm font-semibold text-[#FAF7F2] mt-1 line-clamp-1 sm:truncate">
+                    {curation.collection}
+                  </h4>
+                  {/* Chapter description: hidden on mobile view, visible on desktop and tablet */}
+                  <p className="hidden sm:block text-[10px] text-[#FAF7F2]/60 truncate font-light mt-0.5 font-serif">
+                    {curation.dish}
+                  </p>
+                </button>
+              );
+            })}
           </div>
 
           {/* Large Split Editorial Spotlight Card */}
