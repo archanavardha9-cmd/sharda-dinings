@@ -61,7 +61,7 @@ export default function App() {
           onOpenVerification={handleOpenVerification}
         />
 
-        <main className="flex-1 pt-16">
+        <main className="flex-1">
           <Routes>
             <Route
               path="/"

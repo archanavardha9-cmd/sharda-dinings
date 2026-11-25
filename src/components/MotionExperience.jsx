@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -508,8 +508,95 @@ export function InteractiveDishStage({ dishes = [], activeIdx = 0, onSelectDish 
 }
 
 // ─────────────────────────────────────────────────────────────
-// Highly Noticeable Scroll-Triggered Animation Wrappers
+// Highly Noticeable Repeatable Scroll-Triggered Animation Wrappers
+// Animations smoothly replay whenever sections enter the viewport!
 // ─────────────────────────────────────────────────────────────
+
+/**
+ * Hook to observe elements entering and leaving the viewport repeatedly.
+ * Returns [ref, inView].
+ */
+export function useInViewRepeat(options = {}) {
+  const { threshold = 0.1, rootMargin = '-30px 0px -30px 0px' } = options;
+  const ref = useRef(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setInView(entry.isIntersecting);
+      },
+      { threshold, rootMargin }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [threshold, rootMargin]);
+
+  return [ref, inView];
+}
+
+/**
+ * ScrollReveal: Universal repeatable scroll-triggered reveal component.
+ * Content smoothly emerges into view on entry, and resets on exit so it replays!
+ */
+export function ScrollReveal({
+  children,
+  animation = "emerge", // 'emerge', 'pop', 'slide-left', 'slide-right', 'slide-up', 'slide-down', 'zoom', 'rotate'
+  delay = 0,
+  duration = 0.75,
+  distance = 50,
+  overshoot = 1.25,
+  floatAfter = false,
+  className = "",
+  threshold = 0.1,
+  rootMargin = "-30px 0px -30px 0px"
+}) {
+  const [ref, inView] = useInViewRepeat({ threshold, rootMargin });
+
+  let initialTransform = "translateY(40px)";
+  let activeTransform = "translate(0, 0) scale(1) rotate(0deg)";
+  let ease = "cubic-bezier(0.16, 1, 0.3, 1)";
+
+  if (animation === "pop") {
+    initialTransform = `scale(0.74) translateY(${distance * 0.65}px)`;
+    ease = `cubic-bezier(0.34, ${overshoot * 1.25}, 0.64, 1)`;
+  } else if (animation === "slide-left") {
+    initialTransform = `translateX(-${distance}px)`;
+  } else if (animation === "slide-right") {
+    initialTransform = `translateX(${distance}px)`;
+  } else if (animation === "slide-up") {
+    initialTransform = `translateY(${distance}px)`;
+  } else if (animation === "slide-down") {
+    initialTransform = `translateY(-${distance}px)`;
+  } else if (animation === "zoom") {
+    initialTransform = "scale(0.82)";
+  } else if (animation === "rotate") {
+    initialTransform = "rotate(-7deg) scale(0.9)";
+  } else if (animation === "emerge") {
+    initialTransform = `translateY(${distance}px) scale(0.96)`;
+  }
+
+  const style = {
+    opacity: inView ? 1 : 0,
+    transform: inView ? activeTransform : initialTransform,
+    transition: `opacity ${duration}s ${ease} ${delay}s, transform ${duration}s ${ease} ${delay}s`,
+    willChange: "opacity, transform"
+  };
+
+  return (
+    <div
+      ref={ref}
+      style={style}
+      className={`${floatAfter && inView ? "animate-float" : ""} ${className}`}
+    >
+      {children}
+    </div>
+  );
+}
 
 /**
  * ScrollPop: Pops elements into view with scaling overshoot and settle.
@@ -518,39 +605,21 @@ export function ScrollPop({
   children,
   className = "",
   delay = 0,
-  duration = 0.85,
-  overshoot = 1.8,
-  threshold = "85%"
+  duration = 0.8,
+  overshoot = 1.35,
+  floatAfter = false
 }) {
-  const elRef = useRef(null);
-
-  useEffect(() => {
-    const el = elRef.current;
-    if (!el) return;
-
-    gsap.fromTo(
-      el,
-      { scale: 0.68, opacity: 0, y: 35 },
-      {
-        scale: 1,
-        opacity: 1,
-        y: 0,
-        duration: duration,
-        delay: delay,
-        ease: `back.out(${overshoot})`,
-        scrollTrigger: {
-          trigger: el,
-          start: `top ${threshold}`,
-          toggleActions: "restart reverse restart reverse"
-        }
-      }
-    );
-  }, [delay, duration, overshoot, threshold]);
-
   return (
-    <div ref={elRef} className={`will-change-transform ${className}`}>
+    <ScrollReveal
+      animation="pop"
+      delay={delay}
+      duration={duration}
+      overshoot={overshoot}
+      floatAfter={floatAfter}
+      className={className}
+    >
       {children}
-    </div>
+    </ScrollReveal>
   );
 }
 
@@ -560,47 +629,30 @@ export function ScrollPop({
 export function ScrollSlide({
   children,
   direction = "left", // 'left', 'right', 'up', 'down'
-  distance = 70,
+  distance = 55,
   delay = 0,
-  duration = 0.85,
-  className = "",
-  threshold = "85%"
+  duration = 0.8,
+  className = ""
 }) {
-  const elRef = useRef(null);
-
-  useEffect(() => {
-    const el = elRef.current;
-    if (!el) return;
-
-    const fromVars = { opacity: 0 };
-    if (direction === "left") fromVars.x = -distance;
-    else if (direction === "right") fromVars.x = distance;
-    else if (direction === "up") fromVars.y = distance;
-    else if (direction === "down") fromVars.y = -distance;
-
-    gsap.fromTo(
-      el,
-      fromVars,
-      {
-        x: 0,
-        y: 0,
-        opacity: 1,
-        duration: duration,
-        delay: delay,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: el,
-          start: `top ${threshold}`,
-          toggleActions: "restart reverse restart reverse"
-        }
-      }
-    );
-  }, [direction, distance, delay, duration, threshold]);
+  const animName =
+    direction === "left"
+      ? "slide-left"
+      : direction === "right"
+      ? "slide-right"
+      : direction === "down"
+      ? "slide-down"
+      : "slide-up";
 
   return (
-    <div ref={elRef} className={`will-change-transform ${className}`}>
+    <ScrollReveal
+      animation={animName}
+      distance={distance}
+      delay={delay}
+      duration={duration}
+      className={className}
+    >
       {children}
-    </div>
+    </ScrollReveal>
   );
 }
 
@@ -609,40 +661,19 @@ export function ScrollSlide({
  */
 export function ScrollZoom({
   children,
-  scaleFrom = 0.82,
   delay = 0,
-  duration = 0.9,
-  className = "",
-  threshold = "85%"
+  duration = 0.85,
+  className = ""
 }) {
-  const elRef = useRef(null);
-
-  useEffect(() => {
-    const el = elRef.current;
-    if (!el) return;
-
-    gsap.fromTo(
-      el,
-      { scale: scaleFrom, opacity: 0 },
-      {
-        scale: 1,
-        opacity: 1,
-        duration: duration,
-        delay: delay,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: el,
-          start: `top ${threshold}`,
-          toggleActions: "restart reverse restart reverse"
-        }
-      }
-    );
-  }, [scaleFrom, delay, duration, threshold]);
-
   return (
-    <div ref={elRef} className={`will-change-transform ${className}`}>
+    <ScrollReveal
+      animation="zoom"
+      delay={delay}
+      duration={duration}
+      className={className}
+    >
       {children}
-    </div>
+    </ScrollReveal>
   );
 }
 
@@ -651,41 +682,19 @@ export function ScrollZoom({
  */
 export function ScrollRotate({
   children,
-  rotateFrom = -10,
   delay = 0,
-  duration = 0.9,
-  className = "",
-  threshold = "85%"
+  duration = 0.85,
+  className = ""
 }) {
-  const elRef = useRef(null);
-
-  useEffect(() => {
-    const el = elRef.current;
-    if (!el) return;
-
-    gsap.fromTo(
-      el,
-      { rotateZ: rotateFrom, scale: 0.85, opacity: 0 },
-      {
-        rotateZ: 0,
-        scale: 1,
-        opacity: 1,
-        duration: duration,
-        delay: delay,
-        ease: "back.out(1.5)",
-        scrollTrigger: {
-          trigger: el,
-          start: `top ${threshold}`,
-          toggleActions: "restart reverse restart reverse"
-        }
-      }
-    );
-  }, [rotateFrom, delay, duration, threshold]);
-
   return (
-    <div ref={elRef} className={`will-change-transform ${className}`}>
+    <ScrollReveal
+      animation="rotate"
+      delay={delay}
+      duration={duration}
+      className={className}
+    >
       {children}
-    </div>
+    </ScrollReveal>
   );
 }
 
@@ -750,61 +759,45 @@ export function FloatingCard({
 
 /**
  * StaggerGrid: Automatically staggers all direct child elements into view.
+ * Replays cleanly whenever scrolled into and out of the viewport!
  */
 export function StaggerGrid({
   children,
-  stagger = 0.12,
+  stagger = 0.1,
   duration = 0.75,
-  animation = "pop", // 'pop', 'rise', 'zoom'
+  animation = "emerge", // 'emerge', 'pop', 'slide-up'
   className = "",
-  threshold = "85%"
+  threshold = 0.08
 }) {
-  const containerRef = useRef(null);
+  const [ref, inView] = useInViewRepeat({ threshold });
 
-  useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-
-    const items = el.children;
-    if (!items || items.length === 0) return;
-
-    let fromProps = { opacity: 0 };
-    let ease = "power3.out";
-
-    if (animation === "pop") {
-      fromProps = { opacity: 0, scale: 0.7, y: 30 };
-      ease = "back.out(1.7)";
-    } else if (animation === "rise") {
-      fromProps = { opacity: 0, y: 45 };
-      ease = "power3.out";
-    } else if (animation === "zoom") {
-      fromProps = { opacity: 0, scale: 0.8 };
-      ease = "power2.out";
-    }
-
-    gsap.fromTo(
-      items,
-      fromProps,
-      {
-        opacity: 1,
-        scale: 1,
-        x: 0,
-        y: 0,
-        duration: duration,
-        stagger: stagger,
-        ease: ease,
-        scrollTrigger: {
-          trigger: el,
-          start: `top ${threshold}`,
-          toggleActions: "restart reverse restart reverse"
-        }
-      }
-    );
-  }, [stagger, duration, animation, threshold]);
+  const childrenArray = React.Children.toArray(children);
 
   return (
-    <div ref={containerRef} className={className}>
-      {children}
+    <div ref={ref} className={className}>
+      {childrenArray.map((child, index) => {
+        let initTransform = "translateY(35px) scale(0.96)";
+        let ease = "cubic-bezier(0.16, 1, 0.3, 1)";
+        if (animation === "pop") {
+          initTransform = "scale(0.75) translateY(25px)";
+          ease = "cubic-bezier(0.34, 1.4, 0.64, 1)";
+        } else if (animation === "slide-up") {
+          initTransform = "translateY(45px)";
+        }
+
+        const childStyle = {
+          opacity: inView ? 1 : 0,
+          transform: inView ? "translate(0, 0) scale(1)" : initTransform,
+          transition: `opacity ${duration}s ${ease} ${index * stagger}s, transform ${duration}s ${ease} ${index * stagger}s`,
+          willChange: "opacity, transform"
+        };
+
+        return (
+          <div key={child.key || index} style={childStyle} className="h-full">
+            {child}
+          </div>
+        );
+      })}
     </div>
   );
 }

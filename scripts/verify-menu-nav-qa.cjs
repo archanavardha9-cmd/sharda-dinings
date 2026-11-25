@@ -85,8 +85,10 @@ async function run() {
     await page.goto('http://localhost:4173/', { waitUntil: 'networkidle0' });
 
     // Open mobile hamburger drawer
+    await page.waitForSelector('button[aria-label="Open Navigation Menu"]');
+    await sleep(300);
     await page.click('button[aria-label="Open Navigation Menu"]');
-    await sleep(400);
+    await sleep(600);
 
     const drawerMetrics = await page.evaluate(() => {
       const aside = document.querySelector('#mobile-nav-drawer aside');
@@ -143,7 +145,7 @@ async function run() {
       const toolbar = document.querySelector('[data-testid="menu-horizontal-toolbar"]');
       const buttons = Array.from(toolbar.querySelectorAll('button')).map((b) => b.innerText.trim());
       const hasSearch = !!toolbar.querySelector('input[aria-label="Search menu dishes"]');
-      const hasBrowseCatsBtn = buttons.some((t) => t.includes('Browse Categories'));
+      const hasBrowseCatsBtn = buttons.some((t) => t.toLowerCase().includes('browse categories'));
       const hasSoups = buttons.some((t) => t.includes('Soups & Shorbas'));
       return { buttons, hasSearch, hasBrowseCatsBtn, hasSoups };
     });
@@ -155,7 +157,8 @@ async function run() {
     // Scroll into catalog on mobile and check sticky positioning
     await page.evaluate(() => {
       const cat = document.querySelector('#full-catalog');
-      window.scrollTo(0, cat.offsetTop + 300);
+      const top = cat.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: top + 500, behavior: 'instant' });
     });
     await sleep(400);
     const mobileStickyPos = await page.evaluate(() => {

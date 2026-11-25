@@ -14,6 +14,8 @@ import {
   AnimatedCounter
 } from '../components/MotionExperience';
 
+const GOOGLE_MAPS_URL = "https://maps.google.com/?q=Sharda+Dinings+Gorakhpur";
+
 export default function ContactPage({ onOpenEnquiry, onOpenVerification }) {
   const [department, setDepartment] = useState('Restaurant Table');
   const [formData, setFormData] = useState({
@@ -42,35 +44,41 @@ export default function ContactPage({ onOpenEnquiry, onOpenVerification }) {
       {/* ─────────────────────────────────────────────────────────────
           SECTION 1: HERO & CONCIERGE MATRIX (Deep Dusty Teal & Charcoal)
       ───────────────────────────────────────────────────────────── */}
-      <section className="relative pt-12 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#14343F] via-[#0E262E] to-[#07161B] text-[#FAF7F2] border-b-2 border-[#D4AF37]/30 overflow-hidden">
+      <section className="relative min-h-[88vh] flex items-center justify-center py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#14343F] via-[#0E262E] to-[#07161B] text-[#FAF7F2] border-b-2 border-[#D4AF37]/30 overflow-hidden">
         <FloatingSpiceCanvas theme="culinary" density="sparse" />
 
-        <div className="relative z-10 max-w-5xl mx-auto text-center space-y-5">
-          <div className="flex items-center justify-center space-x-2">
-            <NumberedPill current="07" total="07" label="CONCIERGE & ACCESS" />
-          </div>
+        <div className="relative z-10 max-w-5xl mx-auto w-full text-center space-y-6">
+          <ScrollSlide direction="down" distance={30}>
+            <div className="flex items-center justify-center space-x-2">
+              <NumberedPill current="07" total="07" label="CONCIERGE & ACCESS" />
+            </div>
+          </ScrollSlide>
 
-          <KineticTitle as="h1" className="font-serif text-3xl sm:text-5xl font-normal tracking-tight text-[#FAF7F2] leading-tight">
+          <KineticTitle as="h1" className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal tracking-tight text-[#FAF7F2] leading-tight">
             Concierge & Access
           </KineticTitle>
-          <p className="font-serif italic text-sm sm:text-base text-[#FDE8E1]/85 font-light max-w-xl mx-auto">
-            Direct department channels · Mandir proximity · Verified physical location
-          </p>
+          <ScrollSlide direction="up" distance={25} delay={0.15}>
+            <p className="font-serif italic text-sm sm:text-base text-[#FDE8E1]/85 font-light max-w-xl mx-auto">
+              Direct department channels · Mandir proximity · Verified physical location
+            </p>
+          </ScrollSlide>
 
           <GildedDivider className="my-3" />
 
           {/* 3 Department Desks Strip with Stagger Pop Entrance */}
           <StaggerGrid stagger={0.12} animation="pop" className="grid grid-cols-1 md:grid-cols-3 gap-5 pt-4 text-left">
-            <div className="p-6 rounded-2xl bg-white/10 backdrop-blur-md border-2 border-white/15 hover:border-[#F4A261] transition-all hover:-translate-y-1 shadow-lg">
-              <span className="text-[10px] font-mono tracking-widest uppercase text-[#F4A261] font-bold block bg-white/10 px-2.5 py-0.5 rounded-full w-max">
-                Desk 01 · All-Day Dining
-              </span>
-              <h3 className="font-serif text-lg font-bold text-[#FAF7F2] mt-2">
-                Dining, Cafe & Takeaway
-              </h3>
-              <p className="text-[11px] text-[#FAF7F2]/75 mt-1 leading-relaxed font-light">
-                Table bookings, booth requests, takeaway boxes, and Olive Cafe brews.
-              </p>
+            <div className="p-6 rounded-2xl bg-white/10 backdrop-blur-md border-2 border-white/15 hover:border-[#F4A261] transition-all hover:-translate-y-1 shadow-lg flex flex-col justify-between">
+              <div>
+                <span className="text-[10px] font-mono tracking-widest uppercase text-[#F4A261] font-bold block bg-white/10 px-2.5 py-0.5 rounded-full w-max">
+                  Desk 01 · All-Day Dining
+                </span>
+                <h3 className="font-serif text-lg font-bold text-[#FAF7F2] mt-2">
+                  Dining, Cafe & Takeaway
+                </h3>
+                <p className="text-[11px] text-[#FAF7F2]/75 mt-1 leading-relaxed font-light">
+                  Table bookings, booth requests, takeaway boxes, and Olive Cafe brews.
+                </p>
+              </div>
               <div className="pt-4 mt-4 border-t border-white/10">
                 <a href={`tel:${BUSINESS_INFO.phones[0].number}`} className="font-mono text-xs font-bold text-[#A8D5BA] hover:text-white hover:underline block">
                   {BUSINESS_INFO.phones[0].display}
@@ -78,16 +86,18 @@ export default function ContactPage({ onOpenEnquiry, onOpenVerification }) {
               </div>
             </div>
 
-            <div className="p-6 rounded-2xl bg-white/10 backdrop-blur-md border-2 border-white/15 hover:border-[#F4A261] transition-all hover:-translate-y-1 shadow-lg">
-              <span className="text-[10px] font-mono tracking-widest uppercase text-[#F4A261] font-bold block bg-white/10 px-2.5 py-0.5 rounded-full w-max">
-                Desk 02 · Events
-              </span>
-              <h3 className="font-serif text-lg font-bold text-[#FAF7F2] mt-2">
-                Banquets & Celebrations
-              </h3>
-              <p className="text-[11px] text-[#FAF7F2]/75 mt-1 leading-relaxed font-light">
-                Wedding receptions, sagai, sangeet rituals, and custom banquet thalis.
-              </p>
+            <div className="p-6 rounded-2xl bg-white/10 backdrop-blur-md border-2 border-white/15 hover:border-[#F4A261] transition-all hover:-translate-y-1 shadow-lg flex flex-col justify-between">
+              <div>
+                <span className="text-[10px] font-mono tracking-widest uppercase text-[#F4A261] font-bold block bg-white/10 px-2.5 py-0.5 rounded-full w-max">
+                  Desk 02 · Events
+                </span>
+                <h3 className="font-serif text-lg font-bold text-[#FAF7F2] mt-2">
+                  Banquets & Celebrations
+                </h3>
+                <p className="text-[11px] text-[#FAF7F2]/75 mt-1 leading-relaxed font-light">
+                  Wedding receptions, sagai, sangeet rituals, and custom banquet thalis.
+                </p>
+              </div>
               <div className="pt-4 mt-4 border-t border-white/10">
                 <a href={`tel:${BUSINESS_INFO.phones[1].number}`} className="font-mono text-xs font-bold text-[#A8D5BA] hover:text-white hover:underline block">
                   {BUSINESS_INFO.phones[1].display}
@@ -95,16 +105,18 @@ export default function ContactPage({ onOpenEnquiry, onOpenVerification }) {
               </div>
             </div>
 
-            <div className="p-6 rounded-2xl bg-white/10 backdrop-blur-md border-2 border-white/15 hover:border-[#F4A261] transition-all hover:-translate-y-1 shadow-lg">
-              <span className="text-[10px] font-mono tracking-widest uppercase text-[#F4A261] font-bold block bg-white/10 px-2.5 py-0.5 rounded-full w-max">
-                Desk 03 · Accommodation
-              </span>
-              <h3 className="font-serif text-lg font-bold text-[#FAF7F2] mt-2">
-                Hotel Front Desk
-              </h3>
-              <p className="text-[11px] text-[#FAF7F2]/75 mt-1 leading-relaxed font-light">
-                11 AC rooms, direct check-in tariffs, and family wedding room blocks.
-              </p>
+            <div className="p-6 rounded-2xl bg-white/10 backdrop-blur-md border-2 border-white/15 hover:border-[#F4A261] transition-all hover:-translate-y-1 shadow-lg flex flex-col justify-between">
+              <div>
+                <span className="text-[10px] font-mono tracking-widest uppercase text-[#F4A261] font-bold block bg-white/10 px-2.5 py-0.5 rounded-full w-max">
+                  Desk 03 · Accommodation
+                </span>
+                <h3 className="font-serif text-lg font-bold text-[#FAF7F2] mt-2">
+                  Hotel Front Desk
+                </h3>
+                <p className="text-[11px] text-[#FAF7F2]/75 mt-1 leading-relaxed font-light">
+                  11 AC rooms, direct check-in tariffs, and family wedding room blocks.
+                </p>
+              </div>
               <div className="pt-4 mt-4 border-t border-white/10">
                 <a href={`tel:${BUSINESS_INFO.phones[0].number}`} className="font-mono text-xs font-bold text-[#A8D5BA] hover:text-white hover:underline block">
                   {BUSINESS_INFO.phones[0].display}
@@ -190,10 +202,10 @@ export default function ContactPage({ onOpenEnquiry, onOpenVerification }) {
 
               <div className="pt-2 flex items-center justify-between border-t border-[#EFE8DC]">
                 <a
-                  href="https://maps.google.com/?q=Sharda+Dinings+Gorakhpur"
+                  href={GOOGLE_MAPS_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center space-x-2 px-6 py-3 bg-[#C84B31] hover:bg-[#b33e26] text-white text-xs font-mono uppercase tracking-wider font-bold rounded-full transition-all hover:scale-105 shadow-lg shadow-[#C84B31]/30"
+                  className="inline-flex items-center space-x-2 px-6 py-3 bg-[#C84B31] hover:bg-[#b33e26] text-white text-xs font-mono uppercase tracking-wider font-bold rounded-full transition-all hover:scale-105 shadow-lg shadow-[#C84B31]/30 cursor-pointer"
                 >
                   <Navigation className="w-4 h-4" />
                   <span>Open in Google Maps</span>
@@ -202,9 +214,9 @@ export default function ContactPage({ onOpenEnquiry, onOpenVerification }) {
               </div>
             </div>
 
-            {/* Right 6 cols: Google Map Embed Frame with ScrollZoom */}
-            <div className="lg:col-span-6 bg-white rounded-3xl p-5 border-2 border-[#D4AF37]/35 shadow-xl flex flex-col">
-              <ScrollZoom scaleFrom={0.92} duration={0.9} className="w-full flex-1 min-h-[360px] rounded-2xl overflow-hidden border border-[#D4AF37]/30">
+            {/* Right 6 cols: Google Map Embed Frame with ScrollZoom & Direct Verified Link */}
+            <div className="lg:col-span-6 bg-white rounded-3xl p-5 sm:p-6 border-2 border-[#D4AF37]/35 shadow-xl flex flex-col justify-between">
+              <ScrollZoom scaleFrom={0.92} duration={0.9} className="w-full flex-1 min-h-[360px] rounded-2xl overflow-hidden border border-[#D4AF37]/30 relative group">
                 <iframe
                   title="Sharda Dinings Location Map"
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3561.401869814324!2d83.3598715!3d26.7953265!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3991448b11c9bbab%3A0xc3676449e7a9618b!2sSharda%20Dinings!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
@@ -214,6 +226,24 @@ export default function ContactPage({ onOpenEnquiry, onOpenVerification }) {
                   referrerPolicy="no-referrer-when-downgrade"
                 ></iframe>
               </ScrollZoom>
+
+              {/* Exact verified destination map link matching left side button */}
+              <div className="pt-4 mt-3 border-t border-[#EFE8DC] flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div className="flex items-center space-x-2 text-xs font-mono text-[#1C1617]/75">
+                  <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+                  <span>Sharda Dinings GPS Location Verified</span>
+                </div>
+                <a
+                  href={GOOGLE_MAPS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center space-x-2 px-5 py-2.5 bg-[#1C1617] hover:bg-[#C84B31] text-white text-xs font-mono uppercase tracking-wider font-bold rounded-full transition-all hover:scale-105 shadow-md shadow-black/20 cursor-pointer"
+                >
+                  <Navigation className="w-3.5 h-3.5 text-[#D4AF37]" />
+                  <span>Open in Map</span>
+                  <ExternalLink className="w-3.5 h-3.5 text-[#D4AF37]" />
+                </a>
+              </div>
             </div>
 
           </div>
