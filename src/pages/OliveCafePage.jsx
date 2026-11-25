@@ -7,6 +7,7 @@ import {
   FloatingDishPortal,
   KineticTitle,
   FloatingSpiceCanvas,
+  CoffeeSteamCanvas,
   CoffeeBeanVector,
   ScrollPop,
   ScrollSlide,
@@ -63,8 +64,8 @@ export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
           <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] rounded-full bg-[#A8D5BA]/20 blur-3xl animate-pulse-glow"></div>
         </div>
 
-        {/* Ambient Coffee Beans and Mint Sprigs */}
-        <FloatingSpiceCanvas theme="cafe" density="rich" />
+        {/* Ambient Coffee Steam & Rising Wisps */}
+        <CoffeeSteamCanvas />
 
         {/* Floating Dish Portals Left & Right */}
         <div className="hidden lg:block absolute left-10 top-28 z-10">

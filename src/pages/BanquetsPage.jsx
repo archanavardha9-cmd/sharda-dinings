@@ -6,6 +6,7 @@ import {
   FloatingDishPortal,
   KineticTitle,
   FloatingSpiceCanvas,
+  FloatingPetalsCanvas,
   ScrollPop,
   ScrollSlide,
   ScrollZoom,
@@ -88,8 +89,8 @@ export default function BanquetsPage({ onOpenEnquiry, onOpenVerification }) {
           <div className="absolute top-1/4 left-1/3 w-[550px] h-[550px] rounded-full bg-[#E76F51]/20 blur-3xl animate-pulse-glow"></div>
         </div>
 
-        {/* Floating Celebratory Particles */}
-        <FloatingSpiceCanvas theme="celebratory" density="rich" />
+        {/* Floating Celebratory Petals */}
+        <FloatingPetalsCanvas />
 
         {/* Floating Stage and Buffet Visual Accents */}
         <div className="hidden lg:block absolute left-10 top-28 z-10">

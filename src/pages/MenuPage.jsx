@@ -1,10 +1,11 @@
-import React, { useState, useMemo, useRef } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import {
   Search,
   Sparkles,
   Printer,
   ExternalLink,
   ChevronRight,
+  ChevronLeft,
   ChevronDown,
   Flame,
   Utensils,
@@ -14,7 +15,11 @@ import {
   Heart,
   CheckCircle2,
   Calendar,
-  Layers
+  Layers,
+  Clock,
+  ShieldCheck,
+  Play,
+  Pause
 } from 'lucide-react';
 import { MENU_CATEGORIES, MENU_ITEMS } from '../data/menuData';
 import { BUSINESS_INFO } from '../data/businessInfo';
@@ -23,6 +28,7 @@ import {
   FloatingDishPortal,
   KineticTitle,
   FloatingSpiceCanvas,
+  RisingGrainsCanvas,
   ScrollPop,
   ScrollSlide,
   ScrollZoom,
@@ -36,67 +42,95 @@ export default function MenuPage({ onOpenEnquiry, onOpenVerification }) {
   const [dietaryFilter, setDietaryFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeSpotlightIdx, setActiveSpotlightIdx] = useState(0);
+  const [isSpotlightPaused, setIsSpotlightPaused] = useState(false);
   const fullCatalogRef = useRef(null);
 
-  // Curated editorial showcase spotlight dishes (Stage 1)
-  const spotlightChapters = [
+  // Curated editorial showcase spotlight dishes (Inspired by Ambiente, Mikuni Nagoya & Atelier)
+  const spotlightCurations = [
     {
+      id: 'spot-1',
       num: '01',
-      title: 'Awadhi Dum Dastarkhwan',
-      subtitle: 'Slow Handi Dum & Royal Basmati',
-      tag: 'Heritage Specialty',
+      collection: 'Awadhi Dum Dastarkhwan',
+      tag: 'Heritage Signature',
       dish: 'Chicken Dum Biryani & Awadhi Veg Handi',
-      desc: 'Aged long-grain basmati layered with marinated tender chicken or farm vegetables, infused with kewra, saffron, and sealed in clay handis over glowing charcoal embers.',
+      desc: 'Aged long-grain basmati layered with marinated tender chicken or farm vegetables, infused with natural kewra, royal saffron, and sealed in clay handis over glowing charcoal embers.',
       image: '/images/food/sharda-dining-biryani.webp',
       pairing: 'Burani Garlic Raita & Mirchi Salan',
       quote: '“In every grain of basmati rests four generations of Awadhi culinary memory.”',
-      accentColor: '#D4AF37',
-      bgGradient: 'from-[#1E0E15] via-[#2A141E] to-[#12080D]',
-      dishId: 'm32'
+      time: 'Slow Handi Dum',
+      temp: 'Coal-Sealed Embers'
     },
     {
+      id: 'spot-2',
       num: '02',
-      title: 'The Charcoal Clay Tandoor',
-      subtitle: 'Sal Wood Embers & Potli Marinades',
-      tag: 'Clay-Oven Charred',
+      collection: 'Charcoal Clay Tandoor',
+      tag: 'Live Fire Clay Oven',
       dish: 'Paneer Tikka Classic & Whole Tandoori Chicken',
       desc: 'Malai cottage cheese and whole spring poultry steeped overnight in stone-ground Kashmiri deghi mirch, hung curd, and mustard oil, charred to smoky perfection in our live tandoor.',
-      image: '/images/food/tandoori-veg-platter.webp',
+      image: '/images/food/tandoori-chicken.webp',
       pairing: 'Pudina Laccha Chutney & Charred Lemons',
       quote: '“Charred with genuine sal wood embers at 480°C for authentic clay-oven aroma.”',
-      accentColor: '#E76F51',
-      bgGradient: 'from-[#220D12] via-[#2E1218] to-[#16070B]',
-      dishId: 'm5'
+      time: 'Overnight Marinade',
+      temp: '480°C Live Tandoor'
     },
     {
+      id: 'spot-3',
       num: '03',
-      title: 'Royal Makhani & Slow Simmered Gravies',
-      subtitle: 'Overnight Simmer & Cultured Dairy Butter',
+      collection: 'Royal Makhani & Slow Simmered Gravies',
       tag: 'Imperial Mughlai',
       dish: 'Dal Makhani Sharda Signature & Butter Chicken',
       desc: 'Whole black urad and slow-cooked tandoori chicken simmered in rich San Marzano tomato butter velouté, finished with freshly churned dairy butter and hand-crushed fenugreek.',
-      image: '/images/food/dal-makhani-naan.jpg',
+      image: '/images/food/dal-makhani-naan.webp',
       pairing: 'Live Butter Garlic Naan & Tandoori Kulcha',
       quote: '“Simmered for sixteen hours over gentle charcoal embers for unmatched silken velvet texture.”',
-      accentColor: '#F4A261',
-      bgGradient: 'from-[#1F110A] via-[#2D180F] to-[#140B07]',
-      dishId: 'm22'
+      time: '16-Hour Charcoal Simmer',
+      temp: 'Slow Simmered Handi'
     },
     {
+      id: 'spot-4',
       num: '04',
-      title: 'Olive Cafe & Haute Pâtisserie',
-      subtitle: 'Stone-Baked Pizzas, Alfredo Penne & Shahi Desserts',
-      tag: 'Continental & Sweet Indulgence',
-      dish: 'Hand-Stretched Margherita & Royal Shahi Gulab Jamun',
-      desc: 'Thin-crust stone-baked Italian pizzas, al dente pasta folded into rich garlic-parmesan cream, alongside warm saffron-infused khoya dumplings bathed in rose nectar.',
-      image: '/images/olive-cafe/corn-margherita-pizza.jpg',
-      pairing: 'Signature Cold Brew & Nutella Shake',
-      quote: '“Where European café culture meets centuries-old Indian royal confectionery art.”',
-      accentColor: '#52B788',
-      bgGradient: 'from-[#0C1B14] via-[#132A1F] to-[#08120D]',
-      dishId: 'c1'
+      collection: 'Olive Cafe Continental & Italian Hearth',
+      tag: 'Stone-Baked & Handcrafted',
+      dish: 'Stone-Baked Margherita & Creamy Alfredo Penne',
+      desc: 'Hand-stretched thin-crust pizza baked with San Marzano pomodoro and creamy mozzarella, paired with al dente pasta folded into rich garlic-parmesan cream.',
+      image: '/images/olive-cafe/corn-margherita-pizza.webp',
+      pairing: 'Signature Chilled Arabica Cold Brew',
+      quote: '“European cafe warmth and authentic hearth baking right in the heart of Gorakhpur.”',
+      time: 'Live Hearth Oven',
+      temp: 'Stone-Baked Crust'
+    },
+    {
+      id: 'spot-5',
+      num: '05',
+      collection: 'Royal Shahi Confectionery & Shakes',
+      tag: 'Artisanal Dessert Feast',
+      dish: 'Royal Shahi Gulab Jamun & Choco Fudge Sundae',
+      desc: 'Warm saffron and green cardamom infused khoya dumplings bathed in fragrant rose-sugar syrup, alongside warm walnut brownie sundaes crowned with Belgian chocolate ganache.',
+      image: '/images/food/shahi-gulab-jamun.webp',
+      pairing: 'Rabri Cream or Vanilla Bean Scoop',
+      quote: '“Centuries-old Indian royal confectionery art meets modern artisanal sundae indulgence.”',
+      time: 'Slow Khoya Simmer',
+      temp: 'Rose-Saffron Nectar'
     }
   ];
+
+  // Automatic cycling for Gastronomic Spotlight (every 4.5 seconds)
+  useEffect(() => {
+    if (isSpotlightPaused) return;
+    const timer = setInterval(() => {
+      setActiveSpotlightIdx((prev) => (prev + 1) % spotlightCurations.length);
+    }, 4500);
+
+    return () => clearInterval(timer);
+  }, [isSpotlightPaused, spotlightCurations.length]);
+
+  const handleNextSpotlight = () => {
+    setActiveSpotlightIdx((prev) => (prev + 1) % spotlightCurations.length);
+  };
+
+  const handlePrevSpotlight = () => {
+    setActiveSpotlightIdx((prev) => (prev - 1 + spotlightCurations.length) % spotlightCurations.length);
+  };
 
   // Filtered menu items for Stage 2
   const filteredItems = useMemo(() => {
@@ -142,18 +176,20 @@ export default function MenuPage({ onOpenEnquiry, onOpenVerification }) {
     window.print();
   };
 
-  const currentSpotlight = spotlightChapters[activeSpotlightIdx];
+  const currentSpotlight = spotlightCurations[activeSpotlightIdx];
 
   return (
     <div className="min-h-screen bg-[#FAF7F2] text-[#1C1617] overflow-hidden">
       
       {/* ─────────────────────────────────────────────────────────────
-          STAGE 1: CURATED GASTRONOMIC SHOWCASE (Ambiente & Mikuni Inspiration)
+          STAGE 1: CURATED GASTRONOMIC SHOWCASE
+          (Inspired by Ambiente & Mikuni Nagoya References)
       ───────────────────────────────────────────────────────────── */}
 
       {/* Atmospheric Hero Section */}
-      <section className="relative min-h-[90vh] flex flex-col justify-between pt-12 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#1C0F13] via-[#14080E] to-[#0D0509] text-[#FAF7F2] border-b-2 border-[#D4AF37]/30 overflow-hidden">
+      <section className="relative min-h-[92vh] flex flex-col justify-between pt-12 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#1C0F13] via-[#14080E] to-[#0D0509] text-[#FAF7F2] border-b-2 border-[#D4AF37]/30 overflow-hidden">
         <FloatingSpiceCanvas theme="culinary" density="rich" />
+        <RisingGrainsCanvas />
 
         {/* Ambient Top Bar & Breadcrumb */}
         <div className="relative z-10 max-w-7xl mx-auto w-full flex items-center justify-between pb-6 border-b border-[#FAF7F2]/10">
@@ -175,10 +211,10 @@ export default function MenuPage({ onOpenEnquiry, onOpenVerification }) {
         <div className="relative z-10 max-w-7xl mx-auto w-full my-auto py-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             
-            {/* Left 6.5 cols: Typography & Editorial Narrative */}
+            {/* Left 7 cols: Typography & Editorial Narrative */}
             <div className="lg:col-span-7 space-y-6">
               <ScrollSlide direction="left" distance={45}>
-                <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/40 text-[#D4AF37] text-xs font-mono uppercase tracking-wider">
+                <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/40 text-[#D4AF37] text-xs font-mono uppercase tracking-wider">
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>Curated Gastronomic Repertoire</span>
                 </div>
@@ -197,7 +233,7 @@ export default function MenuPage({ onOpenEnquiry, onOpenVerification }) {
                 </p>
               </ScrollSlide>
 
-              {/* Quick Actions & Stage Transition Pill */}
+              {/* Quick Actions & Stage Transition (Ambiente Style Pill Buttons) */}
               <ScrollSlide direction="up" distance={40} delay={0.3}>
                 <div className="flex flex-wrap items-center gap-4 pt-4">
                   <button
@@ -237,7 +273,7 @@ export default function MenuPage({ onOpenEnquiry, onOpenVerification }) {
               </ScrollSlide>
             </div>
 
-            {/* Right 5 cols: Centerpiece Plating Breakout (Mikuni Nagoya style) */}
+            {/* Right 5 cols: Centerpiece Plating Breakout (Mikuni Nagoya Ceramic Plate presentation) */}
             <div className="lg:col-span-5 flex items-center justify-center relative">
               <ScrollRotate rotateFrom={-8} duration={1.2}>
                 <div className="relative w-72 h-72 sm:w-96 sm:h-96">
@@ -252,11 +288,11 @@ export default function MenuPage({ onOpenEnquiry, onOpenVerification }) {
                       alt={currentSpotlight.dish}
                       className="w-full h-full object-cover filter contrast-[1.08] brightness-[0.98] group-hover:scale-110 transition-transform duration-700"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
 
                     {/* Dish Floating Label */}
                     <div className="absolute bottom-6 inset-x-6 text-center text-[#FAF7F2] space-y-1">
-                      <span className="text-[10px] font-mono tracking-widest uppercase text-[#D4AF37] font-semibold bg-black/50 px-3 py-1 rounded-full backdrop-blur-sm border border-[#D4AF37]/30">
+                      <span className="text-[10px] font-mono tracking-widest uppercase text-[#D4AF37] font-semibold bg-black/60 px-3 py-1 rounded-full backdrop-blur-sm border border-[#D4AF37]/30">
                         {currentSpotlight.tag}
                       </span>
                       <h3 className="font-serif text-lg sm:text-xl font-normal tracking-wide">
@@ -274,32 +310,32 @@ export default function MenuPage({ onOpenEnquiry, onOpenVerification }) {
           </div>
         </div>
 
-        {/* Ambient Bottom Spotlight Chapter Switcher (Atelier Course Bar) */}
+        {/* Ambient Bottom Curation Bar (Clean course pills, No chapters) */}
         <div className="relative z-10 max-w-7xl mx-auto w-full pt-6 border-t border-[#FAF7F2]/10">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-            {spotlightChapters.map((chap, idx) => {
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3 sm:gap-4">
+            {spotlightCurations.map((curation, idx) => {
               const isSelected = activeSpotlightIdx === idx;
               return (
                 <button
-                  key={chap.num}
+                  key={curation.id}
                   onClick={() => setActiveSpotlightIdx(idx)}
                   className={`text-left p-3.5 rounded-xl border transition-all duration-300 cursor-pointer ${
                     isSelected
-                      ? 'bg-white/10 border-[#D4AF37] shadow-lg shadow-[#D4AF37]/15 translate-y-[-2px]'
+                      ? 'bg-white/15 border-[#D4AF37] shadow-lg shadow-[#D4AF37]/20 translate-y-[-2px]'
                       : 'bg-white/5 border-white/10 hover:bg-white/8 hover:border-white/20'
                   }`}
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] font-mono font-bold text-[#D4AF37]">
-                      CHAPTER {chap.num}
+                      COLLECTION {curation.num}
                     </span>
                     {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]"></span>}
                   </div>
                   <h4 className="font-serif text-xs sm:text-sm font-semibold text-[#FAF7F2] mt-1 truncate">
-                    {chap.title}
+                    {curation.collection}
                   </h4>
                   <p className="text-[10px] text-[#FAF7F2]/60 truncate font-light mt-0.5">
-                    {chap.dish}
+                    {curation.dish}
                   </p>
                 </button>
               );
@@ -308,41 +344,99 @@ export default function MenuPage({ onOpenEnquiry, onOpenVerification }) {
         </div>
       </section>
 
-      {/* Editorial Chapter Spotlight Showcase (Atelier & Côte & Cendre Style) */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#180C11] text-[#FAF7F2] border-b-2 border-[#D4AF37]/20 relative overflow-hidden">
+      {/* ─────────────────────────────────────────────────────────────
+          DYNAMIC GASTRONOMIC SPOTLIGHT SHOWCASE
+          (Automatic Carousel with Hover-Pause & Atelier Editorial Style)
+      ───────────────────────────────────────────────────────────── */}
+      <section
+        onMouseEnter={() => setIsSpotlightPaused(true)}
+        onMouseLeave={() => setIsSpotlightPaused(false)}
+        className="py-16 px-4 sm:px-6 lg:px-8 bg-[#180C11] text-[#FAF7F2] border-b-2 border-[#D4AF37]/20 relative overflow-hidden"
+      >
         <div className="max-w-7xl mx-auto">
           
-          <ScrollSlide direction="down" distance={30}>
-            <div className="text-center space-y-2 mb-10">
-              <span className="text-[11px] font-mono tracking-[0.25em] text-[#D4AF37] uppercase font-bold">
-                GASTRONOMIC SPOTLIGHT
-              </span>
-              <h2 className="font-serif text-3xl sm:text-4xl text-[#FAF7F2]">
-                {currentSpotlight.title}
-              </h2>
-              <p className="text-xs sm:text-sm text-[#FAF7F2]/70 font-light max-w-lg mx-auto font-serif italic">
-                {currentSpotlight.quote}
-              </p>
-            </div>
-          </ScrollSlide>
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
+            <ScrollSlide direction="down" distance={30}>
+              <div className="text-center sm:text-left space-y-1">
+                <div className="flex items-center space-x-2 justify-center sm:justify-start">
+                  <span className="w-2 h-2 rounded-full bg-[#C84B31] animate-ping"></span>
+                  <span className="text-[11px] font-mono tracking-[0.25em] text-[#D4AF37] uppercase font-bold">
+                    GASTRONOMIC SPOTLIGHT
+                  </span>
+                </div>
+                <h2 className="font-serif text-2xl sm:text-3xl text-[#FAF7F2]">
+                  {currentSpotlight.collection}
+                </h2>
+              </div>
+            </ScrollSlide>
 
-          {/* Large Split Editorial Card */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-10 backdrop-blur-md">
+            {/* Spotlight Controls & Carousel Indicator */}
+            <div className="flex items-center space-x-3">
+              <span className="text-[10px] font-mono text-[#FAF7F2]/60 flex items-center space-x-1.5 mr-2">
+                {isSpotlightPaused ? (
+                  <>
+                    <Pause className="w-3 h-3 text-[#D4AF37]" />
+                    <span>Paused</span>
+                  </>
+                ) : (
+                  <>
+                    <Play className="w-3 h-3 text-[#D4AF37]" />
+                    <span>Auto-Rotating</span>
+                  </>
+                )}
+              </span>
+
+              <button
+                onClick={handlePrevSpotlight}
+                aria-label="Previous spotlight dish"
+                className="w-9 h-9 rounded-full border border-white/20 hover:border-[#D4AF37] flex items-center justify-center text-white/80 hover:text-white hover:bg-white/10 transition-all cursor-pointer"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+
+              <div className="flex items-center space-x-1.5 px-2">
+                {spotlightCurations.map((_, dotIdx) => (
+                  <button
+                    key={dotIdx}
+                    onClick={() => setActiveSpotlightIdx(dotIdx)}
+                    className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                      activeSpotlightIdx === dotIdx ? 'w-6 bg-[#D4AF37]' : 'w-2 bg-white/25 hover:bg-white/50'
+                    }`}
+                  />
+                ))}
+              </div>
+
+              <button
+                onClick={handleNextSpotlight}
+                aria-label="Next spotlight dish"
+                className="w-9 h-9 rounded-full border border-white/20 hover:border-[#D4AF37] flex items-center justify-center text-white/80 hover:text-white hover:bg-white/10 transition-all cursor-pointer"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          {/* Large Split Editorial Spotlight Card */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-10 backdrop-blur-md relative">
             
             {/* Left 6 cols: Dish Image with Floating Badges */}
             <div className="lg:col-span-6 relative">
               <ScrollZoom scaleFrom={0.92} duration={0.8}>
                 <div className="relative rounded-2xl overflow-hidden aspect-[4/3] shadow-2xl border-2 border-white/10 group">
                   <img
+                    key={currentSpotlight.image}
                     src={currentSpotlight.image}
                     alt={currentSpotlight.dish}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 animate-fadeIn"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
                   
-                  <div className="absolute top-4 left-4">
+                  <div className="absolute top-4 left-4 flex items-center space-x-2">
                     <span className="px-3 py-1 rounded-full bg-[#C84B31] text-white text-[10px] font-mono uppercase font-bold tracking-wider shadow-md">
                       {currentSpotlight.tag}
+                    </span>
+                    <span className="px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-sm border border-white/15 text-[#D4AF37] text-[10px] font-mono">
+                      {currentSpotlight.num} of 05
                     </span>
                   </div>
 
@@ -355,18 +449,23 @@ export default function MenuPage({ onOpenEnquiry, onOpenVerification }) {
               </ScrollZoom>
             </div>
 
-            {/* Right 6 cols: Deep Narrative & Pairings */}
+            {/* Right 6 cols: Deep Narrative, Technique & Pairings (Atelier & Côte & Cendre Style) */}
             <div className="lg:col-span-6 space-y-5">
               <ScrollSlide direction="right" distance={40}>
                 <div className="space-y-3">
-                  <span className="text-xs font-mono tracking-widest text-[#D4AF37] uppercase font-bold">
-                    CHAPTER {currentSpotlight.num} · {currentSpotlight.subtitle}
-                  </span>
+                  <div className="flex items-center space-x-3 text-xs font-mono text-[#D4AF37]">
+                    <span className="uppercase font-bold tracking-wider">{currentSpotlight.time}</span>
+                    <span>·</span>
+                    <span className="text-white/60">{currentSpotlight.temp}</span>
+                  </div>
                   <h3 className="font-serif text-2xl sm:text-3xl font-light text-[#FAF7F2]">
                     {currentSpotlight.dish}
                   </h3>
-                  <p className="text-xs sm:text-sm text-[#FAF7F2]/80 leading-relaxed font-light">
+                  <p className="text-xs sm:text-sm text-[#FAF7F2]/80 leading-relaxed font-light font-serif">
                     {currentSpotlight.desc}
+                  </p>
+                  <p className="text-xs italic text-[#F4A261]/90 font-serif pt-1">
+                    {currentSpotlight.quote}
                   </p>
                 </div>
               </ScrollSlide>
@@ -374,10 +473,10 @@ export default function MenuPage({ onOpenEnquiry, onOpenVerification }) {
               <ScrollSlide direction="up" distance={30} delay={0.15}>
                 <div className="p-4 rounded-xl bg-white/5 border border-[#D4AF37]/30 space-y-2">
                   <span className="text-[10px] font-mono uppercase tracking-wider text-[#D4AF37] font-bold block">
-                    Chef's Recommendation
+                    Chef's Craftsmanship
                   </span>
                   <p className="text-xs text-[#FAF7F2]/80 font-serif italic">
-                    Best experienced served piping hot straight from our kitchen, accompanied by our stone-ground house chutneys.
+                    Best experienced served piping hot straight from our kitchen, accompanied by our stone-ground house chutneys and fresh clay-oven tandoori breads.
                   </p>
                 </div>
               </ScrollSlide>
@@ -395,7 +494,7 @@ export default function MenuPage({ onOpenEnquiry, onOpenVerification }) {
                     onClick={scrollToCatalog}
                     className="px-5 py-3 rounded-full border border-white/20 text-[#FAF7F2] hover:bg-white/10 text-xs font-mono uppercase tracking-wider transition-all cursor-pointer inline-flex items-center space-x-2"
                   >
-                    <span>Jump to Full Menu</span>
+                    <span>Browse All 48 Dishes</span>
                     <ChevronDown className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -409,68 +508,103 @@ export default function MenuPage({ onOpenEnquiry, onOpenVerification }) {
 
       {/* ─────────────────────────────────────────────────────────────
           STAGE 2: COMPLETE 48-DISH VISUAL CATALOG
+          (Sticky Mobile & Desktop Navigation, No Chapters, Zero Prices)
       ───────────────────────────────────────────────────────────── */}
       <div ref={fullCatalogRef} id="full-catalog">
         
-        {/* Sticky Filter Bar */}
-        <div className="sticky top-16 z-30 bg-[#FAF7F2]/95 backdrop-blur-md border-b-2 border-[#D4AF37]/25 py-3.5 px-4 sm:px-6 shadow-md transition-all">
-          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+        {/* Sticky Filter & Horizontal Category Navigation Bar */}
+        <div className="sticky top-16 z-30 bg-[#FAF7F2]/95 backdrop-blur-md border-b-2 border-[#D4AF37]/25 shadow-md transition-all">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 space-y-3">
             
-            {/* Search Input with Instant Clear */}
-            <div className="relative w-full md:w-80">
-              <Search className="w-4 h-4 text-[#C84B31] absolute left-3.5 top-1/2 transform -translate-y-1/2" />
-              <input
-                type="text"
-                placeholder="Search all 48 dishes (Biryani, Paneer, Pizza)..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-8 py-2 text-xs rounded-full bg-white border-2 border-[#EFE8DC] focus:outline-none focus:border-[#C84B31] text-[#1C1617] placeholder-[#1C1617]/50 shadow-sm transition-colors font-sans"
-              />
-              {searchQuery && (
+            {/* Top Row: Search Bar & Dietary Chips */}
+            <div className="flex flex-col md:flex-row items-center justify-between gap-3">
+              
+              {/* Search Input with Instant Clear */}
+              <div className="relative w-full md:w-80">
+                <Search className="w-4 h-4 text-[#C84B31] absolute left-3.5 top-1/2 transform -translate-y-1/2" />
+                <input
+                  type="text"
+                  placeholder="Search all 48 dishes (Biryani, Paneer, Pizza)..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-8 py-2 text-xs rounded-full bg-white border-2 border-[#EFE8DC] focus:outline-none focus:border-[#C84B31] text-[#1C1617] placeholder-[#1C1617]/50 shadow-sm transition-colors font-sans"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery('')}
+                    className="absolute right-3.5 top-1/2 transform -translate-y-1/2 text-xs text-[#1C1617]/50 hover:text-[#1C1617] cursor-pointer"
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+
+              {/* Dietary Filter Buttons */}
+              <div className="flex items-center space-x-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 scrollbar-none">
+                {[
+                  { id: 'all', label: 'All 48 Dishes', count: 48 },
+                  { id: 'veg', label: 'Pure Veg', icon: '🟢', count: MENU_ITEMS.filter(i => i.isVeg).length },
+                  { id: 'nonveg', label: 'Poultry & Meat', icon: '🔴', count: MENU_ITEMS.filter(i => !i.isVeg).length },
+                  { id: 'special', label: 'Chef Specials', icon: '★', count: MENU_ITEMS.filter(i => i.chefSpecial).length },
+                ].map((d) => (
+                  <button
+                    key={d.id}
+                    onClick={() => setDietaryFilter(d.id)}
+                    className={`px-3.5 py-1.5 rounded-full text-xs font-mono tracking-wider transition-all cursor-pointer whitespace-nowrap flex items-center space-x-1.5 border-2 ${
+                      dietaryFilter === d.id
+                        ? 'bg-[#C84B31] text-white border-[#C84B31] font-bold shadow-md scale-105'
+                        : 'bg-white border-[#EFE8DC] text-[#1C1617]/75 hover:border-[#C84B31]/50 hover:scale-102'
+                    }`}
+                  >
+                    {d.icon && <span className="text-[10px]">{d.icon}</span>}
+                    <span>{d.label}</span>
+                    <span className={`text-[10px] ${dietaryFilter === d.id ? 'text-white/80' : 'text-[#1C1617]/50'}`}>
+                      ({d.count})
+                    </span>
+                  </button>
+                ))}
+              </div>
+
+              {/* Print Action */}
+              <div className="hidden lg:flex items-center space-x-2">
                 <button
-                  onClick={() => setSearchQuery('')}
-                  className="absolute right-3.5 top-1/2 transform -translate-y-1/2 text-xs text-[#1C1617]/50 hover:text-[#1C1617] cursor-pointer"
+                  onClick={handlePrint}
+                  className="px-4 py-1.5 rounded-full border border-[#D4AF37] text-xs font-mono font-bold text-[#1C1617] hover:bg-[#D4AF37]/15 transition-all flex items-center space-x-1.5 cursor-pointer"
                 >
-                  ✕
+                  <Printer className="w-3.5 h-3.5 text-[#C84B31]" />
+                  <span>Print Menu</span>
                 </button>
-              )}
+              </div>
+
             </div>
 
-            {/* Dietary Filter Buttons */}
-            <div className="flex items-center space-x-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0">
-              {[
-                { id: 'all', label: 'All 48 Curations', count: 48 },
-                { id: 'veg', label: 'Pure Veg', icon: '🟢', count: MENU_ITEMS.filter(i => i.isVeg).length },
-                { id: 'nonveg', label: 'Poultry & Meat', icon: '🔴', count: MENU_ITEMS.filter(i => !i.isVeg).length },
-                { id: 'special', label: 'Chef Specials', icon: '★', count: MENU_ITEMS.filter(i => i.chefSpecial).length },
-              ].map((d) => (
-                <button
-                  key={d.id}
-                  onClick={() => setDietaryFilter(d.id)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-mono tracking-wider transition-all cursor-pointer whitespace-nowrap flex items-center space-x-1.5 border-2 ${
-                    dietaryFilter === d.id
-                      ? 'bg-[#C84B31] text-white border-[#C84B31] font-bold shadow-md scale-105'
-                      : 'bg-white border-[#EFE8DC] text-[#1C1617]/75 hover:border-[#C84B31]/50 hover:scale-102'
-                  }`}
-                >
-                  {d.icon && <span className="text-[10px]">{d.icon}</span>}
-                  <span>{d.label}</span>
-                  <span className={`text-[10px] ${dietaryFilter === d.id ? 'text-white/80' : 'text-[#1C1617]/50'}`}>
-                    ({d.count})
-                  </span>
-                </button>
-              ))}
-            </div>
+            {/* Bottom Row: Horizontally Scrollable Category Bar ("Explore Categories") */}
+            <div className="flex items-center space-x-2 overflow-x-auto pb-1 scrollbar-none pt-1 border-t border-[#EFE8DC]">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-[#C84B31] font-bold shrink-0 mr-1 hidden sm:inline">
+                Explore Categories:
+              </span>
+              {MENU_CATEGORIES.map((cat) => {
+                const count = MENU_ITEMS.filter((i) => cat.id === 'all' || i.category === cat.id).length;
+                const isActive = activeCategory === cat.id;
 
-            {/* Print Action */}
-            <div className="hidden lg:flex items-center space-x-2">
-              <button
-                onClick={handlePrint}
-                className="px-4 py-1.5 rounded-full border border-[#D4AF37] text-xs font-mono font-bold text-[#1C1617] hover:bg-[#D4AF37]/15 transition-all flex items-center space-x-1.5 cursor-pointer"
-              >
-                <Printer className="w-3.5 h-3.5 text-[#C84B31]" />
-                <span>Print Menu</span>
-              </button>
+                return (
+                  <button
+                    key={cat.id}
+                    onClick={() => setActiveCategory(cat.id)}
+                    className={`px-3 py-1.5 rounded-full text-xs whitespace-nowrap transition-all duration-200 cursor-pointer flex items-center space-x-1.5 border ${
+                      isActive
+                        ? 'bg-[#C84B31] text-white border-[#C84B31] font-semibold shadow-md scale-102'
+                        : 'bg-white/80 text-[#1C1617]/75 border-[#EFE8DC] hover:border-[#D4AF37] hover:bg-white'
+                    }`}
+                  >
+                    <span className="text-sm shrink-0">{cat.icon}</span>
+                    <span>{cat.name}</span>
+                    <span className={`text-[10px] font-mono ${isActive ? 'text-white/80' : 'text-[#1C1617]/50'}`}>
+                      ({count})
+                    </span>
+                  </button>
+                );
+              })}
             </div>
 
           </div>
@@ -480,12 +614,12 @@ export default function MenuPage({ onOpenEnquiry, onOpenVerification }) {
         <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            {/* Left 3 cols: Sticky Category Navigation Index */}
-            <div className="lg:col-span-3 lg:sticky lg:top-36 space-y-2 bg-gradient-to-b from-white to-[#FDF9F5] p-5 rounded-2xl border-2 border-[#D4AF37]/30 shadow-md">
+            {/* Left 3 cols: Desktop Category Sidebar Index ("Explore Categories") */}
+            <div className="hidden lg:block lg:col-span-3 lg:sticky lg:top-48 space-y-2 bg-gradient-to-b from-white to-[#FDF9F5] p-5 rounded-2xl border-2 border-[#D4AF37]/30 shadow-md">
               <ScrollSlide direction="left" distance={30}>
                 <div className="pb-3 border-b-2 border-[#EFE8DC] flex items-center justify-between">
                   <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-[#C84B31] font-bold">
-                    Menu Chapters
+                    Explore Categories
                   </span>
                   <span className="text-[10px] font-mono text-[#1C1617]/50">
                     48 Dishes
@@ -493,7 +627,7 @@ export default function MenuPage({ onOpenEnquiry, onOpenVerification }) {
                 </div>
               </ScrollSlide>
               
-              <div className="space-y-1 max-h-[62vh] overflow-y-auto pr-1">
+              <div className="space-y-1 max-h-[58vh] overflow-y-auto pr-1">
                 {MENU_CATEGORIES.map((cat) => {
                   const count = MENU_ITEMS.filter((i) => cat.id === 'all' || i.category === cat.id).length;
                   const isActive = activeCategory === cat.id;
@@ -538,8 +672,8 @@ export default function MenuPage({ onOpenEnquiry, onOpenVerification }) {
               </div>
             </div>
 
-            {/* Right 9 cols: Visual Dishes Catalog (EVERY DISH HAS AN AUTHENTIC IMAGE) */}
-            <div className="lg:col-span-9 space-y-12">
+            {/* Right 9 cols (or full 12 cols on mobile): Visual Dishes Catalog */}
+            <div className="col-span-1 lg:col-span-9 space-y-12">
               
               {groupedCategories.length === 0 ? (
                 <div className="text-center py-16 bg-white rounded-3xl border-2 border-[#EFE8DC] space-y-3 shadow-sm">
@@ -560,18 +694,15 @@ export default function MenuPage({ onOpenEnquiry, onOpenVerification }) {
                   </button>
                 </div>
               ) : (
-                groupedCategories.map((group, groupIdx) => (
+                groupedCategories.map((group) => (
                   <div key={group.category.id} className="space-y-6">
                     
-                    {/* Chapter Header Banner */}
+                    {/* Category Header Banner (NO CHAPTERS) */}
                     <ScrollSlide direction="right" distance={35}>
                       <div className="pb-3 border-b-2 border-[#1C1617]/10 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
                         <div>
                           <div className="flex items-center space-x-2">
                             <span className="text-[10px] font-mono tracking-widest text-[#C84B31] uppercase font-bold bg-[#FDE8E1] px-2.5 py-0.5 rounded-md">
-                              CHAPTER {String(groupIdx + 1).padStart(2, '0')}
-                            </span>
-                            <span className="text-xs font-mono text-[#D4AF37] font-semibold">
                               {group.category.tag}
                             </span>
                           </div>
@@ -586,7 +717,7 @@ export default function MenuPage({ onOpenEnquiry, onOpenVerification }) {
                       </div>
                     </ScrollSlide>
 
-                    {/* Staggered Visual Grid of Dishes (EVERY DISH HAS IMAGE, NO PRICES) */}
+                    {/* Staggered Visual Grid of Dishes (EVERY DISH HAS ACCURATE WEBP IMAGE, NO PRICES) */}
                     <StaggerGrid stagger={0.07} animation="pop" className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       {group.items.map((item) => (
                         <div

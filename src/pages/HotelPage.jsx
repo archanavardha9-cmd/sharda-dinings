@@ -7,6 +7,7 @@ import {
   FloatingDishPortal,
   KineticTitle,
   FloatingSpiceCanvas,
+  HospitalityFabricSway,
   ScrollPop,
   ScrollSlide,
   ScrollZoom,
@@ -83,8 +84,8 @@ export default function HotelPage({ onOpenEnquiry, onOpenVerification }) {
           <div className="absolute top-1/4 right-1/3 w-[550px] h-[550px] rounded-full bg-[#A8D5BA]/20 blur-3xl animate-pulse-glow"></div>
         </div>
 
-        {/* Ambient Tranquil Botanicals */}
-        <FloatingSpiceCanvas theme="tranquil" density="medium" />
+        {/* Ambient Tranquil Hospitality Linen Wave */}
+        <HospitalityFabricSway />
 
         {/* Floating Room and Key Accents */}
         <div className="hidden lg:block absolute left-10 top-28 z-10">

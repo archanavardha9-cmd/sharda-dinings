@@ -7,6 +7,7 @@ import {
   FloatingDishPortal,
   KineticTitle,
   FloatingSpiceCanvas,
+  RisingGrainsCanvas,
   InteractiveDishStage,
   ScrollPop,
   ScrollSlide,
@@ -98,8 +99,9 @@ export default function RestaurantPage({ onOpenEnquiry, onOpenVerification }) {
           <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#E76F51]/20 blur-3xl animate-pulse-glow"></div>
         </div>
 
-        {/* Ambient Floating Spices */}
+        {/* Ambient Floating Spices & Rising Basmati Grains */}
         <FloatingSpiceCanvas theme="culinary" density="rich" />
+        <RisingGrainsCanvas />
 
         {/* Floating Side Dishes */}
         <div className="hidden lg:block absolute left-8 top-32 z-10">

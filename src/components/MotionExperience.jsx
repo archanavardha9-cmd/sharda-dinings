@@ -848,3 +848,297 @@ export function AnimatedCounter({ end, suffix = "", duration = 1.8, className = 
     </span>
   );
 }
+
+// ─────────────────────────────────────────────────────────────
+// Content-Specific Atmospheric Canvas Particle Systems
+// ─────────────────────────────────────────────────────────────
+
+/**
+ * RisingGrainsCanvas: Basmati rice grains and golden saffron threads rising and settling.
+ * Used on Restaurant Page (Awadhi Biryani & Tandoor).
+ */
+export function RisingGrainsCanvas({ className = "absolute inset-0 pointer-events-none overflow-hidden" }) {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let animationFrameId;
+
+    const resize = () => {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    };
+    resize();
+    window.addEventListener('resize', resize);
+
+    const particles = Array.from({ length: 32 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      type: Math.random() > 0.4 ? 'rice' : 'saffron',
+      len: 7 + Math.random() * 8,
+      width: 1.8 + Math.random() * 1.2,
+      angle: Math.random() * Math.PI * 2,
+      speedY: 0.25 + Math.random() * 0.5,
+      speedX: (Math.random() - 0.5) * 0.35,
+      rotSpeed: (Math.random() - 0.5) * 0.02,
+      opacity: 0.25 + Math.random() * 0.45
+    }));
+
+    const render = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach((p) => {
+        p.y -= p.speedY;
+        p.x += Math.sin(p.angle) * p.speedX;
+        p.angle += p.rotSpeed;
+
+        if (p.y < -20) {
+          p.y = canvas.height + 20;
+          p.x = Math.random() * canvas.width;
+        }
+
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.angle);
+        ctx.globalAlpha = p.opacity;
+
+        if (p.type === 'rice') {
+          // Elegant basmati rice grain (ivory gold)
+          ctx.fillStyle = '#F5EBE1';
+          ctx.beginPath();
+          ctx.ellipse(0, 0, p.width, p.len, 0, 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          // Saffron thread (vermilion orange with gold tip)
+          ctx.strokeStyle = '#E76F51';
+          ctx.lineWidth = 1.6;
+          ctx.beginPath();
+          ctx.moveTo(-p.len / 2, 0);
+          ctx.quadraticCurveTo(0, 3, p.len / 2, 0);
+          ctx.stroke();
+
+          ctx.fillStyle = '#D4AF37';
+          ctx.beginPath();
+          ctx.arc(p.len / 2, 0, 1.2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.restore();
+      });
+
+      animationFrameId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => {
+      window.removeEventListener('resize', resize);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  return <canvas ref={canvasRef} className={`w-full h-full ${className}`} />;
+}
+
+/**
+ * FloatingPetalsCanvas: Drifting and tumbling rose and lotus petals.
+ * Used on Banquets & Events Page (Celebratory royal ambiance).
+ */
+export function FloatingPetalsCanvas({ className = "absolute inset-0 pointer-events-none overflow-hidden" }) {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let animationFrameId;
+
+    const resize = () => {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    };
+    resize();
+    window.addEventListener('resize', resize);
+
+    const petals = Array.from({ length: 26 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      size: 8 + Math.random() * 11,
+      angle: Math.random() * Math.PI * 2,
+      speedY: 0.35 + Math.random() * 0.65,
+      speedX: 0.2 + Math.random() * 0.4,
+      flutter: Math.random() * Math.PI * 2,
+      flutterSpeed: 0.025 + Math.random() * 0.035,
+      color: Math.random() > 0.4 ? 'rgba(231, 111, 81, ' : 'rgba(244, 162, 97, ',
+      opacity: 0.3 + Math.random() * 0.45
+    }));
+
+    const render = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      petals.forEach((p) => {
+        p.y += p.speedY;
+        p.flutter += p.flutterSpeed;
+        p.x += Math.sin(p.flutter) * p.speedX;
+
+        if (p.y > canvas.height + 25) {
+          p.y = -25;
+          p.x = Math.random() * canvas.width;
+        }
+
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.angle + Math.sin(p.flutter) * 0.4);
+        ctx.scale(Math.cos(p.flutter), 1);
+        ctx.globalAlpha = p.opacity;
+
+        // Petal shape
+        ctx.fillStyle = p.color + '0.85)';
+        ctx.beginPath();
+        ctx.moveTo(0, -p.size);
+        ctx.bezierCurveTo(p.size * 0.7, -p.size * 0.4, p.size * 0.7, p.size * 0.6, 0, p.size);
+        ctx.bezierCurveTo(-p.size * 0.7, p.size * 0.6, -p.size * 0.7, -p.size * 0.4, 0, -p.size);
+        ctx.fill();
+
+        ctx.restore();
+      });
+
+      animationFrameId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => {
+      window.removeEventListener('resize', resize);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  return <canvas ref={canvasRef} className={`w-full h-full ${className}`} />;
+}
+
+/**
+ * CoffeeSteamCanvas: Rising steam wisps and tumbling coffee beans.
+ * Used on Olive Cafe Page.
+ */
+export function CoffeeSteamCanvas({ className = "absolute inset-0 pointer-events-none overflow-hidden" }) {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let animationFrameId;
+
+    const resize = () => {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    };
+    resize();
+    window.addEventListener('resize', resize);
+
+    // Steam wisps
+    const wisps = Array.from({ length: 18 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      radius: 18 + Math.random() * 24,
+      speedY: 0.4 + Math.random() * 0.5,
+      drift: (Math.random() - 0.5) * 0.3,
+      opacity: 0.08 + Math.random() * 0.14
+    }));
+
+    const render = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      wisps.forEach((w) => {
+        w.y -= w.speedY;
+        w.x += w.drift;
+        if (w.y < -50) {
+          w.y = canvas.height + 50;
+          w.x = Math.random() * canvas.width;
+        }
+
+        const gradient = ctx.createRadialGradient(w.x, w.y, 2, w.x, w.y, w.radius);
+        gradient.addColorStop(0, `rgba(255, 248, 235, ${w.opacity})`);
+        gradient.addColorStop(1, 'rgba(255, 248, 235, 0)');
+
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(w.x, w.y, w.radius, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      animationFrameId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => {
+      window.removeEventListener('resize', resize);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  return <canvas ref={canvasRef} className={`w-full h-full ${className}`} />;
+}
+
+/**
+ * HospitalityFabricSway: Ambient silky light wave flow.
+ * Used on Hotel & Rooms Page (Serene, soothing, luxurious rest).
+ */
+export function HospitalityFabricSway({ className = "absolute inset-0 pointer-events-none overflow-hidden" }) {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let animationFrameId;
+    let step = 0;
+
+    const resize = () => {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    };
+    resize();
+    window.addEventListener('resize', resize);
+
+    const render = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      step += 0.012;
+
+      // Draw two gentle undulating wave layers
+      [0.05, 0.035].forEach((opacity, i) => {
+        ctx.fillStyle = `rgba(212, 175, 55, ${opacity})`;
+        ctx.beginPath();
+        ctx.moveTo(0, canvas.height);
+
+        for (let x = 0; x <= canvas.width; x += 30) {
+          const y =
+            canvas.height * 0.65 +
+            Math.sin(x * 0.003 + step + i * 1.5) * 35 +
+            Math.cos(x * 0.002 + step * 0.7) * 25;
+          ctx.lineTo(x, y);
+        }
+
+        ctx.lineTo(canvas.width, canvas.height);
+        ctx.closePath();
+        ctx.fill();
+      });
+
+      animationFrameId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => {
+      window.removeEventListener('resize', resize);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  return <canvas ref={canvasRef} className={`w-full h-full ${className}`} />;
+}
+
