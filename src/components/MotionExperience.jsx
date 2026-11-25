@@ -793,7 +793,7 @@ export function StaggerGrid({
         };
 
         return (
-          <div key={child.key || index} style={childStyle} className="h-full">
+          <div key={child.key || index} style={childStyle} className="inline-flex items-center justify-center max-w-full">
             {child}
           </div>
         );

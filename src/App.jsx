@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import VerificationModal from './components/VerificationModal';
 import EnquiryModal from './components/EnquiryModal';
+import ErrorBoundary from './components/ErrorBoundary';
 
 import HomePage from './pages/HomePage';
 import RestaurantPage from './pages/RestaurantPage';
@@ -62,7 +63,8 @@ export default function App() {
         />
 
         <main className="flex-1">
-          <Routes>
+          <ErrorBoundary>
+            <Routes>
             <Route
               path="/"
               element={
@@ -127,7 +129,8 @@ export default function App() {
             />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
-        </main>
+        </ErrorBoundary>
+      </main>
 
         <Footer
           onOpenVerification={handleOpenVerification}

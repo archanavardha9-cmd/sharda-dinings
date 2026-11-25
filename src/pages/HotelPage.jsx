@@ -135,26 +135,26 @@ export default function HotelPage({ onOpenEnquiry, onOpenVerification }) {
           <GildedDivider className="my-4" />
 
           {/* Quick Metrics Strip with Spring Pop */}
-          <StaggerGrid stagger={0.1} animation="pop" className="flex flex-wrap items-center justify-center gap-3 pt-1 text-xs font-mono">
-            <span className="bg-white/10 px-3.5 py-1.5 rounded-full border border-white/15 text-[#A8D5BA] font-bold">11 AC Rooms</span>
-            <span className="bg-white/10 px-3.5 py-1.5 rounded-full border border-white/15 text-white">Check-in 12:00 PM / Check-out 11:00 AM</span>
-            <span className="bg-white/10 px-3.5 py-1.5 rounded-full border border-white/15 text-[#F4A261] font-bold">~1 km from Gorakhnath Mandir</span>
-            <span className="bg-white/10 px-3.5 py-1.5 rounded-full border border-white/15 text-[#FAF7F2]">Direct Rates: ₹1,500 – ₹2,800</span>
+          <StaggerGrid stagger={0.1} animation="pop" className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-2.5 sm:gap-3 pt-1 text-xs font-mono max-w-3xl mx-auto">
+            <span className="bg-white/10 px-4 py-2 rounded-full border border-white/15 text-[#A8D5BA] font-bold text-center">11 AC Rooms</span>
+            <span className="bg-white/10 px-4 py-2 rounded-full border border-white/15 text-white text-center">Check-in 12:00 PM / Check-out 11:00 AM</span>
+            <span className="bg-white/10 px-4 py-2 rounded-full border border-white/15 text-[#F4A261] font-bold text-center">~1 km from Gorakhnath Mandir</span>
+            <span className="bg-white/10 px-4 py-2 rounded-full border border-white/15 text-[#FAF7F2] text-center">Direct Rates: ₹1,500 – ₹2,800</span>
           </StaggerGrid>
 
-          <div className="pt-4 flex flex-wrap items-center justify-center gap-3">
-            <ScrollPop delay={0.2}>
+          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 w-full max-w-md mx-auto">
+            <ScrollPop delay={0.2} className="w-full sm:w-auto">
               <a
                 href="#hotel-booking"
-                className="px-8 py-3.5 bg-gradient-to-r from-[#E76F51] to-[#C84B31] hover:brightness-110 text-[#FAF7F2] text-xs uppercase tracking-wider font-bold rounded-full shadow-xl shadow-[#C84B31]/40 transition-all hover:scale-105"
+                className="w-full sm:w-auto text-center inline-flex items-center justify-center min-h-[46px] px-8 py-3.5 bg-gradient-to-r from-[#E76F51] to-[#C84B31] hover:brightness-110 text-[#FAF7F2] text-xs uppercase tracking-wider font-bold rounded-full shadow-xl shadow-[#C84B31]/40 transition-all hover:scale-105"
               >
                 Direct Room Booking
               </a>
             </ScrollPop>
-            <ScrollPop delay={0.3}>
+            <ScrollPop delay={0.3} className="w-full sm:w-auto">
               <a
                 href={`tel:${BUSINESS_INFO.phones[0].number}`}
-                className="px-8 py-3.5 border-2 border-[#A8D5BA] hover:bg-[#A8D5BA]/20 text-[#FAF7F2] text-xs uppercase tracking-wider font-bold rounded-full transition-all hover:scale-105"
+                className="w-full sm:w-auto text-center inline-flex items-center justify-center min-h-[46px] px-8 py-3.5 border-2 border-[#A8D5BA] hover:bg-[#A8D5BA]/20 text-[#FAF7F2] text-xs uppercase tracking-wider font-bold rounded-full transition-all hover:scale-105"
               >
                 Call Front Desk: {BUSINESS_INFO.phones[0].display}
               </a>

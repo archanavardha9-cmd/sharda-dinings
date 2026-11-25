@@ -117,25 +117,25 @@ export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
           <GildedDivider className="my-4" />
 
           {/* Quick Badges Strip with Spring Pop */}
-          <StaggerGrid stagger={0.1} animation="pop" className="flex flex-wrap items-center justify-center gap-3 pt-1 text-xs font-mono">
-            <span className="bg-white/10 px-3.5 py-1.5 rounded-full border border-white/15 text-[#A8D5BA] font-bold">11:00 AM – 11:00 PM Daily</span>
-            <span className="bg-white/10 px-3.5 py-1.5 rounded-full border border-white/15 text-white">High-Speed Wi-Fi</span>
-            <span className="bg-white/10 px-3.5 py-1.5 rounded-full border border-white/15 text-[#F4A261] font-bold">Individual Power Outlets</span>
+          <StaggerGrid stagger={0.1} animation="pop" className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-2.5 sm:gap-3 pt-1 text-xs font-mono max-w-2xl mx-auto">
+            <span className="bg-white/10 px-4 py-2 rounded-full border border-white/15 text-[#A8D5BA] font-bold text-center">11:00 AM – 11:00 PM Daily</span>
+            <span className="bg-white/10 px-4 py-2 rounded-full border border-white/15 text-white text-center">High-Speed Wi-Fi</span>
+            <span className="bg-white/10 px-4 py-2 rounded-full border border-white/15 text-[#F4A261] font-bold text-center">Individual Power Outlets</span>
           </StaggerGrid>
 
-          <div className="pt-4 flex flex-wrap items-center justify-center gap-3">
-            <ScrollPop delay={0.2}>
+          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 w-full max-w-md mx-auto">
+            <ScrollPop delay={0.2} className="w-full sm:w-auto">
               <button
                 onClick={() => onOpenEnquiry('cafe')}
-                className="px-8 py-3.5 bg-gradient-to-r from-[#2D6A4F] to-[#1B4332] hover:brightness-110 text-[#FAF7F2] text-xs uppercase tracking-wider font-bold rounded-full shadow-xl shadow-[#2D6A4F]/40 transition-all hover:scale-105 cursor-pointer"
+                className="w-full sm:w-auto text-center inline-flex items-center justify-center min-h-[46px] px-8 py-3.5 bg-gradient-to-r from-[#2D6A4F] to-[#1B4332] hover:brightness-110 text-[#FAF7F2] text-xs uppercase tracking-wider font-bold rounded-full shadow-xl shadow-[#2D6A4F]/40 transition-all hover:scale-105 cursor-pointer"
               >
                 Reserve Cafe Corner
               </button>
             </ScrollPop>
-            <ScrollPop delay={0.3}>
+            <ScrollPop delay={0.3} className="w-full sm:w-auto">
               <a
                 href="#cafe-menu"
-                className="px-8 py-3.5 border-2 border-[#A8D5BA] hover:bg-[#A8D5BA]/20 text-[#FAF7F2] text-xs uppercase tracking-wider font-bold rounded-full transition-all hover:scale-105"
+                className="w-full sm:w-auto text-center inline-flex items-center justify-center min-h-[46px] px-8 py-3.5 border-2 border-[#A8D5BA] hover:bg-[#A8D5BA]/20 text-[#FAF7F2] text-xs uppercase tracking-wider font-bold rounded-full transition-all hover:scale-105"
               >
                 Explore Cafe Menu
               </a>

@@ -140,26 +140,26 @@ export default function BanquetsPage({ onOpenEnquiry, onOpenVerification }) {
           <GildedDivider className="my-4" />
 
           {/* Key Metrics Strip with Spring Pop */}
-          <StaggerGrid stagger={0.1} animation="pop" className="flex flex-wrap items-center justify-center gap-3 pt-1 text-xs font-mono">
-            <span className="bg-white/10 px-3.5 py-1.5 rounded-full border border-white/15 text-[#F4A261] font-bold">100 Seated Guests</span>
-            <span className="bg-white/10 px-3.5 py-1.5 rounded-full border border-white/15 text-white">150 Floating Capacity</span>
-            <span className="bg-white/10 px-3.5 py-1.5 rounded-full border border-white/15 text-[#A8D5BA] font-bold">100% In-House Master Chefs</span>
-            <span className="bg-white/10 px-3.5 py-1.5 rounded-full border border-white/15 text-[#FCD5CE]">Non-Alcoholic Sanctuary</span>
+          <StaggerGrid stagger={0.1} animation="pop" className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-2.5 sm:gap-3 pt-1 text-xs font-mono max-w-3xl mx-auto">
+            <span className="bg-white/10 px-4 py-2 rounded-full border border-white/15 text-[#F4A261] font-bold text-center">100 Seated Guests</span>
+            <span className="bg-white/10 px-4 py-2 rounded-full border border-white/15 text-white text-center">150 Floating Capacity</span>
+            <span className="bg-white/10 px-4 py-2 rounded-full border border-white/15 text-[#A8D5BA] font-bold text-center">100% In-House Master Chefs</span>
+            <span className="bg-white/10 px-4 py-2 rounded-full border border-white/15 text-[#FCD5CE] text-center">Non-Alcoholic Sanctuary</span>
           </StaggerGrid>
 
-          <div className="pt-4 flex flex-wrap items-center justify-center gap-3">
-            <ScrollPop delay={0.2}>
+          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 w-full max-w-lg mx-auto">
+            <ScrollPop delay={0.2} className="w-full sm:w-auto">
               <a
                 href="#estimator-suite"
-                className="px-8 py-3.5 bg-gradient-to-r from-[#D4AF37] to-[#F4A261] hover:brightness-110 text-[#1C1617] text-xs uppercase tracking-wider font-bold rounded-full shadow-xl shadow-[#D4AF37]/30 transition-all hover:scale-105"
+                className="w-full sm:w-auto text-center inline-flex items-center justify-center min-h-[46px] px-8 py-3.5 bg-gradient-to-r from-[#D4AF37] to-[#F4A261] hover:brightness-110 text-[#1C1617] text-xs uppercase tracking-wider font-bold rounded-full shadow-xl shadow-[#D4AF37]/30 transition-all hover:scale-105"
               >
                 Get Event Quotation
               </a>
             </ScrollPop>
-            <ScrollPop delay={0.3}>
+            <ScrollPop delay={0.3} className="w-full sm:w-auto">
               <a
                 href={`tel:${BUSINESS_INFO.phones[1].number}`}
-                className="px-8 py-3.5 border-2 border-[#D4AF37] hover:bg-[#D4AF37]/20 text-[#FAF7F2] text-xs uppercase tracking-wider font-bold rounded-full transition-all hover:scale-105"
+                className="w-full sm:w-auto text-center inline-flex items-center justify-center min-h-[46px] px-8 py-3.5 border-2 border-[#D4AF37] hover:bg-[#D4AF37]/20 text-[#FAF7F2] text-xs uppercase tracking-wider font-bold rounded-full transition-all hover:scale-105"
               >
                 Call Banquet Desk: {BUSINESS_INFO.phones[1].display}
               </a>
