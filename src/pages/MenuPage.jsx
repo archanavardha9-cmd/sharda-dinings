@@ -24,7 +24,8 @@ import {
   RisingGrainsCanvas,
   ScrollSlide,
   ScrollZoom,
-  ScrollRotate
+  ScrollRotate,
+  SectionBackground
 } from '../components/MotionExperience';
 
 const NAVBAR_HEIGHT = 64; // Matches h-16 fixed/sticky header in Navbar.jsx
@@ -450,11 +451,11 @@ export default function MenuPage({ onOpenEnquiry }) {
           DYNAMIC GASTRONOMIC SPOTLIGHT SHOWCASE
       ───────────────────────────────────────────────────────────── */}
       <section
-        onMouseEnter={() => setIsSpotlightPaused(true)}
-        onMouseLeave={() => setIsSpotlightPaused(false)}
         className="py-16 px-4 sm:px-6 lg:px-8 bg-[#180C11] text-[#FAF7F2] border-b-2 border-[#D4AF37]/20 relative overflow-hidden"
       >
-        <div className="max-w-7xl mx-auto">
+        <SectionBackground theme="menu-spotlight" />
+
+        <div className="max-w-7xl mx-auto relative z-10">
           
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
             <ScrollSlide direction="down" distance={30}>
@@ -473,19 +474,24 @@ export default function MenuPage({ onOpenEnquiry }) {
 
             {/* Spotlight Controls & Carousel Indicator */}
             <div className="flex items-center space-x-3">
-              <span className="text-[10px] font-mono text-[#FAF7F2]/60 flex items-center space-x-1.5 mr-2">
+              <button
+                type="button"
+                onClick={() => setIsSpotlightPaused((prev) => !prev)}
+                aria-label={isSpotlightPaused ? "Resume auto-rotation" : "Pause auto-rotation"}
+                className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full border border-white/20 bg-white/10 hover:bg-white/20 hover:border-[#D4AF37] text-xs font-mono transition-all text-[#FAF7F2] cursor-pointer mr-2 shadow-sm"
+              >
                 {isSpotlightPaused ? (
                   <>
-                    <Pause className="w-3 h-3 text-[#D4AF37]" />
-                    <span>Paused</span>
+                    <Play className="w-3.5 h-3.5 text-[#D4AF37] fill-[#D4AF37]" />
+                    <span className="text-[#D4AF37] font-semibold">Resume</span>
                   </>
                 ) : (
                   <>
-                    <Play className="w-3 h-3 text-[#D4AF37]" />
-                    <span>Auto-Rotating</span>
+                    <Pause className="w-3.5 h-3.5 text-[#D4AF37]" />
+                    <span>Pause</span>
                   </>
                 )}
-              </span>
+              </button>
 
               <button
                 onClick={handlePrevSpotlight}
@@ -733,8 +739,9 @@ export default function MenuPage({ onOpenEnquiry }) {
         </div>
 
         {/* Main Catalog Dual-Column Layout (Desktop & Tablet Vertical Sidebar + Dish Grid) */}
-        <section className="py-8 md:py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-start">
+        <section className="py-8 md:py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative">
+          <SectionBackground theme="menu-catalog" />
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-start relative z-10">
             
             {/* Left Vertical Dish-Category Navigation (Desktop & Tablet Sticky Sidebar - Primary Category Browser) */}
             <aside

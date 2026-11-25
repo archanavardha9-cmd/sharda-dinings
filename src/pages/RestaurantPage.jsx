@@ -15,7 +15,8 @@ import {
   ScrollRotate,
   FloatingCard,
   StaggerGrid,
-  AnimatedCounter
+  AnimatedCounter,
+  SectionBackground
 } from '../components/MotionExperience';
 
 export default function RestaurantPage({ onOpenEnquiry, onOpenVerification }) {
@@ -104,7 +105,7 @@ export default function RestaurantPage({ onOpenEnquiry, onOpenVerification }) {
         <RisingGrainsCanvas />
 
         {/* Floating Side Dishes */}
-        <div className="hidden lg:block absolute left-8 top-32 z-10">
+        <div className="hidden xl:block absolute left-8 top-32 z-10 pointer-events-none">
           <FloatingCard type="vertical" intensity={15} duration={5}>
             <FloatingDishPortal
               src="/images/food/sharda-dining-biryani.webp"
@@ -119,7 +120,7 @@ export default function RestaurantPage({ onOpenEnquiry, onOpenVerification }) {
           </FloatingCard>
         </div>
 
-        <div className="hidden lg:block absolute right-8 top-28 z-10">
+        <div className="hidden xl:block absolute right-8 top-28 z-10 pointer-events-none">
           <FloatingCard type="reverse" intensity={14} duration={4.8}>
             <FloatingDishPortal
               src="/images/food/tandoori-veg-platter.webp"
@@ -151,11 +152,11 @@ export default function RestaurantPage({ onOpenEnquiry, onOpenVerification }) {
           <GildedDivider className="my-4" />
 
           {/* Quick Metrics Strip */}
-          <StaggerGrid stagger={0.1} animation="pop" className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-2.5 sm:gap-3 pt-1 text-xs font-mono max-w-2xl mx-auto">
-            <span className="bg-white/10 px-4 py-2 rounded-full border border-white/15 text-[#F4A261] font-bold text-center">11:00 AM – 11:00 PM Daily</span>
-            <span className="bg-white/10 px-4 py-2 rounded-full border border-white/15 text-[#FAF7F2] text-center">North Indian & Indo-Chinese</span>
-            <span className="bg-white/10 px-4 py-2 rounded-full border border-white/15 text-[#A8D5BA] font-bold text-center">Dedicated Satvik & Jain Cookware</span>
-          </StaggerGrid>
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 pt-1 text-xs font-mono max-w-2xl mx-auto">
+            <span className="bg-white/10 px-3.5 sm:px-4 py-2 rounded-full border border-white/15 text-[#F4A261] font-bold text-center">11:00 AM – 11:00 PM Daily</span>
+            <span className="bg-white/10 px-3.5 sm:px-4 py-2 rounded-full border border-white/15 text-[#FAF7F2] text-center">North Indian & Indo-Chinese</span>
+            <span className="bg-white/10 px-3.5 sm:px-4 py-2 rounded-full border border-white/15 text-[#A8D5BA] font-bold text-center">Dedicated Satvik & Jain Cookware</span>
+          </div>
 
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 w-full max-w-md mx-auto">
             <ScrollPop delay={0.2} className="w-full sm:w-auto">
@@ -182,8 +183,9 @@ export default function RestaurantPage({ onOpenEnquiry, onOpenVerification }) {
           SECTION 2: ARCHITECTURAL COMFORT & VELVET BOOTHS
           Rich Warm Peach, Terracotta & Champagne
       ───────────────────────────────────────────────────────────── */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#FFF8F3] via-[#FDE8E1] to-[#F7E5DE] border-b-2 border-[#C84B31]/20">
-        <div className="max-w-7xl mx-auto space-y-12">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#FFF8F3] via-[#FDE8E1] to-[#F7E5DE] border-b-2 border-[#C84B31]/20 relative overflow-hidden">
+        <SectionBackground theme="restaurant-comfort" />
+        <div className="max-w-7xl mx-auto space-y-12 relative z-10">
           
           <div className="text-center max-w-xl mx-auto space-y-2">
             <ScrollSlide direction="down" distance={40}>
@@ -286,7 +288,7 @@ export default function RestaurantPage({ onOpenEnquiry, onOpenVerification }) {
           Deep Forest Charcoal & Gilded Gold
       ───────────────────────────────────────────────────────────── */}
       <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#18211A] via-[#121B14] to-[#0D140F] text-[#FAF7F2] relative overflow-hidden border-t-2 border-[#A8D5BA]/20">
-        <FloatingSpiceCanvas theme="culinary" density="medium" />
+        <SectionBackground theme="restaurant-traditions" />
 
         <div className="max-w-7xl mx-auto space-y-12 relative z-10">
           
@@ -393,8 +395,9 @@ export default function RestaurantPage({ onOpenEnquiry, onOpenVerification }) {
       {/* ─────────────────────────────────────────────────────────────
           SECTION 4: RESERVATION SUITE (Warm Coral Peach & Cream)
       ───────────────────────────────────────────────────────────── */}
-      <section id="reservation-suite" className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#FAF0E6] via-[#FDE8E1] to-[#FBE8E2] border-t-2 border-[#C84B31]/30">
-        <div className="max-w-4xl mx-auto">
+      <section id="reservation-suite" className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#FAF0E6] via-[#FDE8E1] to-[#FBE8E2] border-t-2 border-[#C84B31]/30 relative overflow-hidden">
+        <SectionBackground theme="dining-reservation" />
+        <div className="max-w-4xl mx-auto relative z-10">
           
           <div className="text-center max-w-xl mx-auto space-y-2 mb-10">
             <ScrollSlide direction="down" distance={30}>

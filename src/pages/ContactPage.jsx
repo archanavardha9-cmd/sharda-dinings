@@ -11,7 +11,8 @@ import {
   ScrollRotate,
   FloatingCard,
   StaggerGrid,
-  AnimatedCounter
+  AnimatedCounter,
+  SectionBackground
 } from '../components/MotionExperience';
 
 const GOOGLE_MAPS_URL = "https://maps.google.com/?q=Sharda+Dinings+Gorakhpur";
@@ -131,14 +132,19 @@ export default function ContactPage({ onOpenEnquiry, onOpenVerification }) {
       {/* ─────────────────────────────────────────────────────────────
           SECTION 2: LANDMARK & DIRECTIONS CANVAS (Warm Peach Sand & Terracotta)
       ───────────────────────────────────────────────────────────── */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#FAF0E6] via-[#FDE8E1] to-[#FBE8E2] border-b-2 border-[#C84B31]/20">
-        <div className="max-w-6xl mx-auto space-y-12">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#FAF0E6] via-[#FDE8E1] to-[#FBE8E2] border-b-2 border-[#C84B31]/20 relative overflow-hidden">
+        <SectionBackground theme="contact-location" />
+
+        <div className="max-w-6xl mx-auto space-y-12 relative z-10">
           
           <div className="text-center max-w-xl mx-auto space-y-2">
             <ScrollSlide direction="down" distance={40}>
-              <span className="text-[11px] uppercase tracking-widest text-[#C84B31] font-mono font-bold block">
-                Physical Location
-              </span>
+              <div className="flex items-center justify-center space-x-2 text-[#C84B31] mb-1">
+                <Compass className="w-4 h-4 animate-badge-levitate" />
+                <span className="text-[11px] uppercase tracking-widest font-mono font-bold">
+                  Physical Location & Wayfinding
+                </span>
+              </div>
             </ScrollSlide>
             <ScrollSlide direction="up" distance={50} delay={0.1}>
               <h2 className="font-serif text-2xl sm:text-4xl text-[#1C1617]">
@@ -154,7 +160,7 @@ export default function ContactPage({ onOpenEnquiry, onOpenVerification }) {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
             
-            {/* Left 6 cols: Facade Photo & Wayfinding Specs with Rotate */}
+            {/* Left 6 cols: Facade Photo & Wayfinding Specs */}
             <div className="lg:col-span-6 bg-white rounded-3xl p-6 sm:p-8 border-2 border-[#D4AF37]/35 shadow-xl flex flex-col justify-between space-y-6">
               <div className="space-y-4">
                 <ScrollRotate rotateFrom={-4} duration={0.9}>
@@ -200,50 +206,49 @@ export default function ContactPage({ onOpenEnquiry, onOpenVerification }) {
                 </div>
               </div>
 
-              <div className="pt-2 flex items-center justify-between border-t border-[#EFE8DC]">
+              <div className="pt-3 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 border-t border-[#EFE8DC]">
                 <a
                   href={GOOGLE_MAPS_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center space-x-2 px-6 py-3 bg-[#C84B31] hover:bg-[#b33e26] text-white text-xs font-mono uppercase tracking-wider font-bold rounded-full transition-all hover:scale-105 shadow-lg shadow-[#C84B31]/30 cursor-pointer"
+                  className="inline-flex items-center justify-center space-x-2 px-6 py-3 bg-[#C84B31] hover:bg-[#b33e26] text-white text-xs font-mono uppercase tracking-wider font-bold rounded-full transition-all hover:scale-105 shadow-lg shadow-[#C84B31]/30 cursor-pointer w-full sm:w-auto text-center"
                 >
-                  <Navigation className="w-4 h-4" />
+                  <Navigation className="w-4 h-4 shrink-0" />
                   <span>Open in Google Maps</span>
                 </a>
-                <span className="text-xs text-[#1C1617]/60 font-mono">Parking on-site</span>
+                <span className="text-xs text-[#1C1617]/70 font-mono flex items-center justify-center sm:justify-end gap-1.5 shrink-0 py-1 sm:py-0">
+                  <span className="w-2 h-2 rounded-full bg-emerald-600"></span>
+                  Parking on-site
+                </span>
               </div>
             </div>
 
-            {/* Right 6 cols: Google Map Embed Frame with ScrollZoom & Direct Verified Link */}
-            <div className="lg:col-span-6 bg-white rounded-3xl p-5 sm:p-6 border-2 border-[#D4AF37]/35 shadow-xl flex flex-col justify-between">
-              <ScrollZoom scaleFrom={0.92} duration={0.9} className="w-full flex-1 min-h-[360px] rounded-2xl overflow-hidden border border-[#D4AF37]/30 relative group">
+            {/* Right 6 cols: Google Map Embed Frame with Coordinate Ribbon & Full Height Map */}
+            <div className="lg:col-span-6 bg-white rounded-3xl p-5 sm:p-6 border-2 border-[#D4AF37]/35 shadow-xl flex flex-col justify-between space-y-3">
+              {/* Top coordinates header bar */}
+              <div className="flex items-center justify-between px-1 text-xs font-mono">
+                <div className="flex items-center space-x-2 text-[#1C1617]/80">
+                  <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+                  <span className="font-bold">Sharda Dinings</span>
+                  <span className="text-[#1C1617]/40">·</span>
+                  <span className="text-[11px] text-[#C84B31]">26.7953° N, 83.3599° E</span>
+                </div>
+                <span className="text-[10px] uppercase font-bold text-[#D4AF37] tracking-wider hidden sm:inline">
+                  Interactive Map
+                </span>
+              </div>
+
+              {/* Map Embed Frame filling container height with verified location destination */}
+              <ScrollZoom scaleFrom={0.92} duration={0.9} className="w-full flex-1 min-h-[380px] sm:min-h-[420px] rounded-2xl overflow-hidden border border-[#D4AF37]/30 relative group">
                 <iframe
-                  title="Sharda Dinings Location Map"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3561.401869814324!2d83.3598715!3d26.7953265!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3991448b11c9bbab%3A0xc3676449e7a9618b!2sSharda%20Dinings!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
-                  className="w-full h-full min-h-[360px] border-0"
+                  title="Sharda Dinings Exact Location Map"
+                  src="https://maps.google.com/maps?q=Sharda+Dinings+Gorakhpur&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                  className="w-full h-full min-h-[380px] sm:min-h-[420px] border-0"
                   allowFullScreen=""
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                 ></iframe>
               </ScrollZoom>
-
-              {/* Exact verified destination map link matching left side button */}
-              <div className="pt-4 mt-3 border-t border-[#EFE8DC] flex flex-col sm:flex-row items-center justify-between gap-3">
-                <div className="flex items-center space-x-2 text-xs font-mono text-[#1C1617]/75">
-                  <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
-                  <span>Sharda Dinings GPS Location Verified</span>
-                </div>
-                <a
-                  href={GOOGLE_MAPS_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center space-x-2 px-5 py-2.5 bg-[#1C1617] hover:bg-[#C84B31] text-white text-xs font-mono uppercase tracking-wider font-bold rounded-full transition-all hover:scale-105 shadow-md shadow-black/20 cursor-pointer"
-                >
-                  <Navigation className="w-3.5 h-3.5 text-[#D4AF37]" />
-                  <span>Open in Map</span>
-                  <ExternalLink className="w-3.5 h-3.5 text-[#D4AF37]" />
-                </a>
-              </div>
             </div>
 
           </div>
@@ -254,8 +259,9 @@ export default function ContactPage({ onOpenEnquiry, onOpenVerification }) {
       {/* ─────────────────────────────────────────────────────────────
           SECTION 3: MANAGEMENT MESSAGE SUITE (Rich Terracotta & Coral)
       ───────────────────────────────────────────────────────────── */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#C84B31] via-[#B94E35] to-[#963822] text-[#FAF7F2]">
-        <div className="max-w-3xl mx-auto space-y-8">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#C84B31] via-[#B94E35] to-[#963822] text-[#FAF7F2] relative overflow-hidden">
+        <SectionBackground theme="contact-message" />
+        <div className="max-w-3xl mx-auto space-y-8 relative z-10">
           
           <div className="text-center space-y-2">
             <ScrollSlide direction="down" distance={30}>

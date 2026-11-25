@@ -6,6 +6,8 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+export { SectionBackground } from './SectionBackground';
+
 // ─────────────────────────────────────────────────────────────
 // High-Fidelity Botanical & Culinary Floating Vector Elements
 // ─────────────────────────────────────────────────────────────
@@ -767,6 +769,7 @@ export function StaggerGrid({
   duration = 0.75,
   animation = "emerge", // 'emerge', 'pop', 'slide-up'
   className = "",
+  itemClassName = "",
   threshold = 0.08
 }) {
   const [ref, inView] = useInViewRepeat({ threshold });
@@ -792,8 +795,14 @@ export function StaggerGrid({
           willChange: "opacity, transform"
         };
 
+        const resolvedItemClass = itemClassName || (
+          className.includes('grid') || className.includes('space-y') || className.includes('flex-col')
+            ? "w-full max-w-full"
+            : "inline-flex items-center justify-center max-w-full"
+        );
+
         return (
-          <div key={child.key || index} style={childStyle} className="inline-flex items-center justify-center max-w-full">
+          <div key={child.key || index} style={childStyle} className={resolvedItemClass}>
             {child}
           </div>
         );

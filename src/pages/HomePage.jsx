@@ -16,7 +16,8 @@ import {
   AnimatedCounter,
   StarAniseVector,
   CardamomPodVector,
-  CoffeeBeanVector
+  CoffeeBeanVector,
+  SectionBackground
 } from '../components/MotionExperience';
 
 export default function HomePage({ onOpenEnquiry, onOpenVerification }) {
@@ -222,6 +223,7 @@ export default function HomePage({ onOpenEnquiry, onOpenVerification }) {
           Warm Terracotta & Coral Atmosphere with Staggered Slide In
       ───────────────────────────────────────────────────────────── */}
       <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#C84B31] via-[#B94E35] to-[#963822] text-[#FAF7F2] relative overflow-hidden border-y border-[#D4AF37]/30">
+        <SectionBackground theme="home-manifesto" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-[#F4A261]/20 rounded-full blur-3xl pointer-events-none animate-pulse-glow"></div>
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#66182B]/30 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -301,8 +303,9 @@ export default function HomePage({ onOpenEnquiry, onOpenVerification }) {
           SECTION 3: ATELIER-STYLE SPLIT-SCREEN TASTING CURATION
           Deep Emerald Teal Left vs Warm Champagne Gold Right
       ───────────────────────────────────────────────────────────── */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#FAF7F2] to-[#F5EFE6]">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#FAF7F2] to-[#F5EFE6] relative overflow-hidden">
+        <SectionBackground theme="home-atelier" />
+        <div className="max-w-7xl mx-auto relative z-10">
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 rounded-3xl overflow-hidden shadow-2xl border-2 border-[#D4AF37]/35">
             
@@ -426,8 +429,9 @@ export default function HomePage({ onOpenEnquiry, onOpenVerification }) {
           SECTION 4: FOUR EXPERIENCES INTERACTIVE SHOWCASE
           Warm Sand & Saffron Palette with Interactive Tab Switches
       ───────────────────────────────────────────────────────────── */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#F5EFE6] via-[#FAF7F2] to-[#FDF5E6] border-t border-[#D4AF37]/20">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#F5EFE6] via-[#FAF7F2] to-[#FDF5E6] border-t border-[#D4AF37]/20 relative overflow-hidden">
+        <SectionBackground theme="home-experiences" />
+        <div className="max-w-7xl mx-auto relative z-10">
           
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 pb-4 border-b-2 border-[#D4AF37]/25 gap-4">
             <ScrollSlide direction="left" distance={50}>
@@ -528,7 +532,7 @@ export default function HomePage({ onOpenEnquiry, onOpenVerification }) {
           Lush Forest Green, Sage & Coral Highlights
       ───────────────────────────────────────────────────────────── */}
       <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#1E2C22] via-[#18211A] to-[#121B14] text-[#FAF7F2] relative overflow-hidden border-t-2 border-[#A8D5BA]/20">
-        <FloatingSpiceCanvas theme="cafe" density="rich" />
+        <SectionBackground theme="cafe-botanical" />
 
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
@@ -707,8 +711,9 @@ export default function HomePage({ onOpenEnquiry, onOpenVerification }) {
       {/* ─────────────────────────────────────────────────────────────
           SECTION 7: SANCTUARY & MANDIR ACCESS (Warm Coral Peach Strip)
       ───────────────────────────────────────────────────────────── */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-[#FDE8E1] via-[#FAF0E6] to-[#FBE8E2] border-t-2 border-[#C84B31]/30">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-[#FDE8E1] via-[#FAF0E6] to-[#FBE8E2] border-t-2 border-[#C84B31]/30 relative overflow-hidden">
+        <SectionBackground theme="landmark" />
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
           <ScrollSlide direction="left" distance={50} className="space-y-2 max-w-xl">
             <div className="flex items-center space-x-2 text-[#C84B31]">
               <MapPin className="w-4 h-4 animate-badge-levitate" />

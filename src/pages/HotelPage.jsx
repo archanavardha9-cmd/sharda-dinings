@@ -14,7 +14,8 @@ import {
   ScrollRotate,
   FloatingCard,
   StaggerGrid,
-  AnimatedCounter
+  AnimatedCounter,
+  SectionBackground
 } from '../components/MotionExperience';
 
 export default function HotelPage({ onOpenEnquiry, onOpenVerification }) {
@@ -88,7 +89,7 @@ export default function HotelPage({ onOpenEnquiry, onOpenVerification }) {
         <HospitalityFabricSway />
 
         {/* Floating Room and Key Accents */}
-        <div className="hidden lg:block absolute left-10 top-28 z-10">
+        <div className="hidden xl:block absolute left-10 top-28 z-10 pointer-events-none">
           <FloatingCard type="vertical" intensity={15} duration={5}>
             <FloatingDishPortal
               src="/images/hotel-rooms/hotel-sharda-inn-room-green.webp"
@@ -103,7 +104,7 @@ export default function HotelPage({ onOpenEnquiry, onOpenVerification }) {
           </FloatingCard>
         </div>
 
-        <div className="hidden lg:block absolute right-10 top-24 z-10">
+        <div className="hidden xl:block absolute right-10 top-24 z-10 pointer-events-none">
           <FloatingCard type="reverse" intensity={14} duration={4.8}>
             <FloatingDishPortal
               src="/images/hotel-rooms/hotel-the-sharda-inn-key.webp"
@@ -134,13 +135,13 @@ export default function HotelPage({ onOpenEnquiry, onOpenVerification }) {
 
           <GildedDivider className="my-4" />
 
-          {/* Quick Metrics Strip with Spring Pop */}
-          <StaggerGrid stagger={0.1} animation="pop" className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-2.5 sm:gap-3 pt-1 text-xs font-mono max-w-3xl mx-auto">
-            <span className="bg-white/10 px-4 py-2 rounded-full border border-white/15 text-[#A8D5BA] font-bold text-center">11 AC Rooms</span>
-            <span className="bg-white/10 px-4 py-2 rounded-full border border-white/15 text-white text-center">Check-in 12:00 PM / Check-out 11:00 AM</span>
-            <span className="bg-white/10 px-4 py-2 rounded-full border border-white/15 text-[#F4A261] font-bold text-center">~1 km from Gorakhnath Mandir</span>
-            <span className="bg-white/10 px-4 py-2 rounded-full border border-white/15 text-[#FAF7F2] text-center">Direct Rates: ₹1,500 – ₹2,800</span>
-          </StaggerGrid>
+          {/* Quick Metrics Strip */}
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 pt-1 text-xs font-mono max-w-3xl mx-auto">
+            <span className="bg-white/10 px-3.5 sm:px-4 py-2 rounded-full border border-white/15 text-[#A8D5BA] font-bold text-center">11 AC Rooms</span>
+            <span className="bg-white/10 px-3.5 sm:px-4 py-2 rounded-full border border-white/15 text-white text-center">Check-in 12:00 PM / Check-out 11:00 AM</span>
+            <span className="bg-white/10 px-3.5 sm:px-4 py-2 rounded-full border border-white/15 text-[#F4A261] font-bold text-center">~1 km from Gorakhnath Mandir</span>
+            <span className="bg-white/10 px-3.5 sm:px-4 py-2 rounded-full border border-white/15 text-[#FAF7F2] text-center">Direct Rates: ₹1,500 – ₹2,800</span>
+          </div>
 
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 w-full max-w-md mx-auto">
             <ScrollPop delay={0.2} className="w-full sm:w-auto">
@@ -154,9 +155,11 @@ export default function HotelPage({ onOpenEnquiry, onOpenVerification }) {
             <ScrollPop delay={0.3} className="w-full sm:w-auto">
               <a
                 href={`tel:${BUSINESS_INFO.phones[0].number}`}
-                className="w-full sm:w-auto text-center inline-flex items-center justify-center min-h-[46px] px-8 py-3.5 border-2 border-[#A8D5BA] hover:bg-[#A8D5BA]/20 text-[#FAF7F2] text-xs uppercase tracking-wider font-bold rounded-full transition-all hover:scale-105"
+                className="w-full sm:w-auto text-center inline-flex flex-wrap sm:flex-nowrap items-center justify-center min-h-[46px] px-5 sm:px-7 py-3.5 border-2 border-[#A8D5BA] hover:bg-[#A8D5BA]/20 text-[#FAF7F2] text-xs uppercase tracking-wider font-bold rounded-full transition-all hover:scale-105 gap-1.5"
               >
-                Call Front Desk: {BUSINESS_INFO.phones[0].display}
+                <Phone className="w-3.5 h-3.5 text-[#A8D5BA] shrink-0" />
+                <span>Call Front Desk:</span>
+                <span className="whitespace-nowrap font-mono text-[#A8D5BA]">{BUSINESS_INFO.phones[0].display}</span>
               </a>
             </ScrollPop>
           </div>
@@ -166,8 +169,9 @@ export default function HotelPage({ onOpenEnquiry, onOpenVerification }) {
       {/* ─────────────────────────────────────────────────────────────
           SECTION 2: ROOM PORTFOLIO (Soft Linen Sand & Teal)
       ───────────────────────────────────────────────────────────── */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#FAF5EF] via-[#F4EDE2] to-[#EFE7D8] border-b-2 border-[#114B5F]/20">
-        <div className="max-w-6xl mx-auto space-y-12">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#FAF5EF] via-[#F4EDE2] to-[#EFE7D8] border-b-2 border-[#114B5F]/20 relative overflow-hidden">
+        <SectionBackground theme="hotel-rooms" />
+        <div className="max-w-6xl mx-auto space-y-12 relative z-10">
           
           <div className="text-center max-w-xl mx-auto space-y-2">
             <ScrollSlide direction="down" distance={40}>
@@ -292,8 +296,9 @@ export default function HotelPage({ onOpenEnquiry, onOpenVerification }) {
       {/* ─────────────────────────────────────────────────────────────
           SECTION 3: AMENITIES FRAMEWORK (Soft Lavender & Champagne)
       ───────────────────────────────────────────────────────────── */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#F5F0FA] via-[#ECE5F5] to-[#E5DCF0]">
-        <div className="max-w-6xl mx-auto space-y-12">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#F5F0FA] via-[#ECE5F5] to-[#E5DCF0] relative overflow-hidden">
+        <SectionBackground theme="hotel-amenities" />
+        <div className="max-w-6xl mx-auto space-y-12 relative z-10">
           
           <div className="text-center max-w-xl mx-auto space-y-2">
             <ScrollSlide direction="down" distance={40}>
@@ -341,8 +346,9 @@ export default function HotelPage({ onOpenEnquiry, onOpenVerification }) {
       {/* ─────────────────────────────────────────────────────────────
           SECTION 4: DIRECT RESERVATION DESK (Warm Saffron Sand)
       ───────────────────────────────────────────────────────────── */}
-      <section id="hotel-booking" className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#FAF0E6] via-[#FDE8E1] to-[#FBE8E2] border-t-2 border-[#114B5F]/20">
-        <div className="max-w-4xl mx-auto">
+      <section id="hotel-booking" className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#FAF0E6] via-[#FDE8E1] to-[#FBE8E2] border-t-2 border-[#114B5F]/20 relative overflow-hidden">
+        <SectionBackground theme="hotel-booking" />
+        <div className="max-w-4xl mx-auto relative z-10">
           
           <div className="text-center max-w-xl mx-auto space-y-2 mb-10">
             <ScrollSlide direction="down" distance={30}>

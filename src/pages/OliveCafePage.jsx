@@ -15,7 +15,8 @@ import {
   ScrollRotate,
   FloatingCard,
   StaggerGrid,
-  AnimatedCounter
+  AnimatedCounter,
+  SectionBackground
 } from '../components/MotionExperience';
 
 export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
@@ -68,7 +69,7 @@ export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
         <CoffeeSteamCanvas />
 
         {/* Floating Dish Portals Left & Right */}
-        <div className="hidden lg:block absolute left-10 top-28 z-10">
+        <div className="hidden xl:block absolute left-10 top-28 z-10 pointer-events-none">
           <FloatingCard type="vertical" intensity={15} duration={5}>
             <FloatingDishPortal
               src="/images/olive-cafe/olive-cafe-coffee.webp"
@@ -84,7 +85,7 @@ export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
           </FloatingCard>
         </div>
 
-        <div className="hidden lg:block absolute right-10 top-24 z-10">
+        <div className="hidden xl:block absolute right-10 top-24 z-10 pointer-events-none">
           <FloatingCard type="reverse" intensity={14} duration={4.8}>
             <FloatingDishPortal
               src="/images/olive-cafe/corn-margherita-pizza.jpg"
@@ -116,12 +117,12 @@ export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
 
           <GildedDivider className="my-4" />
 
-          {/* Quick Badges Strip with Spring Pop */}
-          <StaggerGrid stagger={0.1} animation="pop" className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-2.5 sm:gap-3 pt-1 text-xs font-mono max-w-2xl mx-auto">
-            <span className="bg-white/10 px-4 py-2 rounded-full border border-white/15 text-[#A8D5BA] font-bold text-center">11:00 AM – 11:00 PM Daily</span>
-            <span className="bg-white/10 px-4 py-2 rounded-full border border-white/15 text-white text-center">High-Speed Wi-Fi</span>
-            <span className="bg-white/10 px-4 py-2 rounded-full border border-white/15 text-[#F4A261] font-bold text-center">Individual Power Outlets</span>
-          </StaggerGrid>
+          {/* Quick Badges Strip */}
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 pt-1 text-xs font-mono max-w-2xl mx-auto">
+            <span className="bg-white/10 px-3.5 sm:px-4 py-2 rounded-full border border-white/15 text-[#A8D5BA] font-bold text-center">11:00 AM – 11:00 PM Daily</span>
+            <span className="bg-white/10 px-3.5 sm:px-4 py-2 rounded-full border border-white/15 text-white text-center">High-Speed Wi-Fi</span>
+            <span className="bg-white/10 px-3.5 sm:px-4 py-2 rounded-full border border-white/15 text-[#F4A261] font-bold text-center">Individual Power Outlets</span>
+          </div>
 
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 w-full max-w-md mx-auto">
             <ScrollPop delay={0.2} className="w-full sm:w-auto">
@@ -147,8 +148,9 @@ export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
       {/* ─────────────────────────────────────────────────────────────
           SECTION 2: CASUAL SANCTUARY (Soft Botanical Sage & Champagne)
       ───────────────────────────────────────────────────────────── */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#FAF5EF] via-[#F4EDE2] to-[#EFE7D8] border-b-2 border-[#A8D5BA]/30">
-        <div className="max-w-7xl mx-auto space-y-12">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#FAF5EF] via-[#F4EDE2] to-[#EFE7D8] border-b-2 border-[#A8D5BA]/30 relative overflow-hidden">
+        <SectionBackground theme="cafe-haven" />
+        <div className="max-w-7xl mx-auto space-y-12 relative z-10">
           
           <div className="text-center max-w-xl mx-auto space-y-2">
             <ScrollSlide direction="down" distance={40}>
@@ -238,8 +240,9 @@ export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
       {/* ─────────────────────────────────────────────────────────────
           SECTION 3: ARTISANAL CAFÉ LEDGER (Warm Dusty Peach & Sand)
       ───────────────────────────────────────────────────────────── */}
-      <section id="cafe-menu" className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#FDF0E9] via-[#FAF0E6] to-[#F5E6DC]">
-        <div className="max-w-7xl mx-auto space-y-12">
+      <section id="cafe-menu" className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#FDF0E9] via-[#FAF0E6] to-[#F5E6DC] relative overflow-hidden">
+        <SectionBackground theme="cafe-ledger" />
+        <div className="max-w-7xl mx-auto space-y-12 relative z-10">
           
           <div className="flex flex-col md:flex-row md:items-end justify-between pb-4 border-b-2 border-[#1C1617]/10 gap-4">
             <ScrollSlide direction="left" distance={50}>
@@ -279,39 +282,50 @@ export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
           {/* Dual Split: Menu Items Left + 4-Photo Stagger Right */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
-            {/* Left 6 cols: Tabbed Menu Items */}
-            <div className="lg:col-span-6 space-y-3">
-              <StaggerGrid key={activeTab} stagger={0.1} animation="pop" className="space-y-3">
-                {cafeMenuHighlights[activeTab].map((item, idx) => (
-                  <div
-                    key={idx}
-                    className="p-4 rounded-2xl bg-white border-2 border-[#EFE8DC] hover:border-[#2D6A4F] transition-all group shadow-sm hover:shadow-md flex flex-col justify-between"
-                  >
-                    <div className="flex items-baseline justify-between gap-2">
-                      <h3 className="font-serif font-bold text-sm text-[#1C1617] group-hover:text-[#2D6A4F] transition-colors truncate">
-                        {item.name}
-                      </h3>
-                      <span className="font-mono text-[10px] font-bold text-[#2D6A4F] bg-[#A8D5BA]/25 px-2.5 py-1 rounded-full shrink-0 uppercase tracking-wider">
-                        {item.category}
-                      </span>
+            {/* Left 6 cols: Tabbed Menu Items with consistent card layout */}
+            <div className="lg:col-span-6">
+              {/* Mobile: smooth horizontal scroll with consistent card widths; Desktop & Tablet: clean stacked grid with NO horizontal/vertical scroll */}
+              <div className="overflow-x-auto sm:overflow-visible pb-4 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-none">
+                <StaggerGrid
+                  key={activeTab}
+                  stagger={0.08}
+                  animation="pop"
+                  className="flex sm:flex-col gap-3 min-w-full"
+                  itemClassName="shrink-0 w-[285px] sm:w-full"
+                >
+                  {cafeMenuHighlights[activeTab].map((item, idx) => (
+                    <div
+                      key={idx}
+                      className="w-full h-full min-h-[120px] p-4 rounded-2xl bg-white border-2 border-[#EFE8DC] hover:border-[#2D6A4F] transition-all group shadow-sm hover:shadow-md flex flex-col justify-between"
+                    >
+                      <div>
+                        <div className="flex items-baseline justify-between gap-2">
+                          <h3 className="font-serif font-bold text-sm text-[#1C1617] group-hover:text-[#2D6A4F] transition-colors truncate">
+                            {item.name}
+                          </h3>
+                          <span className="font-mono text-[10px] font-bold text-[#2D6A4F] bg-[#A8D5BA]/25 px-2.5 py-1 rounded-full shrink-0 uppercase tracking-wider">
+                            {item.category}
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-[#1C1617]/70 mt-1 leading-relaxed font-light min-h-[32px]">
+                          {item.desc}
+                        </p>
+                      </div>
+                      <div className="mt-3 pt-2 border-t border-[#FAF7F2] flex items-center justify-between text-[10px] font-mono">
+                        <span className="text-[#C84B31] font-bold">
+                          {item.badge}
+                        </span>
+                        <button
+                          onClick={() => onOpenEnquiry('cafe')}
+                          className="text-[#2D6A4F] hover:underline font-bold uppercase tracking-wider cursor-pointer"
+                        >
+                          Reserve Table →
+                        </button>
+                      </div>
                     </div>
-                    <p className="text-[11px] text-[#1C1617]/70 mt-1 leading-relaxed font-light">
-                      {item.desc}
-                    </p>
-                    <div className="mt-2 pt-2 border-t border-[#FAF7F2] flex items-center justify-between text-[10px] font-mono">
-                      <span className="text-[#C84B31] font-bold">
-                        {item.badge}
-                      </span>
-                      <button
-                        onClick={() => onOpenEnquiry('cafe')}
-                        className="text-[#2D6A4F] hover:underline font-bold uppercase tracking-wider cursor-pointer"
-                      >
-                        Reserve Table →
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </StaggerGrid>
+                  ))}
+                </StaggerGrid>
+              </div>
             </div>
 
             {/* Right 6 cols: 4 Authentic Food Visuals in Asymmetrical Grid with Zoom on Scroll */}
