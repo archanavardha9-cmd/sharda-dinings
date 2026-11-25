@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUp, ExternalLink, Mail, MapPin, Phone, ShieldCheck } from 'lucide-react';
 import { BUSINESS_INFO } from '../data/businessInfo';
+import { FacebookIcon, InstagramIcon } from './SocialIcons';
 
 const PAGE_LINKS = [
   { to: '/', label: 'Home' },
@@ -95,6 +96,28 @@ export default function Footer({ onOpenVerification, onOpenEnquiry }) {
             >
               <span>MakeMyTrip</span>
               <ExternalLink className="w-3 h-3" />
+            </a>
+          </div>
+
+          {/* Social Media Profiles */}
+          <div className="flex items-center gap-3 pt-2">
+            <a
+              href={BUSINESS_INFO.socials.facebook}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Follow Sharda Dinings on Facebook"
+              className="w-9 h-9 rounded-full bg-white/5 hover:bg-[#D4AF37] border border-white/10 hover:border-[#D4AF37] flex items-center justify-center text-[#FAF7F2]/80 hover:text-[#181213] transition-all hover:scale-110 shadow-sm cursor-pointer"
+            >
+              <FacebookIcon className="w-4 h-4" />
+            </a>
+            <a
+              href={BUSINESS_INFO.socials.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Follow Sharda Dinings on Instagram"
+              className="w-9 h-9 rounded-full bg-white/5 hover:bg-[#D4AF37] border border-white/10 hover:border-[#D4AF37] flex items-center justify-center text-[#FAF7F2]/80 hover:text-[#181213] transition-all hover:scale-110 shadow-sm cursor-pointer"
+            >
+              <InstagramIcon className="w-4 h-4" />
             </a>
           </div>
         </div>

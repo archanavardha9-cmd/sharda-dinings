@@ -45,9 +45,11 @@ export const BUSINESS_INFO = {
   },
 
   socials: {
-    facebookTag: 'https://www.facebook.com/ShardaDiningsgkp',
-    instagramTag: 'https://www.instagram.com/shardadinings',
-    note: 'Sharda Dinings has no verified corporate standalone website; digital presence consists of third-party listings and guest location check-ins.',
+    facebook: 'https://www.facebook.com/people/shardadinings/100064233330799/',
+    instagram: 'https://www.instagram.com/shardadinings/',
+    facebookTag: 'https://www.facebook.com/people/shardadinings/100064233330799/',
+    instagramTag: 'https://www.instagram.com/shardadinings/',
+    note: 'Official Facebook and Instagram presence for Sharda Dinings Gorakhpur.',
   },
 
   timings: {
