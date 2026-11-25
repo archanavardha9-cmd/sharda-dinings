@@ -30,7 +30,7 @@ export const BUSINESS_INFO = {
   email: 'sharda_dinings@yahoo.in',
 
   ordering: {
-    swiggy: 'https://www.swiggy.com/search?query=Sharda+Dinings+Gorakhpur',
+    swiggy: 'https://www.swiggy.com/city/gorakhpur/sharda-dinings-rajendra-nagar-rest125732',
     zomato: 'https://www.zomato.com/gorakhpur/sharda-dinings-rajendra-nagar',
     magicpin: 'https://magicpin.in/Gorakhpur/Rajendra-Nagar/Restaurant/Sharda-Dinings/store/',
     note: 'Online food delivery & table dine-out offers operate via Zomato, Swiggy / Swiggy Dineout, and Magicpin alongside direct phone takeaways. Platform menu pricing may vary slightly from dine-in tariffs.',

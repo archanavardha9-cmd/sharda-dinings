@@ -73,7 +73,7 @@ export default function VerificationModal({ isOpen, onClose }) {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 text-xs">
               {[
                 ['Zomato Dine-Out & Menu', BUSINESS_INFO.ordering.zomato],
-                ['Swiggy Search & Delivery', BUSINESS_INFO.ordering.swiggy],
+                ['Swiggy Restaurant Menu & Ordering', BUSINESS_INFO.ordering.swiggy],
                 ['Magicpin Dining Page', BUSINESS_INFO.ordering.magicpin],
                 ['MakeMyTrip Hotel Booking', BUSINESS_INFO.bookingPlatforms.makemytrip],
                 ['Goibibo Hotel Search', BUSINESS_INFO.bookingPlatforms.goibibo],
