@@ -256,8 +256,8 @@ export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
               </div>
             </ScrollSlide>
 
-            {/* Menu Tabs with Spring Pop */}
-            <div className="flex items-center space-x-2 overflow-x-auto pb-1 md:pb-0">
+            {/* Menu Tabs */}
+            <div className="grid grid-cols-2 gap-2.5 w-full md:w-auto md:flex md:flex-wrap md:items-center md:gap-2.5">
               {[
                 { id: 'brews', label: 'Brews & Coffees' },
                 { id: 'shakes', label: 'Thick Shakes' },
@@ -266,11 +266,12 @@ export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
               ].map((tab) => (
                 <button
                   key={tab.id}
+                  type="button"
                   onClick={() => setActiveTab(tab.id)}
-                  className={`px-4 py-2 rounded-full text-xs font-mono tracking-wider transition-all cursor-pointer border-2 ${
+                  className={`min-h-[42px] px-3.5 sm:px-4 py-2 rounded-full text-xs font-mono tracking-wider transition-all cursor-pointer border-2 text-center ${
                     activeTab === tab.id
-                      ? 'bg-[#2D6A4F] text-[#FAF7F2] border-[#2D6A4F] font-bold shadow-lg shadow-[#2D6A4F]/25 scale-105'
-                      : 'bg-white border-[#EFE8DC] text-[#1C1617]/70 hover:border-[#2D6A4F] hover:scale-102'
+                      ? 'bg-[#2D6A4F] text-[#FAF7F2] border-[#2D6A4F] font-bold shadow-lg shadow-[#2D6A4F]/25'
+                      : 'bg-white border-[#EFE8DC] text-[#1C1617]/75 hover:border-[#2D6A4F]'
                   }`}
                 >
                   {tab.label}

@@ -2,7 +2,6 @@ import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react'
 import {
   Search,
   Sparkles,
-  Printer,
   ExternalLink,
   ChevronRight,
   ChevronDown,
@@ -309,10 +308,6 @@ export default function MenuPage({ onOpenEnquiry }) {
     setSearchQuery('');
     setActiveCategory('all');
     setDietaryFilter('all');
-  };
-
-  const handlePrint = () => {
-    window.print();
   };
 
   const currentSpotlight = spotlightCurations[activeSpotlightIdx];
@@ -659,10 +654,10 @@ export default function MenuPage({ onOpenEnquiry }) {
         >
           <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 md:py-3 space-y-2 md:space-y-0">
             
-            {/* Main Toolbar Controls (Search + Dietary + Chef Special + Print) */}
+            {/* Main Toolbar Controls (Search + Dietary + Chef Special) */}
             <div className="flex flex-col md:flex-row md:flex-wrap lg:flex-nowrap md:items-center md:justify-between gap-2.5 lg:gap-4">
               
-              {/* Search Input + Mobile Print Button */}
+              {/* Search Input */}
               <div className="flex items-center gap-2 w-full md:w-64 lg:w-72 xl:w-80 shrink-0">
                 <div className="relative flex-1">
                   <Search className="w-4 h-4 text-[#C84B31] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
@@ -685,17 +680,6 @@ export default function MenuPage({ onOpenEnquiry }) {
                     </button>
                   )}
                 </div>
-
-                {/* Compact Print button visible on Mobile */}
-                <button
-                  type="button"
-                  onClick={handlePrint}
-                  aria-label="Print Menu"
-                  className="md:hidden shrink-0 px-3 py-2 rounded-full bg-white border-2 border-[#D4AF37]/60 text-xs font-mono font-bold text-[#1C1617] hover:bg-[#D4AF37]/15 flex items-center space-x-1.5 shadow-sm cursor-pointer"
-                >
-                  <Printer className="w-3.5 h-3.5 text-[#C84B31]" />
-                  <span className="hidden xs:inline">Print</span>
-                </button>
               </div>
 
               {/* Dietary & Chef Special Filters (Horizontally scrollable on narrow phones) */}
@@ -723,18 +707,6 @@ export default function MenuPage({ onOpenEnquiry }) {
                     </span>
                   </button>
                 ))}
-              </div>
-
-              {/* Print Menu Button (Tablet & Desktop) */}
-              <div className="hidden md:flex items-center shrink-0">
-                <button
-                  type="button"
-                  onClick={handlePrint}
-                  className="px-4 py-1.5 rounded-full bg-white border-2 border-[#D4AF37]/70 text-xs font-mono font-bold text-[#1C1617] hover:bg-[#D4AF37]/15 transition-all flex items-center space-x-1.5 cursor-pointer shadow-sm"
-                >
-                  <Printer className="w-3.5 h-3.5 text-[#C84B31]" />
-                  <span>Print Menu</span>
-                </button>
               </div>
 
             </div>
