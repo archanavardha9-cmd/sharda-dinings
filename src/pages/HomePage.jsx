@@ -429,7 +429,10 @@ export default function HomePage({ onOpenEnquiry, onOpenVerification }) {
           SECTION 4: FOUR EXPERIENCES INTERACTIVE SHOWCASE
           Warm Sand & Saffron Palette with Interactive Tab Switches
       ───────────────────────────────────────────────────────────── */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#F5EFE6] via-[#FAF7F2] to-[#FDF5E6] border-t border-[#D4AF37]/20 relative overflow-hidden">
+      <section
+        id="crafted-milestone"
+        className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#F5EFE6] via-[#FAF7F2] to-[#FDF5E6] border-t border-[#D4AF37]/20 relative overflow-hidden"
+      >
         <SectionBackground theme="home-experiences" />
         <div className="max-w-7xl mx-auto relative z-10">
           
@@ -445,7 +448,7 @@ export default function HomePage({ onOpenEnquiry, onOpenVerification }) {
               </div>
             </ScrollSlide>
             <ScrollSlide direction="right" distance={50}>
-              <p className="text-xs text-[#1C1617]/70 max-w-xs leading-relaxed font-light">
+              <p className="text-xs sm:text-[13px] text-[#1C1617]/85 max-w-xs leading-relaxed font-normal">
                 Explore our four distinct wings, each designed with its own atmosphere, specialized menu, and dedicated hospitality team.
               </p>
             </ScrollSlide>
@@ -711,41 +714,48 @@ export default function HomePage({ onOpenEnquiry, onOpenVerification }) {
       {/* ─────────────────────────────────────────────────────────────
           SECTION 7: SANCTUARY & MANDIR ACCESS (Warm Coral Peach Strip)
       ───────────────────────────────────────────────────────────── */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-[#FDE8E1] via-[#FAF0E6] to-[#FBE8E2] border-t-2 border-[#C84B31]/30 relative overflow-hidden">
+      <section
+        id="gorakhpur-landmark"
+        className="py-14 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-[#FDE8E1] via-[#FAF0E6] to-[#FBE8E2] border-t-2 border-[#C84B31]/30 relative overflow-hidden"
+      >
         <SectionBackground theme="landmark" />
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
-          <ScrollSlide direction="left" distance={50} className="space-y-2 max-w-xl">
+        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between gap-7 lg:gap-8 relative z-10">
+          <ScrollSlide
+            direction="left"
+            distance={50}
+            className="space-y-2.5 max-w-xl w-full"
+          >
             <div className="flex items-center space-x-2 text-[#C84B31]">
-              <MapPin className="w-4 h-4 animate-badge-levitate" />
+              <MapPin className="w-4 h-4 shrink-0 animate-badge-levitate" />
               <span className="text-[11px] uppercase font-mono tracking-widest font-bold">Gorakhpur Landmark</span>
             </div>
-            <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#1C1617]">
+            <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#1C1617] leading-snug">
               Opposite Kust Seva Ashram, Sonauli Road
             </h3>
-            <p className="text-xs text-[#1C1617]/75 leading-relaxed font-light">
+            <p className="text-xs sm:text-[13px] text-[#1C1617]/85 leading-relaxed font-normal">
               East Rajendra Nagar, NH 29, Gorakhpur. Walking distance from Gorakhnath Mandir (~1 km) with secure on-site parking.
             </p>
             
             {/* Animated Numeric Counter Strip */}
-            <div className="pt-2 flex items-center space-x-6 text-xs font-mono text-[#C84B31]">
+            <div className="pt-2 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-2 text-xs font-mono text-[#C84B31]">
               <div><AnimatedCounter end={1} suffix=" km" className="font-bold text-base text-[#1C1617]" /> — Mandir Darshan</div>
-              <span>•</span>
+              <span className="hidden sm:inline" aria-hidden="true">•</span>
               <div><AnimatedCounter end={11} suffix=" Rooms" className="font-bold text-base text-[#1C1617]" /> — Boutique AC</div>
-              <span>•</span>
+              <span className="hidden sm:inline" aria-hidden="true">•</span>
               <div><AnimatedCounter end={2010} suffix="" className="font-bold text-base text-[#1C1617]" /> — Founded</div>
             </div>
           </ScrollSlide>
 
-          <ScrollSlide direction="right" distance={50} className="flex items-center space-x-3 shrink-0">
+          <ScrollSlide direction="right" distance={50} className="flex flex-wrap items-center gap-3 w-full lg:w-auto shrink-0">
             <Link
               to="/contact"
-              className="px-7 py-3 bg-[#C84B31] hover:bg-[#b33e26] text-white text-xs font-bold uppercase tracking-wider rounded-full transition-all hover:scale-105 shadow-lg shadow-[#C84B31]/30"
+              className="min-h-[44px] inline-flex items-center justify-center px-6 sm:px-7 py-3 bg-[#C84B31] hover:bg-[#b33e26] text-white text-xs font-bold uppercase tracking-wider rounded-full transition-all hover:scale-105 shadow-lg shadow-[#C84B31]/30 whitespace-nowrap"
             >
               Directions & Map
             </Link>
             <a
               href={`tel:${BUSINESS_INFO.phones[0].number}`}
-              className="px-7 py-3 border-2 border-[#1C1617] hover:bg-[#1C1617] hover:text-white text-[#1C1617] text-xs font-bold uppercase tracking-wider rounded-full transition-all hover:scale-105"
+              className="min-h-[44px] inline-flex items-center justify-center px-6 sm:px-7 py-3 border-2 border-[#1C1617] hover:bg-[#1C1617] hover:text-white text-[#1C1617] text-xs font-bold uppercase tracking-wider rounded-full transition-all hover:scale-105 whitespace-nowrap"
             >
               Call Desk
             </a>

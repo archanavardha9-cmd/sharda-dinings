@@ -918,7 +918,7 @@ export function SectionBackground({ theme = "home-manifesto", className = "" }) 
       {theme === 'home-experiences' && (
         <>
           <div
-            className="sb-layer absolute -top-12 -right-12 w-80 h-80 sm:w-[500px] sm:h-[500px]"
+            className="sb-layer absolute -top-14 -right-12 w-60 h-60 sm:w-[400px] sm:h-[400px] lg:-top-10 lg:-right-8 lg:w-[460px] lg:h-[460px]"
             data-speed="0.8"
             data-dir="down"
             data-rot-start="-20"
@@ -930,17 +930,17 @@ export function SectionBackground({ theme = "home-manifesto", className = "" }) 
             data-opacity-mid="0.9"
             data-opacity-end="0.15"
           >
-            <svg viewBox="0 0 240 240" fill="none" className="w-full h-full text-[#D4AF37]">
-              <circle cx="90" cy="90" r="55" stroke="#C84B31" strokeWidth="2.5" opacity="0.75" />
-              <circle cx="150" cy="90" r="55" stroke="#2D6A4F" strokeWidth="2.5" opacity="0.75" />
-              <circle cx="90" cy="150" r="55" stroke="#4A1521" strokeWidth="2.5" opacity="0.75" />
-              <circle cx="150" cy="150" r="55" stroke="#114B5F" strokeWidth="2.5" opacity="0.75" />
+            <svg viewBox="0 0 240 240" fill="none" className="w-full h-full text-[#D4AF37] opacity-25 sm:opacity-30 lg:opacity-35">
+              <circle cx="90" cy="90" r="55" stroke="#C84B31" strokeWidth="2.2" opacity="0.75" />
+              <circle cx="150" cy="90" r="55" stroke="#2D6A4F" strokeWidth="2.2" opacity="0.75" />
+              <circle cx="90" cy="150" r="55" stroke="#4A1521" strokeWidth="2.2" opacity="0.75" />
+              <circle cx="150" cy="150" r="55" stroke="#114B5F" strokeWidth="2.2" opacity="0.75" />
               <circle cx="120" cy="120" r="20" fill="currentColor" opacity="0.55" />
             </svg>
           </div>
 
           <div
-            className="sb-layer absolute bottom-10 left-10 w-72 h-72 sm:w-[440px] sm:h-[440px]"
+            className="sb-layer absolute bottom-10 left-10 w-64 h-64 sm:w-[420px] sm:h-[420px]"
             data-speed="0.7"
             data-dir="up"
             data-scale-start="0.65"
@@ -950,7 +950,7 @@ export function SectionBackground({ theme = "home-manifesto", className = "" }) 
             data-opacity-mid="0.88"
             data-opacity-end="0.15"
           >
-            <svg viewBox="0 0 200 200" fill="none" className="w-full h-full text-[#C84B31]">
+            <svg viewBox="0 0 200 200" fill="none" className="w-full h-full text-[#C84B31] opacity-40 lg:opacity-60">
               <circle cx="100" cy="100" r="75" stroke="currentColor" strokeWidth="2" strokeDasharray="5 4" opacity="0.55" />
               <line x1="100" y1="12" x2="100" y2="188" stroke="#D4AF37" strokeWidth="2.5" />
               <line x1="12" y1="100" x2="188" y2="100" stroke="#D4AF37" strokeWidth="2.5" />
@@ -967,7 +967,7 @@ export function SectionBackground({ theme = "home-manifesto", className = "" }) 
       {theme === 'landmark' && (
         <>
           <div
-            className="sb-layer absolute top-4 left-6 w-72 h-80 sm:w-[460px] sm:h-[500px]"
+            className="sb-layer absolute -bottom-6 -right-4 w-44 h-48 sm:bottom-auto sm:top-6 sm:right-6 sm:w-56 sm:h-60 lg:top-4 lg:right-auto lg:left-6 lg:w-[460px] lg:h-[500px]"
             data-speed="0.7"
             data-dir="right"
             data-scale-start="0.6"
@@ -977,7 +977,7 @@ export function SectionBackground({ theme = "home-manifesto", className = "" }) 
             data-opacity-mid="0.9"
             data-opacity-end="0.15"
           >
-            <svg viewBox="0 0 220 220" fill="none" className="w-full h-full text-[#C84B31]">
+            <svg viewBox="0 0 220 220" fill="none" className="w-full h-full text-[#C84B31] opacity-35 sm:opacity-40 lg:opacity-45">
               <path d="M110 12 L115 32 H105 Z" fill="#D4AF37" />
               <circle cx="110" cy="38" r="8" fill="#D4AF37" />
               <path d="M110 46 C 85 88, 60 135, 35 195 H 185 C 160 135, 135 88, 110 46 Z" stroke="currentColor" strokeWidth="3" opacity="0.8" />
@@ -987,7 +987,7 @@ export function SectionBackground({ theme = "home-manifesto", className = "" }) 
           </div>
 
           <div
-            className="sb-layer absolute top-8 right-10 w-72 h-56 sm:w-[480px] sm:h-[360px]"
+            className="sb-layer absolute bottom-2 -left-4 w-44 h-32 sm:bottom-2 sm:right-6 sm:left-auto sm:w-64 sm:h-44 lg:top-8 lg:bottom-auto lg:right-10 lg:w-[480px] lg:h-[360px]"
             data-speed="0.8"
             data-dir="down"
             data-scale-start="0.65"
@@ -997,13 +997,13 @@ export function SectionBackground({ theme = "home-manifesto", className = "" }) 
             data-opacity-mid="0.88"
             data-opacity-end="0.15"
           >
-            <svg viewBox="0 0 240 170" fill="none" className="w-full h-full text-[#D4AF37]">
+            <svg viewBox="0 0 240 170" fill="none" className="w-full h-full text-[#D4AF37] opacity-35 sm:opacity-45 lg:opacity-90">
               <path d="M25 135 C 75 60, 175 145, 225 35" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
               <circle cx="25" cy="135" r="8" fill="#C84B31" stroke="currentColor" strokeWidth="2.5" />
               <circle cx="125" cy="105" r="7" fill="#1C1617" stroke="currentColor" strokeWidth="2.5" />
               <circle cx="225" cy="35" r="9" fill="#2D6A4F" stroke="currentColor" strokeWidth="2.5" />
-              <text x="18" y="160" fill="#C84B31" fontSize="11" fontWeight="bold" fontFamily="monospace">1 KM MANDIR</text>
-              <text x="170" y="24" fill="#2D6A4F" fontSize="11" fontWeight="bold" fontFamily="monospace">SHARDA</text>
+              <text x="18" y="160" fill="#C84B31" fontSize="11" fontWeight="bold" fontFamily="monospace" className="hidden lg:block">1 KM MANDIR</text>
+              <text x="170" y="24" fill="#2D6A4F" fontSize="11" fontWeight="bold" fontFamily="monospace" className="hidden lg:block">SHARDA</text>
             </svg>
           </div>
         </>
@@ -1108,7 +1108,7 @@ export function SectionBackground({ theme = "home-manifesto", className = "" }) 
       {theme === 'cafe-botanical' && (
         <>
           <div
-            className="sb-layer absolute -top-12 -right-12 w-80 h-80 sm:w-[500px] sm:h-[500px]"
+            className="sb-layer absolute -top-12 -right-12 w-56 h-56 sm:w-[380px] sm:h-[380px] lg:w-[460px] lg:h-[460px]"
             data-speed="0.8"
             data-dir="up"
             data-rot-start="-25"
@@ -1120,7 +1120,7 @@ export function SectionBackground({ theme = "home-manifesto", className = "" }) 
             data-opacity-mid="0.85"
             data-opacity-end="0.15"
           >
-            <svg viewBox="0 0 240 240" fill="none" className="w-full h-full text-[#A8D5BA]">
+            <svg viewBox="0 0 240 240" fill="none" className="w-full h-full text-[#A8D5BA] opacity-30 sm:opacity-40 lg:opacity-55">
               <path d="M120 20 C 180 60, 200 140, 160 200 C 120 240, 40 200, 40 140 C 40 80, 80 40, 120 20 Z" stroke="currentColor" strokeWidth="2.5" opacity="0.75" />
               <path d="M120 20 V 220" stroke="#52796F" strokeWidth="2.5" />
               <path d="M120 70 Q 160 90, 180 120" stroke="currentColor" strokeWidth="2" opacity="0.65" />
@@ -1129,7 +1129,7 @@ export function SectionBackground({ theme = "home-manifesto", className = "" }) 
           </div>
 
           <div
-            className="sb-layer absolute bottom-8 left-8 w-72 h-72 sm:w-[440px] sm:h-[440px]"
+            className="sb-layer absolute -bottom-12 -left-10 w-52 h-52 sm:w-72 sm:h-72 lg:bottom-8 lg:left-8 lg:w-[400px] lg:h-[400px]"
             data-speed="0.7"
             data-dir="right"
             data-scale-start="0.65"
@@ -1139,7 +1139,7 @@ export function SectionBackground({ theme = "home-manifesto", className = "" }) 
             data-opacity-mid="0.85"
             data-opacity-end="0.15"
           >
-            <svg viewBox="0 0 200 200" fill="none" className="w-full h-full text-[#F4A261]">
+            <svg viewBox="0 0 200 200" fill="none" className="w-full h-full text-[#F4A261] opacity-25 sm:opacity-35 lg:opacity-45">
               <circle cx="100" cy="100" r="80" stroke="currentColor" strokeWidth="2" strokeDasharray="6 4" opacity="0.65" />
               <circle cx="100" cy="100" r="55" stroke="#A8D5BA" strokeWidth="2" opacity="0.7" />
               <ellipse cx="100" cy="100" rx="20" ry="28" fill="#1C1617" stroke="currentColor" strokeWidth="2" />
