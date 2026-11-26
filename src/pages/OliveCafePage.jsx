@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Coffee, Wifi, Clock, ArrowRight, MessageSquare, ChevronRight, Sparkles, Heart, Zap, Flame } from 'lucide-react';
 import { BUSINESS_INFO } from '../data/businessInfo';
@@ -21,29 +21,221 @@ import {
 
 export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
   const [activeTab, setActiveTab] = useState('brews');
+  const [activeDishIndex, setActiveDishIndex] = useState(null);
+  const sectionRef = useRef(null);
+  const cardRefs = useRef([]);
+  const scrollTimeoutRef = useRef(null);
+  const isInteractingRef = useRef(false);
+
+  const handleTabChange = (tabId) => {
+    setActiveTab(tabId);
+    if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    setActiveDishIndex(null);
+  };
+
+  // Track explicit user interaction (wheel, touch, key) to prevent automatic selection on initial load
+  useEffect(() => {
+    const onUserInteraction = () => {
+      isInteractingRef.current = true;
+    };
+    window.addEventListener('wheel', onUserInteraction, { passive: true });
+    window.addEventListener('touchmove', onUserInteraction, { passive: true });
+    window.addEventListener('keydown', onUserInteraction, { passive: true });
+
+    return () => {
+      window.removeEventListener('wheel', onUserInteraction);
+      window.removeEventListener('touchmove', onUserInteraction);
+      window.removeEventListener('keydown', onUserInteraction);
+    };
+  }, []);
+
+  // Scroll-based highlight: temporarily spotlight the active dish card & corresponding image as user scrolls to it
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const vh = window.innerHeight;
+
+      // When outside the section's active reading area, clear selection completely
+      if (rect.top > vh * 0.75 || rect.bottom < vh * 0.2 || !isInteractingRef.current) {
+        if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+        setActiveDishIndex(null);
+        return;
+      }
+
+      // Check if a card is directly in the visitor's reading line (within tight 35px band)
+      const targetLine = vh * 0.45;
+      let matchedIdx = null;
+
+      cardRefs.current.forEach((el, i) => {
+        if (!el) return;
+        const cardRect = el.getBoundingClientRect();
+        const cardCenter = cardRect.top + cardRect.height / 2;
+        if (Math.abs(cardCenter - targetLine) < 35) {
+          matchedIdx = i;
+        }
+      });
+
+      if (matchedIdx !== null) {
+        setActiveDishIndex(matchedIdx);
+        if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+        scrollTimeoutRef.current = setTimeout(() => {
+          setActiveDishIndex(null);
+        }, 1500);
+      } else {
+        if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+        setActiveDishIndex(null);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    };
+  }, [activeTab]);
+
+  const handleHorizontalScroll = (e) => {
+    const el = e.currentTarget;
+    if (el.scrollWidth <= el.clientWidth) return;
+    isInteractingRef.current = true;
+    const scrollLeft = el.scrollLeft;
+    let matchedIdx = null;
+    cardRefs.current.forEach((cardEl, i) => {
+      if (!cardEl) return;
+      if (Math.abs(cardEl.offsetLeft - scrollLeft) < 35) {
+        matchedIdx = i;
+      }
+    });
+    if (matchedIdx !== null) {
+      setActiveDishIndex(matchedIdx);
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+      scrollTimeoutRef.current = setTimeout(() => {
+        setActiveDishIndex(null);
+      }, 1500);
+    }
+  };
 
   const cafeMenuHighlights = {
     brews: [
-      { name: 'Signature Classic Cold Coffee', category: 'Chilled Brew', desc: 'Slow-brewed dark roast espresso shaken over whole milk and crushed ice.', badge: 'Bestseller' },
-      { name: 'Iced Caramel Frappuccino', category: 'Sweet & Creamy', desc: 'Salted caramel swirl, chilled espresso base, whipped cream cap.', badge: 'Barista Special' },
-      { name: 'Double Shot Americano', category: 'Purist Roast', desc: 'Bold, dark extracted espresso pulled over hot mountain spring water.', badge: 'Dark Roast' },
-      { name: 'Hazelnut Cafe Latte', category: 'Micro-Foam', desc: 'Velvety steamed micro-foam over roasted hazelnut extract and espresso.', badge: 'Artisan Blend' }
+      {
+        name: 'Signature Classic Cold Coffee',
+        category: 'Chilled Brew',
+        desc: 'Slow-brewed dark roast espresso shaken over whole milk and crushed ice.',
+        badge: 'Bestseller',
+        image: '/images/olive-cafe/olive-cafe-coffee.webp',
+        imageSubtitle: 'Signature Roast & Milk'
+      },
+      {
+        name: 'Iced Caramel Frappuccino',
+        category: 'Sweet & Creamy',
+        desc: 'Salted caramel swirl, chilled espresso base, whipped cream cap.',
+        badge: 'Barista Special',
+        image: '/images/olive-cafe/iced-caramel-frappuccino.webp',
+        imageSubtitle: 'Caramel Swirl & Cream'
+      },
+      {
+        name: 'Double Shot Americano',
+        category: 'Purist Roast',
+        desc: 'Bold, dark extracted espresso pulled over hot mountain spring water.',
+        badge: 'Dark Roast',
+        image: '/images/olive-cafe/double-shot-americano.webp',
+        imageSubtitle: 'Purist Dark Roast'
+      },
+      {
+        name: 'Hazelnut Cafe Latte',
+        category: 'Micro-Foam',
+        desc: 'Velvety steamed micro-foam over roasted hazelnut extract and espresso.',
+        badge: 'Artisan Blend',
+        image: '/images/olive-cafe/hazelnut-cafe-latte.webp',
+        imageSubtitle: 'Artisan Micro-Foam'
+      }
     ],
     shakes: [
-      { name: 'Nutella Hazelnut Thick Shake', category: 'Indulgent Thick', desc: 'Generous Nutella spread blended with vanilla ice cream and toasted hazelnuts.', badge: 'Indulgent' },
-      { name: 'Oreo Crumb Cream Frappe', category: 'Cookie Crumble', desc: 'Real chocolate sandwich cookies pulverized into creamy ice cream shake.', badge: 'Crowd Favorite' },
-      { name: 'KitKat Crisp Chocolate Shake', category: 'Crisp Crunch', desc: 'Crushed chocolate wafers blended with dark cacao ganache and cream.', badge: 'Crispy Crunch' },
-      { name: 'Belgian Chocolate Fudge Shake', category: 'Dense Ganache', desc: 'Bittersweet chocolate fudge sauce with dense dark chocolate ice cream.', badge: 'Rich Dark' }
+      {
+        name: 'Nutella Hazelnut Thick Shake',
+        category: 'Indulgent Thick',
+        desc: 'Generous Nutella spread blended with vanilla ice cream and toasted hazelnuts.',
+        badge: 'Indulgent',
+        image: '/images/olive-cafe/nutella-hazelnut-shake.webp',
+        imageSubtitle: 'Nutella & Toasted Hazelnut'
+      },
+      {
+        name: 'Oreo Crumb Cream Frappe',
+        category: 'Cookie Crumble',
+        desc: 'Real chocolate sandwich cookies pulverized into creamy ice cream shake.',
+        badge: 'Crowd Favorite',
+        image: '/images/olive-cafe/oreo-crumb-frappe.webp',
+        imageSubtitle: 'Crushed Oreo Cookie'
+      },
+      {
+        name: 'KitKat Crisp Chocolate Shake',
+        category: 'Crisp Crunch',
+        desc: 'Crushed chocolate wafers blended with dark cacao ganache and cream.',
+        badge: 'Crispy Crunch',
+        image: '/images/olive-cafe/kitkat-chocolate-shake.webp',
+        imageSubtitle: 'Crisp Wafer Ganache'
+      },
+      {
+        name: 'Belgian Chocolate Fudge Shake',
+        category: 'Dense Ganache',
+        desc: 'Bittersweet chocolate fudge sauce with dense dark chocolate ice cream.',
+        badge: 'Rich Dark',
+        image: '/images/olive-cafe/belgian-chocolate-fudge-shake.webp',
+        imageSubtitle: 'Dense Dark Ganache'
+      }
     ],
     bites: [
-      { name: 'Stone-Baked Margherita Pizza', category: 'Artisan Crust', desc: 'Hand-stretched thin dough, rich San Marzano tomato reduction, melted mozzarella.', badge: 'Stone-Baked' },
-      { name: 'Farm Fresh Corn & Pepper Pizza', category: 'Vegetarian Feast', desc: 'Golden sweetcorn, crisp bell peppers, red onion pearls and mozzarella.', badge: 'Garden Fresh' },
-      { name: 'White Sauce Creamy Alfredo Penne', category: 'Durum Wheat', desc: 'Al dente durum wheat penne tossed in parmesan cream butter glaze with garlic toast.', badge: 'Chef Special' },
-      { name: 'Spicy Red Sauce Arrabbiata Penne', category: 'San Marzano', desc: 'Slow-simmered tomato, chilli flakes, garlic, black olives, fresh basil leaves.', badge: 'Zesty Tang' }
+      {
+        name: 'Stone-Baked Margherita Pizza',
+        category: 'Artisan Crust',
+        desc: 'Hand-stretched thin dough, rich San Marzano tomato reduction, melted mozzarella.',
+        badge: 'Stone-Baked',
+        image: '/images/olive-cafe/corn-margherita-pizza.webp',
+        imageSubtitle: 'San Marzano & Mozzarella'
+      },
+      {
+        name: 'Farm Fresh Corn & Pepper Pizza',
+        category: 'Vegetarian Feast',
+        desc: 'Golden sweetcorn, crisp bell peppers, red onion pearls and mozzarella.',
+        badge: 'Garden Fresh',
+        image: '/images/olive-cafe/farm-fresh-corn-pepper-pizza.webp',
+        imageSubtitle: 'Sweetcorn & Crisp Peppers'
+      },
+      {
+        name: 'White Sauce Creamy Alfredo Penne',
+        category: 'Durum Wheat',
+        desc: 'Al dente durum wheat penne tossed in parmesan cream butter glaze with garlic toast.',
+        badge: 'Chef Special',
+        image: '/images/olive-cafe/creamy-alfredo-pasta.webp',
+        imageSubtitle: 'Durum Wheat Alfredo'
+      },
+      {
+        name: 'Spicy Red Sauce Arrabbiata Penne',
+        category: 'San Marzano',
+        desc: 'Slow-simmered tomato, chilli flakes, garlic, black olives, fresh basil leaves.',
+        badge: 'Zesty Tang',
+        image: '/images/olive-cafe/arrabita-pasta.webp',
+        imageSubtitle: 'Slow-Simmered Herb'
+      }
     ],
     desserts: [
-      { name: 'Lotus Biscoff Cheesecake', category: 'Baked Patisserie', desc: 'Velvety baked cream cheese over buttery caramelized biscuit crumb.', badge: 'Patisserie' },
-      { name: 'Sizzling Brownie with Vanilla Scoop', category: 'Cast Iron Sizzler', desc: 'Cast-iron sizzler plate, warm walnut brownie, hot fudge sauce, cold scoop.', badge: 'House Legend' }
+      {
+        name: 'Lotus Biscoff Cheesecake',
+        category: 'Baked Patisserie',
+        desc: 'Velvety baked cream cheese over buttery caramelized biscuit crumb.',
+        badge: 'Patisserie',
+        image: '/images/olive-cafe/lotus-biscoff-cheesecake.webp',
+        imageSubtitle: 'Baked Biscoff Patisserie'
+      },
+      {
+        name: 'Sizzling Brownie with Vanilla Scoop',
+        category: 'Cast Iron Sizzler',
+        desc: 'Cast-iron sizzler plate, warm walnut brownie, hot fudge sauce, cold scoop.',
+        badge: 'House Legend',
+        image: '/images/olive-cafe/sizzling-brownie-sundae.webp',
+        imageSubtitle: 'Cast Iron Fudge Sizzler'
+      }
     ]
   };
 
@@ -240,7 +432,7 @@ export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
       {/* ─────────────────────────────────────────────────────────────
           SECTION 3: ARTISANAL CAFÉ LEDGER (Warm Dusty Peach & Sand)
       ───────────────────────────────────────────────────────────── */}
-      <section id="cafe-menu" className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#FDF0E9] via-[#FAF0E6] to-[#F5E6DC] relative overflow-hidden">
+      <section id="cafe-menu" ref={sectionRef} className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#FDF0E9] via-[#FAF0E6] to-[#F5E6DC] relative overflow-hidden">
         <SectionBackground theme="cafe-ledger" />
         <div className="max-w-7xl mx-auto space-y-12 relative z-10">
           
@@ -256,8 +448,8 @@ export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
               </div>
             </ScrollSlide>
 
-            {/* Menu Tabs with Spring Pop */}
-            <div className="flex items-center space-x-2 overflow-x-auto pb-1 md:pb-0">
+            {/* Menu Tabs: Desktop has NO scrolling (overflow-visible, neatly fitted); Mobile retains smooth scroll */}
+            <div className="flex items-center gap-2 overflow-x-auto md:overflow-x-visible overflow-y-auto md:overflow-y-visible max-w-full py-1.5 md:py-1 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-none">
               {[
                 { id: 'brews', label: 'Brews & Coffees' },
                 { id: 'shakes', label: 'Thick Shakes' },
@@ -266,8 +458,8 @@ export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
               ].map((tab) => (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`px-4 py-2 rounded-full text-xs font-mono tracking-wider transition-all cursor-pointer border-2 ${
+                  onClick={() => handleTabChange(tab.id)}
+                  className={`px-4 py-2 rounded-full text-xs font-mono tracking-wider transition-all cursor-pointer border-2 shrink-0 md:shrink ${
                     activeTab === tab.id
                       ? 'bg-[#2D6A4F] text-[#FAF7F2] border-[#2D6A4F] font-bold shadow-lg shadow-[#2D6A4F]/25 scale-105'
                       : 'bg-white border-[#EFE8DC] text-[#1C1617]/70 hover:border-[#2D6A4F] hover:scale-102'
@@ -279,120 +471,156 @@ export default function OliveCafePage({ onOpenEnquiry, onOpenVerification }) {
             </div>
           </div>
 
-          {/* Dual Split: Menu Items Left + 4-Photo Stagger Right */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          {/* Dual Split: Menu Items Left + Dynamic Visual Grid Right */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            {/* Left 6 cols: Tabbed Menu Items with consistent card layout */}
-            <div className="lg:col-span-6">
-              {/* Mobile: smooth horizontal scroll with consistent card widths; Desktop & Tablet: clean stacked grid with NO horizontal/vertical scroll */}
-              <div className="overflow-x-auto sm:overflow-visible pb-4 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-none">
-                <StaggerGrid
+            {/* Left 6 cols: Compact, balanced cards aligned with the image height beside them */}
+            <div
+              className="lg:col-span-6 flex flex-col justify-start"
+              onMouseLeave={() => setActiveDishIndex(null)}
+            >
+              {/* Mobile: smooth horizontal swipe scroll; Desktop & Tablet: compact stacked grid perfectly matching image height */}
+              <div
+                onScroll={handleHorizontalScroll}
+                className="overflow-x-auto sm:overflow-visible pb-4 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-none"
+              >
+                <div
                   key={activeTab}
-                  stagger={0.08}
-                  animation="pop"
-                  className="flex sm:flex-col gap-3 min-w-full"
-                  itemClassName="shrink-0 w-[285px] sm:w-full"
+                  className={`flex sm:flex-col ${
+                    cafeMenuHighlights[activeTab].length <= 2 ? 'gap-3.5' : 'gap-2.5'
+                  } min-w-full`}
                 >
-                  {cafeMenuHighlights[activeTab].map((item, idx) => (
-                    <div
-                      key={idx}
-                      className="w-full h-full min-h-[120px] p-4 rounded-2xl bg-white border-2 border-[#EFE8DC] hover:border-[#2D6A4F] transition-all group shadow-sm hover:shadow-md flex flex-col justify-between"
-                    >
-                      <div>
-                        <div className="flex items-baseline justify-between gap-2">
-                          <h3 className="font-serif font-bold text-sm text-[#1C1617] group-hover:text-[#2D6A4F] transition-colors truncate">
-                            {item.name}
-                          </h3>
-                          <span className="font-mono text-[10px] font-bold text-[#2D6A4F] bg-[#A8D5BA]/25 px-2.5 py-1 rounded-full shrink-0 uppercase tracking-wider">
-                            {item.category}
-                          </span>
+                  {cafeMenuHighlights[activeTab].map((item, idx) => {
+                    const isActive = activeDishIndex === idx;
+                    const isDessert = cafeMenuHighlights[activeTab].length <= 2;
+                    return (
+                      <div
+                        key={item.name}
+                        ref={(el) => (cardRefs.current[idx] = el)}
+                        onMouseEnter={() => setActiveDishIndex(idx)}
+                        onMouseLeave={() => setActiveDishIndex(null)}
+                        onClick={() => setActiveDishIndex((prev) => (prev === idx ? null : idx))}
+                        onFocus={() => setActiveDishIndex(idx)}
+                        onBlur={() => setActiveDishIndex(null)}
+                        tabIndex={0}
+                        className={`shrink-0 w-[280px] sm:w-full ${
+                          isDessert ? 'p-3.5 sm:px-4 sm:py-3.5' : 'p-3 sm:px-4 sm:py-3'
+                        } rounded-xl transition-all duration-200 cursor-pointer flex flex-col justify-between ${
+                          isActive
+                            ? 'bg-white border-2 border-[#2D6A4F] border-l-4 border-l-[#2D6A4F] shadow-md shadow-[#2D6A4F]/10 -translate-y-0.5'
+                            : 'bg-white border-2 border-[#EFE8DC] hover:border-[#2D6A4F]/50 shadow-xs'
+                        }`}
+                      >
+                        <div>
+                          <div className="flex items-center justify-between gap-2">
+                            <h3 className={`font-serif font-bold text-sm sm:text-[15px] transition-colors leading-snug truncate ${
+                              isActive ? 'text-[#2D6A4F]' : 'text-[#1C1617]'
+                            }`}>
+                              {item.name}
+                            </h3>
+                            <span className={`font-mono text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 uppercase tracking-wider transition-colors ${
+                              isActive
+                                ? 'bg-[#2D6A4F] text-[#FAF7F2]'
+                                : 'text-[#2D6A4F] bg-[#2D6A4F]/10 border border-[#2D6A4F]/20'
+                            }`}>
+                              {item.category}
+                            </span>
+                          </div>
+                          <p className="text-[11px] sm:text-xs text-[#1C1617]/75 mt-1 line-clamp-2 leading-relaxed font-normal">
+                            {item.desc}
+                          </p>
                         </div>
-                        <p className="text-[11px] text-[#1C1617]/70 mt-1 leading-relaxed font-light min-h-[32px]">
-                          {item.desc}
-                        </p>
+                        <div className="mt-2 pt-1.5 border-t border-[#FAF7F2] flex items-center justify-between text-[10px] sm:text-[11px] font-mono">
+                          <span className="text-[#C84B31] font-bold uppercase tracking-wider text-[10px]">
+                            ✦ {item.badge}
+                          </span>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onOpenEnquiry('cafe');
+                            }}
+                            className="text-[#2D6A4F] hover:text-[#1b4332] hover:underline font-bold uppercase tracking-wider cursor-pointer inline-flex items-center gap-1 transition-colors"
+                          >
+                            Reserve Table →
+                          </button>
+                        </div>
                       </div>
-                      <div className="mt-3 pt-2 border-t border-[#FAF7F2] flex items-center justify-between text-[10px] font-mono">
-                        <span className="text-[#C84B31] font-bold">
-                          {item.badge}
-                        </span>
-                        <button
-                          onClick={() => onOpenEnquiry('cafe')}
-                          className="text-[#2D6A4F] hover:underline font-bold uppercase tracking-wider cursor-pointer"
-                        >
-                          Reserve Table →
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </StaggerGrid>
+                    );
+                  })}
+                </div>
               </div>
             </div>
 
-            {/* Right 6 cols: 4 Authentic Food Visuals in Asymmetrical Grid with Zoom on Scroll */}
-            <div className="lg:col-span-6 grid grid-cols-2 gap-4">
-              <ScrollZoom scaleFrom={0.88} duration={0.8}>
-                <div className="rounded-2xl overflow-hidden shadow-md border-2 border-[#D4AF37]/35 bg-white group hover:shadow-xl transition-all">
-                  <div className="h-44 overflow-hidden">
-                    <img
-                      src="/images/olive-cafe/creamy-alfredo-pasta.webp"
-                      alt="Creamy Alfredo Penne at Olive Cafe"
-                      className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
-                    />
-                  </div>
-                  <div className="p-3 text-center bg-white">
-                    <p className="font-serif font-bold text-xs text-[#1C1617]">Creamy Alfredo Penne</p>
-                    <p className="text-[10px] font-mono font-bold text-[#2D6A4F] uppercase tracking-wider">Durum Wheat Alfredo</p>
-                  </div>
-                </div>
-              </ScrollZoom>
-
-              <ScrollZoom scaleFrom={0.88} duration={0.8} delay={0.1}>
-                <div className="rounded-2xl overflow-hidden shadow-md border-2 border-[#D4AF37]/35 bg-white group hover:shadow-xl transition-all">
-                  <div className="h-44 overflow-hidden">
-                    <img
-                      src="/images/olive-cafe/arrabita-pasta.webp"
-                      alt="Arrabbiata pasta at Olive Cafe"
-                      className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
-                    />
-                  </div>
-                  <div className="p-3 text-center bg-white">
-                    <p className="font-serif font-bold text-xs text-[#1C1617]">Spicy Arrabbiata Penne</p>
-                    <p className="text-[10px] font-mono font-bold text-[#2D6A4F] uppercase tracking-wider">San Marzano Herb</p>
-                  </div>
-                </div>
-              </ScrollZoom>
-
-              <ScrollZoom scaleFrom={0.88} duration={0.8} delay={0.2}>
-                <div className="rounded-2xl overflow-hidden shadow-md border-2 border-[#D4AF37]/35 bg-white group hover:shadow-xl transition-all">
-                  <div className="h-44 overflow-hidden">
-                    <img
-                      src="/images/olive-cafe/french-toast-with-vanilla-ice-cream.webp"
-                      alt="French toast with vanilla ice cream"
-                      className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
-                    />
-                  </div>
-                  <div className="p-3 text-center bg-white">
-                    <p className="font-serif font-bold text-xs text-[#1C1617]">French Toast & Scoop</p>
-                    <p className="text-[10px] font-mono font-bold text-[#2D6A4F] uppercase tracking-wider">Brioche & Vanilla</p>
-                  </div>
-                </div>
-              </ScrollZoom>
-
-              <ScrollZoom scaleFrom={0.88} duration={0.8} delay={0.3}>
-                <div className="rounded-2xl overflow-hidden shadow-md border-2 border-[#D4AF37]/35 bg-white group hover:shadow-xl transition-all">
-                  <div className="h-44 overflow-hidden">
-                    <img
-                      src="/images/food/open-stuffed-mushroom.webp"
-                      alt="Open stuffed mushroom"
-                      className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
-                    />
-                  </div>
-                  <div className="p-3 text-center bg-white">
-                    <p className="font-serif font-bold text-xs text-[#1C1617]">Open Stuffed Mushroom</p>
-                    <p className="text-[10px] font-mono font-bold text-[#2D6A4F] uppercase tracking-wider">Clay Oven Charred</p>
-                  </div>
-                </div>
-              </ScrollZoom>
+            {/* Right 6 cols: Dynamic Authentic Food Visuals with Subtle Pop-Up Highlight */}
+            <div
+              key={`visuals-${activeTab}`}
+              onMouseLeave={() => setActiveDishIndex(null)}
+              className={`lg:col-span-6 grid ${
+                cafeMenuHighlights[activeTab].length <= 2
+                  ? 'grid-cols-1 sm:grid-cols-2'
+                  : 'grid-cols-2'
+              } gap-3 sm:gap-3.5`}
+            >
+              {cafeMenuHighlights[activeTab].map((item, idx) => {
+                const isActive = activeDishIndex === idx;
+                return (
+                  <ScrollZoom
+                    key={`${activeTab}-${item.name}`}
+                    scaleFrom={0.92}
+                    duration={0.6}
+                    delay={idx * 0.08}
+                  >
+                    <div
+                      onMouseEnter={() => setActiveDishIndex(idx)}
+                      onMouseLeave={() => setActiveDishIndex(null)}
+                      onClick={() => setActiveDishIndex((prev) => (prev === idx ? null : idx))}
+                      className={`rounded-2xl overflow-hidden transition-all duration-300 flex flex-col justify-between cursor-pointer ${
+                        isActive
+                          ? 'border-2 border-[#2D6A4F] ring-3 ring-[#2D6A4F]/25 shadow-xl shadow-[#2D6A4F]/15 -translate-y-2 scale-[1.03] z-10 relative bg-white'
+                          : 'border-2 border-[#EFE8DC] shadow-sm bg-white hover:border-[#2D6A4F]/40'
+                      }`}
+                    >
+                      <div className={`overflow-hidden relative ${
+                        cafeMenuHighlights[activeTab].length <= 2
+                          ? 'h-52 sm:h-64 lg:h-[200px]'
+                          : 'h-36 sm:h-44 lg:h-[152px]'
+                      }`}>
+                        <img
+                          src={item.image}
+                          alt={`${item.name} at Olive Cafe`}
+                          className={`w-full h-full object-cover transition-transform duration-500 ease-out ${
+                            isActive
+                              ? 'scale-105'
+                              : 'scale-100'
+                          }`}
+                          loading="lazy"
+                        />
+                        <div className="absolute top-2 right-2 sm:top-2.5 sm:right-2.5 transition-all duration-300">
+                          <span className={`px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full font-mono text-[9px] sm:text-[10px] font-bold uppercase tracking-wider transition-all duration-300 ${
+                            isActive
+                              ? 'bg-[#2D6A4F] text-[#FAF7F2] shadow-md border border-[#FAF7F2]/40 scale-105'
+                              : 'bg-black/65 backdrop-blur-md text-[#D4AF37] border border-[#D4AF37]/30'
+                          }`}>
+                            {item.badge}
+                          </span>
+                        </div>
+                      </div>
+                      <div className={`p-2.5 sm:p-3 text-center transition-colors duration-300 ${
+                        isActive ? 'bg-[#FAF7F2]' : 'bg-white'
+                      }`}>
+                        <p className={`font-serif font-bold text-xs sm:text-sm line-clamp-1 transition-colors duration-300 ${
+                          isActive ? 'text-[#2D6A4F]' : 'text-[#1C1617]'
+                        }`}>
+                          {item.name}
+                        </p>
+                        <p className="text-[9px] sm:text-[10px] font-mono font-bold text-[#2D6A4F]/90 uppercase tracking-wider mt-0.5">
+                          {item.imageSubtitle || item.category}
+                        </p>
+                      </div>
+                    </div>
+                  </ScrollZoom>
+                );
+              })}
             </div>
 
           </div>
