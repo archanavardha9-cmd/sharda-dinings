@@ -66,28 +66,30 @@ function getScrollTop(container) {
   return window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
 }
 
-function isFooterInTriggerZone(footerEl, container) {
-  if (!footerEl) return false;
-  const rect = footerEl.getBoundingClientRect();
-  if (rect.width === 0 && rect.height === 0) return false;
-
+function isAtPageBottom(container) {
   if (container) {
-    const cRect = container.getBoundingClientRect();
-    return rect.top <= cRect.bottom - 12 && rect.bottom > cRect.top;
+    return container.scrollTop + container.clientHeight >= container.scrollHeight - 6;
   }
-
+  const scrollTop = getScrollTop(null);
   const vh = getViewportHeight();
-  return rect.top <= vh - 12 && rect.bottom > 0;
+  const docHeight = Math.max(
+    document.documentElement.scrollHeight,
+    document.body ? document.body.scrollHeight : 0
+  );
+  return scrollTop + vh >= docHeight - 6;
 }
 
-function isFooterBelowTriggerZone(footerEl, container) {
-  if (!footerEl) return false;
-  const rect = footerEl.getBoundingClientRect();
+function isAwayFromPageBottom(container) {
   if (container) {
-    const cRect = container.getBoundingClientRect();
-    return rect.top > cRect.bottom + 8;
+    return container.scrollTop + container.clientHeight < container.scrollHeight - 48;
   }
-  return rect.top > getViewportHeight() + 8;
+  const scrollTop = getScrollTop(null);
+  const vh = getViewportHeight();
+  const docHeight = Math.max(
+    document.documentElement.scrollHeight,
+    document.body ? document.body.scrollHeight : 0
+  );
+  return scrollTop + vh < docHeight - 48;
 }
 
 function ScaledIframeScreen({ src, title, viewportWidth, viewportHeight }) {
@@ -160,10 +162,9 @@ export default function WebsitePreviewPopup({ footerRef }) {
     isOpenRef.current = isOpen;
   }, [isOpen]);
 
-  // Reset trigger state on route change and observe the current route's footer
+  // Reset trigger state on route change and open only when scrolling to the very end of the page
   useEffect(() => {
     let rafId = null;
-    let observer = null;
     let scrollContainer = null;
     let scrollTarget = window;
 
@@ -175,14 +176,8 @@ export default function WebsitePreviewPopup({ footerRef }) {
       isArmedRef.current = true;
       lastScrollTopRef.current = getScrollTop(scrollContainer);
 
-      const getFooter = () =>
-        (footerRef && footerRef.current) || document.querySelector('footer');
-
       const evaluateTrigger = (direction) => {
-        const footerEl = getFooter();
-        if (!footerEl) return;
-
-        if (isFooterBelowTriggerZone(footerEl, scrollContainer)) {
+        if (isAwayFromPageBottom(scrollContainer)) {
           isArmedRef.current = true;
         }
 
@@ -191,7 +186,7 @@ export default function WebsitePreviewPopup({ footerRef }) {
           isArmedRef.current &&
           hasScrolledDownRef.current &&
           direction === 'down' &&
-          isFooterInTriggerZone(footerEl, scrollContainer)
+          isAtPageBottom(scrollContainer)
         ) {
           isArmedRef.current = false;
           setIsOpen(true);
@@ -207,7 +202,7 @@ export default function WebsitePreviewPopup({ footerRef }) {
           lastScrollTopRef.current = currentTop;
 
           let direction = 'none';
-          if (delta > 1) {
+          if (delta > 1 && currentTop > 10) {
             direction = 'down';
             hasScrolledDownRef.current = true;
           } else if (delta < -1) {
@@ -219,40 +214,10 @@ export default function WebsitePreviewPopup({ footerRef }) {
       };
 
       const handleResize = () => {
-        const footerEl = getFooter();
-        if (footerEl && isFooterBelowTriggerZone(footerEl, scrollContainer)) {
+        if (isAwayFromPageBottom(scrollContainer)) {
           isArmedRef.current = true;
         }
       };
-
-      const footerEl = getFooter();
-      if (footerEl && typeof IntersectionObserver !== 'undefined') {
-        observer = new IntersectionObserver(
-          (entries) => {
-            const entry = entries[0];
-            if (!entry) return;
-            if (!entry.isIntersecting && isFooterBelowTriggerZone(footerEl, scrollContainer)) {
-              isArmedRef.current = true;
-              return;
-            }
-            if (
-              entry.isIntersecting &&
-              !isOpenRef.current &&
-              isArmedRef.current &&
-              hasScrolledDownRef.current
-            ) {
-              isArmedRef.current = false;
-              setIsOpen(true);
-            }
-          },
-          {
-            root: scrollContainer,
-            threshold: 0,
-            rootMargin: '0px 0px -12px 0px',
-          }
-        );
-        observer.observe(footerEl);
-      }
 
       scrollTarget.addEventListener('scroll', handleScroll, { passive: true });
       window.addEventListener('resize', handleResize, { passive: true });
@@ -262,7 +227,6 @@ export default function WebsitePreviewPopup({ footerRef }) {
 
       return () => {
         if (rafId !== null) window.cancelAnimationFrame(rafId);
-        if (observer) observer.disconnect();
         scrollTarget.removeEventListener('scroll', handleScroll);
         window.removeEventListener('resize', handleResize);
         if (window.visualViewport) {

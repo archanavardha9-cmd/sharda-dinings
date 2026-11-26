@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
-import { Menu, X, Phone, ShieldCheck, ChevronRight, MapPin } from 'lucide-react';
+import { Menu, X, Phone, ChevronRight, MapPin } from 'lucide-react';
 import { BUSINESS_INFO } from '../data/businessInfo';
 
-export default function Navbar({ onOpenEnquiry, onOpenVerification }) {
+export default function Navbar({ onOpenEnquiry }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
@@ -65,14 +65,6 @@ export default function Navbar({ onOpenEnquiry, onOpenVerification }) {
             <span className="hidden md:inline text-[#FAF7F2]/80">East Rajendra Nagar, Gorakhnath Road, Gorakhpur</span>
           </div>
           <div className="flex items-center space-x-4">
-            <button
-              onClick={onOpenVerification}
-              className="text-[#FAF7F2]/80 hover:text-[#D4AF37] flex items-center space-x-1 transition-colors cursor-pointer"
-            >
-              <ShieldCheck className="w-3.5 h-3.5 text-[#D4AF37]" />
-              <span className="underline decoration-[#D4AF37]/50 underline-offset-2">Verified Data Register</span>
-            </button>
-            <span className="opacity-40">•</span>
             <a
               href={`tel:${BUSINESS_INFO.phones[0].number}`}
               className="text-[#FAF7F2] hover:text-[#D4AF37] flex items-center space-x-1 font-semibold transition-colors"
@@ -243,17 +235,6 @@ export default function Navbar({ onOpenEnquiry, onOpenVerification }) {
                 <Phone className="w-3.5 h-3.5" />
                 <span>{BUSINESS_INFO.phones[0].display}</span>
               </a>
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onOpenVerification();
-                }}
-                className="inline-flex items-center space-x-1 text-[#FAF7F2]/70 hover:text-[#D4AF37] cursor-pointer"
-              >
-                <ShieldCheck className="w-3.5 h-3.5 text-[#D4AF37]" />
-                <span>Verified</span>
-              </button>
             </div>
 
             <div className="flex items-start space-x-1.5 text-[10px] text-[#FAF7F2]/55 leading-snug">

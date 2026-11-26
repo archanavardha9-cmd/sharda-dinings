@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
-import VerificationModal from './components/VerificationModal';
 import EnquiryModal from './components/EnquiryModal';
 import ErrorBoundary from './components/ErrorBoundary';
 import {
@@ -46,7 +45,6 @@ function NotFoundPage() {
 }
 
 export default function App() {
-  const [isVerificationOpen, setIsVerificationOpen] = useState(false);
   const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
   const [enquiryInitialType, setEnquiryInitialType] = useState('restaurant');
   const footerRef = useRef(null);
@@ -57,83 +55,42 @@ export default function App() {
     setIsEnquiryOpen(true);
   };
 
-  const handleOpenVerification = () => {
-    setIsVerificationOpen(true);
-  };
-
   return (
     <Router>
       <ScrollToTop />
       <div className="min-h-screen flex flex-col bg-[#FFFDF8] text-[#2C1D18]">
-        <Navbar
-          onOpenEnquiry={handleOpenEnquiry}
-          onOpenVerification={handleOpenVerification}
-        />
+        <Navbar onOpenEnquiry={handleOpenEnquiry} />
 
         <main className="flex-1">
           <ErrorBoundary>
             <Routes>
             <Route
               path="/"
-              element={
-                <HomePage
-                  onOpenEnquiry={handleOpenEnquiry}
-                  onOpenVerification={handleOpenVerification}
-                />
-              }
+              element={<HomePage onOpenEnquiry={handleOpenEnquiry} />}
             />
             <Route
               path="/restaurant"
-              element={
-                <RestaurantPage
-                  onOpenEnquiry={handleOpenEnquiry}
-                  onOpenVerification={handleOpenVerification}
-                />
-              }
+              element={<RestaurantPage onOpenEnquiry={handleOpenEnquiry} />}
             />
             <Route
               path="/menu"
-              element={
-                <MenuPage
-                  onOpenEnquiry={handleOpenEnquiry}
-                  onOpenVerification={handleOpenVerification}
-                />
-              }
+              element={<MenuPage onOpenEnquiry={handleOpenEnquiry} />}
             />
             <Route
               path="/olive-cafe"
-              element={
-                <OliveCafePage
-                  onOpenEnquiry={handleOpenEnquiry}
-                  onOpenVerification={handleOpenVerification}
-                />
-              }
+              element={<OliveCafePage onOpenEnquiry={handleOpenEnquiry} />}
             />
             <Route
               path="/banquets"
-              element={
-                <BanquetsPage
-                  onOpenEnquiry={handleOpenEnquiry}
-                  onOpenVerification={handleOpenVerification}
-                />
-              }
+              element={<BanquetsPage onOpenEnquiry={handleOpenEnquiry} />}
             />
             <Route
               path="/hotel"
-              element={
-                <HotelPage
-                  onOpenEnquiry={handleOpenEnquiry}
-                  onOpenVerification={handleOpenVerification}
-                />
-              }
+              element={<HotelPage onOpenEnquiry={handleOpenEnquiry} />}
             />
             <Route
               path="/contact"
-              element={
-                <ContactPage
-                  onOpenVerification={handleOpenVerification}
-                />
-              }
+              element={<ContactPage />}
             />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
@@ -142,7 +99,6 @@ export default function App() {
 
         <Footer
           footerRef={footerRef}
-          onOpenVerification={handleOpenVerification}
           onOpenEnquiry={handleOpenEnquiry}
         />
 
@@ -152,10 +108,6 @@ export default function App() {
           </Suspense>
         )}
 
-        <VerificationModal
-          isOpen={isVerificationOpen}
-          onClose={() => setIsVerificationOpen(false)}
-        />
         <EnquiryModal
           isOpen={isEnquiryOpen}
           initialType={enquiryInitialType}

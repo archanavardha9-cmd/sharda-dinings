@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowUp, ExternalLink, Mail, MapPin, Phone, ShieldCheck } from 'lucide-react';
+import { ArrowUp, ExternalLink, Mail, MapPin, Phone } from 'lucide-react';
 import { BUSINESS_INFO } from '../data/businessInfo';
-import { FacebookIcon, InstagramIcon } from './SocialIcons';
 
 const PAGE_LINKS = [
   { to: '/', label: 'Home' },
@@ -14,7 +13,7 @@ const PAGE_LINKS = [
   { to: '/contact', label: 'Contact & Maps' },
 ];
 
-export default function Footer({ onOpenVerification, onOpenEnquiry, footerRef }) {
+export default function Footer({ onOpenEnquiry, footerRef }) {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -72,33 +71,48 @@ export default function Footer({ onOpenVerification, onOpenEnquiry, footerRef })
           <p className="text-xs text-[#FAF7F2]/70 leading-relaxed max-w-sm">
             Multi-cuisine dining, Olive Cafe roasts and patisserie, indoor banquet venue for 150 guests, and 11 boutique guest rooms near Gorakhnath Mandir.
           </p>
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 pt-1 text-xs">
+          <div className="flex flex-wrap items-center gap-2.5 pt-1 text-xs">
             <a
               href={BUSINESS_INFO.ordering.zomato}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-[#D4AF37] hover:underline"
+              aria-label="Order on Zomato"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FFFDF8] hover:bg-white border border-white/20 hover:border-[#D4AF37] text-[#1C1617] shadow-sm transition-all"
             >
-              <span>Zomato</span>
-              <ExternalLink className="w-3 h-3" />
+              <img
+                src="/images/brands/zomato-logo.svg"
+                alt="Zomato"
+                className="h-3.5 w-auto object-contain"
+              />
+              <ExternalLink className="w-3 h-3 text-[#61524A]" aria-hidden="true" />
             </a>
             <a
               href={BUSINESS_INFO.ordering.swiggy}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-[#D4AF37] hover:underline"
+              aria-label="Order on Swiggy"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FFFDF8] hover:bg-white border border-white/20 hover:border-[#D4AF37] text-[#1C1617] shadow-sm transition-all"
             >
-              <span>Swiggy</span>
-              <ExternalLink className="w-3 h-3" />
+              <img
+                src="/images/brands/swiggy-logo.webp"
+                alt="Swiggy"
+                className="h-4 w-auto object-contain"
+              />
+              <ExternalLink className="w-3 h-3 text-[#61524A]" aria-hidden="true" />
             </a>
             <a
               href={BUSINESS_INFO.bookingPlatforms.makemytrip}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-[#D4AF37] hover:underline"
+              aria-label="Book on MakeMyTrip"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FFFDF8] hover:bg-white border border-white/20 hover:border-[#D4AF37] text-[#1C1617] shadow-sm transition-all"
             >
-              <span>MakeMyTrip</span>
-              <ExternalLink className="w-3 h-3" />
+              <img
+                src="/images/brands/makemytrip-logo.svg"
+                alt="MakeMyTrip"
+                className="h-4 w-auto object-contain"
+              />
+              <ExternalLink className="w-3 h-3 text-[#61524A]" aria-hidden="true" />
             </a>
           </div>
 
@@ -109,18 +123,26 @@ export default function Footer({ onOpenVerification, onOpenEnquiry, footerRef })
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Follow Sharda Dinings on Facebook"
-              className="w-9 h-9 rounded-full bg-white/5 hover:bg-[#D4AF37] border border-white/10 hover:border-[#D4AF37] flex items-center justify-center text-[#FAF7F2]/80 hover:text-[#181213] transition-all hover:scale-110 shadow-sm cursor-pointer"
+              className="w-9 h-9 rounded-full overflow-hidden border border-white/15 hover:border-[#D4AF37] flex items-center justify-center transition-all hover:scale-110 shadow-sm cursor-pointer bg-white"
             >
-              <FacebookIcon className="w-4 h-4" />
+              <img
+                src="/images/brands/facebook-logo.svg"
+                alt="Facebook"
+                className="w-full h-full object-cover"
+              />
             </a>
             <a
               href={BUSINESS_INFO.socials.instagram}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Follow Sharda Dinings on Instagram"
-              className="w-9 h-9 rounded-full bg-white/5 hover:bg-[#D4AF37] border border-white/10 hover:border-[#D4AF37] flex items-center justify-center text-[#FAF7F2]/80 hover:text-[#181213] transition-all hover:scale-110 shadow-sm cursor-pointer"
+              className="w-9 h-9 rounded-full overflow-hidden border border-white/15 hover:border-[#D4AF37] flex items-center justify-center transition-all hover:scale-110 shadow-sm cursor-pointer"
             >
-              <InstagramIcon className="w-4 h-4" />
+              <img
+                src="/images/brands/instagram-logo.svg"
+                alt="Instagram"
+                className="w-full h-full object-cover"
+              />
             </a>
           </div>
         </div>
@@ -169,16 +191,6 @@ export default function Footer({ onOpenVerification, onOpenEnquiry, footerRef })
                 {BUSINESS_INFO.email}
               </a>
             </div>
-          </div>
-
-          <div className="pt-2">
-            <button
-              onClick={onOpenVerification}
-              className="inline-flex items-center gap-1.5 text-xs text-[#FAF7F2]/70 hover:text-[#D4AF37] border border-white/10 px-3 py-1.5 rounded-lg cursor-pointer"
-            >
-              <ShieldCheck className="w-3.5 h-3.5 text-[#D4AF37]" />
-              <span>View Business Verification Register</span>
-            </button>
           </div>
         </div>
 
