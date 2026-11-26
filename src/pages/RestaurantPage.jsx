@@ -79,7 +79,7 @@ export default function RestaurantPage({ onOpenEnquiry, onOpenVerification }) {
     const whatsappUrl = `https://wa.me/${BUSINESS_INFO.whatsapp.number.replace('+', '')}?text=${encodeURIComponent(message)}`;
     
     setFormSubmitted(true);
-    window.open(whatsappUrl, '_blank');
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
   };
 
   return (

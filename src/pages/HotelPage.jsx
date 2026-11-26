@@ -64,7 +64,7 @@ export default function HotelPage({ onOpenEnquiry, onOpenVerification }) {
     const whatsappUrl = `https://wa.me/${BUSINESS_INFO.whatsapp.number.replace('+', '')}?text=${encodeURIComponent(message)}`;
 
     setSubmitted(true);
-    window.open(whatsappUrl, '_blank');
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
   };
 
   return (

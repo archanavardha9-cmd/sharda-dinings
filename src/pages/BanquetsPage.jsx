@@ -69,7 +69,7 @@ export default function BanquetsPage({ onOpenEnquiry, onOpenVerification }) {
     const whatsappUrl = `https://wa.me/${BUSINESS_INFO.phones[1].number.replace('+', '')}?text=${encodeURIComponent(message)}`;
 
     setSubmitted(true);
-    window.open(whatsappUrl, '_blank');
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
   };
 
   return (

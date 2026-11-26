@@ -14,13 +14,16 @@ const PAGE_LINKS = [
   { to: '/contact', label: 'Contact & Maps' },
 ];
 
-export default function Footer({ onOpenVerification, onOpenEnquiry }) {
+export default function Footer({ onOpenVerification, onOpenEnquiry, footerRef }) {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <footer className="relative overflow-hidden bg-[#181213] text-[#FAF7F2] border-t border-[#D4AF37]/20 no-print">
+    <footer
+      ref={footerRef}
+      className="relative overflow-hidden bg-[#181213] text-[#FAF7F2] border-t border-[#D4AF37]/20 no-print"
+    >
       
       {/* Top Hospitality Band */}
       <div className="border-b border-white/10">

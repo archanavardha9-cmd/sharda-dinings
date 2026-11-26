@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Suspense, lazy, useRef, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -6,6 +6,12 @@ import ScrollToTop from './components/ScrollToTop';
 import VerificationModal from './components/VerificationModal';
 import EnquiryModal from './components/EnquiryModal';
 import ErrorBoundary from './components/ErrorBoundary';
+import {
+  PROJECT_PREVIEW_POPUP_ENABLED,
+  isPreviewEmbedMode,
+} from './config/previewPopupConfig';
+
+const WebsitePreviewPopup = lazy(() => import('./components/WebsitePreviewPopup'));
 
 import HomePage from './pages/HomePage';
 import RestaurantPage from './pages/RestaurantPage';
@@ -43,6 +49,8 @@ export default function App() {
   const [isVerificationOpen, setIsVerificationOpen] = useState(false);
   const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
   const [enquiryInitialType, setEnquiryInitialType] = useState('restaurant');
+  const footerRef = useRef(null);
+  const shouldShowPreviewPopup = PROJECT_PREVIEW_POPUP_ENABLED && !isPreviewEmbedMode();
 
   const handleOpenEnquiry = (type = 'restaurant') => {
     setEnquiryInitialType(type);
@@ -133,9 +141,16 @@ export default function App() {
       </main>
 
         <Footer
+          footerRef={footerRef}
           onOpenVerification={handleOpenVerification}
           onOpenEnquiry={handleOpenEnquiry}
         />
+
+        {shouldShowPreviewPopup && (
+          <Suspense fallback={null}>
+            <WebsitePreviewPopup footerRef={footerRef} />
+          </Suspense>
+        )}
 
         <VerificationModal
           isOpen={isVerificationOpen}

@@ -36,7 +36,7 @@ export default function ContactPage({ onOpenEnquiry, onOpenVerification }) {
     const whatsappUrl = `https://wa.me/${targetPhone.replace('+', '')}?text=${encodeURIComponent(message)}`;
 
     setSubmitted(true);
-    window.open(whatsappUrl, '_blank');
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
   };
 
   return (
