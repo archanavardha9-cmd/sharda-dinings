@@ -287,7 +287,10 @@ export default function RestaurantPage({ onOpenEnquiry, onOpenVerification }) {
           SECTION 3: FOUR HERITAGE TRADITIONS (Interactive 3D Dish Stage)
           Deep Forest Charcoal & Gilded Gold
       ───────────────────────────────────────────────────────────── */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#18211A] via-[#121B14] to-[#0D140F] text-[#FAF7F2] relative overflow-hidden border-t-2 border-[#A8D5BA]/20">
+      <section
+        id="four-traditions"
+        className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#18211A] via-[#121B14] to-[#0D140F] text-[#FAF7F2] relative overflow-hidden border-t-2 border-[#A8D5BA]/20"
+      >
         <SectionBackground theme="restaurant-traditions" />
 
         <div className="max-w-7xl mx-auto space-y-12 relative z-10">
@@ -305,16 +308,17 @@ export default function RestaurantPage({ onOpenEnquiry, onOpenVerification }) {
               </div>
             </ScrollSlide>
             
-            {/* Roman Numerals Navigation with Spring Pop */}
-            <div className="flex items-center space-x-2 overflow-x-auto pb-1 md:pb-0">
+            {/* Roman Numerals Navigation */}
+            <div className="grid grid-cols-2 gap-2.5 w-full md:w-auto md:flex md:flex-wrap md:items-center md:gap-2.5">
               {traditions.map((t, idx) => (
                 <button
                   key={idx}
+                  type="button"
                   onClick={() => setActiveTradition(idx)}
-                  className={`px-4 py-2 rounded-full text-xs font-mono tracking-wider transition-all cursor-pointer flex items-center space-x-2 border-2 ${
+                  className={`min-h-[42px] px-3.5 sm:px-4 py-2 rounded-full text-xs font-mono tracking-wider transition-all cursor-pointer flex items-center justify-center space-x-2 border-2 whitespace-nowrap ${
                     activeTradition === idx
-                      ? 'bg-gradient-to-r from-[#D4AF37] to-[#F4A261] text-[#1C1617] border-[#D4AF37] font-bold shadow-xl shadow-[#D4AF37]/30 scale-108'
-                      : 'border-white/20 text-white/70 hover:border-white/50 hover:text-white hover:scale-102'
+                      ? 'bg-gradient-to-r from-[#D4AF37] to-[#F4A261] text-[#1C1617] border-[#D4AF37] font-bold shadow-xl shadow-[#D4AF37]/30'
+                      : 'border-white/20 text-white/80 hover:border-white/50 hover:text-white'
                   }`}
                 >
                   <span className="font-serif text-sm font-bold">{t.roman}.</span>
