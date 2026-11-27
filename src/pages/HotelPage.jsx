@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BedDouble, CheckCircle2, Wifi, Zap, ShowerHead, Tv, Car, Clock, Phone, MessageSquare, ExternalLink, ShieldCheck, ChevronRight, Award, Compass } from 'lucide-react';
 import { BUSINESS_INFO } from '../data/businessInfo';
+import { apiClient } from '../services/apiClient';
 import { GildedDivider, NumberedPill, SpiceStar } from '../components/DecorativeGraphics';
 import {
   FloatingDishPortal,
@@ -56,12 +57,27 @@ export default function HotelPage({ onOpenEnquiry, onOpenVerification }) {
     }
   ];
 
-  const handleBookingSubmit = (e) => {
+  const handleBookingSubmit = async (e) => {
     e.preventDefault();
     if (!bookingForm.name || !bookingForm.phone) return;
 
     const message = `Hello Hotel Sharda Dinings Reception, I would like to check room availability & direct tariff:\n\nGuest: ${bookingForm.name}\nPhone: ${bookingForm.phone}\nRoom Category: ${bookingForm.roomType}\nRooms: ${bookingForm.roomsCount}\nGuests: ${bookingForm.guestsCount}\nCheck-In: ${bookingForm.checkIn || 'Flexible'}\nCheck-Out: ${bookingForm.checkOut || 'Flexible'}\nNotes: ${bookingForm.notes || 'None'}`;
     const whatsappUrl = `https://wa.me/${BUSINESS_INFO.whatsapp.number.replace('+', '')}?text=${encodeURIComponent(message)}`;
+
+    try {
+      await apiClient.submitHotelEnquiry({
+        name: bookingForm.name,
+        phone: bookingForm.phone,
+        roomType: bookingForm.roomType,
+        roomsCount: bookingForm.roomsCount,
+        guestsCount: bookingForm.guestsCount,
+        checkIn: bookingForm.checkIn,
+        checkOut: bookingForm.checkOut,
+        notes: bookingForm.notes,
+      });
+    } catch {
+      // Preserve WhatsApp handoff even when backend API is offline
+    }
 
     setSubmitted(true);
     window.open(whatsappUrl, '_blank', 'noopener,noreferrer');

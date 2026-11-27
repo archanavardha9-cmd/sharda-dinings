@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, MessageSquare, CheckCircle2, Phone } from 'lucide-react';
 import { BUSINESS_INFO } from '../data/businessInfo';
+import { apiClient } from '../services/apiClient';
 
 export default function EnquiryModal({ isOpen, onClose, initialType = 'restaurant' }) {
   if (!isOpen) return null;
@@ -20,6 +21,8 @@ function EnquiryModalContent({ onClose, initialType }) {
   });
   const [error, setError] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [referenceCode, setReferenceCode] = useState('');
 
   const buildWhatsAppUrl = () => {
     const lines = [
@@ -36,7 +39,7 @@ function EnquiryModalContent({ onClose, initialType }) {
     return `https://wa.me/${BUSINESS_INFO.whatsapp.number.replace('+', '')}?text=${encodeURIComponent(lines.join('\n'))}`;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const cleanedPhone = formData.phone.replace(/[^\d+]/g, '');
     if (formData.name.trim().length < 2) {
@@ -48,7 +51,55 @@ function EnquiryModalContent({ onClose, initialType }) {
       return;
     }
     setError('');
-    setSubmitted(true);
+    setIsSubmitting(true);
+
+    try {
+      let result;
+      if (enquiryType === 'banquet') {
+        result = await apiClient.submitBanquetEnquiry({
+          organizerName: formData.name,
+          organizerPhone: formData.phone,
+          eventDate: formData.date,
+          guestCount: formData.guests,
+          foodPreference: formData.preference,
+          notes: formData.specifics,
+        });
+        setReferenceCode(result?.enquiry?.referenceCode || '');
+      } else if (enquiryType === 'hotel') {
+        result = await apiClient.submitHotelEnquiry({
+          name: formData.name,
+          phone: formData.phone,
+          checkIn: formData.date,
+          guestsCount: formData.guests,
+          roomType: formData.preference,
+          notes: formData.specifics,
+        });
+        setReferenceCode(result?.enquiry?.referenceCode || '');
+      } else {
+        result = await apiClient.submitReservation({
+          enquiryType,
+          name: formData.name,
+          phone: formData.phone,
+          date: formData.date,
+          time: formData.time,
+          guests: formData.guests,
+          preference: formData.preference,
+          notes: formData.specifics,
+        });
+        setReferenceCode(result?.reservation?.referenceCode || '');
+      }
+      setSubmitted(true);
+    } catch (err) {
+      if (err?.status >= 400 && err?.status < 500) {
+        setError(err.message);
+      } else {
+        // Fallback to direct WhatsApp handoff if API is offline
+        setReferenceCode('');
+        setSubmitted(true);
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -85,10 +136,10 @@ function EnquiryModalContent({ onClose, initialType }) {
                 <CheckCircle2 className="w-6 h-6" />
               </div>
               <h4 className="font-serif text-2xl text-[#2C1D18]">
-                Enquiry Ready to Send
+                {referenceCode ? `Enquiry Recorded (${referenceCode})` : 'Enquiry Ready to Send'}
               </h4>
               <p className="text-sm text-[#61524A] max-w-md mx-auto leading-relaxed">
-                Thank you, <strong className="text-[#2C1D18]">{formData.name}</strong>. Because this website runs without a live server database, tap below to dispatch your request via WhatsApp or call reception.
+                Thank you, <strong className="text-[#2C1D18]">{formData.name}</strong>. {referenceCode ? 'Your request has been logged and you can also dispatch it directly via WhatsApp or phone.' : 'Tap below to dispatch your request via WhatsApp or call reception.'}
               </p>
               <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
                 <a

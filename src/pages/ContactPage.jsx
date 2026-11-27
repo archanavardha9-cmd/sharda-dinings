@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Phone, Mail, MapPin, Clock, MessageSquare, ExternalLink, CheckCircle2, Navigation, Building2, Sparkles, Utensils, ShieldCheck, Compass, Send } from 'lucide-react';
 import { BUSINESS_INFO } from '../data/businessInfo';
+import { apiClient } from '../services/apiClient';
 import { GildedDivider, NumberedPill } from '../components/DecorativeGraphics';
 import {
   KineticTitle,
@@ -27,13 +28,25 @@ export default function ContactPage({ onOpenEnquiry, onOpenVerification }) {
   });
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name || !formData.phone) return;
 
     const message = `Hello Sharda Dinings (${department} Desk), I have an enquiry:\n\nName: ${formData.name}\nPhone: ${formData.phone}\nEmail: ${formData.email || 'None'}\nDepartment: ${department}\nMessage: ${formData.message || 'Please connect regarding services.'}`;
     const targetPhone = department.includes('Banquet') ? BUSINESS_INFO.phones[1].number : BUSINESS_INFO.whatsapp.number;
     const whatsappUrl = `https://wa.me/${targetPhone.replace('+', '')}?text=${encodeURIComponent(message)}`;
+
+    try {
+      await apiClient.submitContactEnquiry({
+        department,
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email,
+        message: formData.message || 'Please connect regarding services.',
+      });
+    } catch {
+      // Preserve WhatsApp handoff even when backend API is offline
+    }
 
     setSubmitted(true);
     window.open(whatsappUrl, '_blank', 'noopener,noreferrer');

@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { MENU_CATEGORIES, MENU_ITEMS } from '../data/menuData';
 import { BUSINESS_INFO } from '../data/businessInfo';
+import { apiClient } from '../services/apiClient';
 import { CutleryCrest } from '../components/DecorativeGraphics';
 import {
   FloatingSpiceCanvas,
@@ -36,6 +37,35 @@ export default function MenuPage({ onOpenEnquiry }) {
   const [isSpotlightPaused, setIsSpotlightPaused] = useState(false);
   const [mobileCategoryDrawerOpen, setMobileCategoryDrawerOpen] = useState(false);
   const [toolbarHeight, setToolbarHeight] = useState(68);
+  const [menuCategories, setMenuCategories] = useState(MENU_CATEGORIES);
+  const [menuItems, setMenuItems] = useState(MENU_ITEMS);
+  const [isLoadingMenu, setIsLoadingMenu] = useState(true);
+
+  useEffect(() => {
+    let active = true;
+    Promise.all([
+      apiClient.getMenuCategories(),
+      apiClient.getMenuItems({ limit: 200 }),
+    ])
+      .then(([catRes, itemsRes]) => {
+        if (!active) return;
+        if (Array.isArray(catRes?.categories) && catRes.categories.length > 0) {
+          setMenuCategories(catRes.categories);
+        }
+        if (Array.isArray(itemsRes?.items) && itemsRes.items.length > 0) {
+          setMenuItems(itemsRes.items);
+        }
+      })
+      .catch(() => {
+        // Keep local menuData fallback when backend API is offline
+      })
+      .finally(() => {
+        if (active) setIsLoadingMenu(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const fullCatalogRef = useRef(null);
   const stickyToolbarRef = useRef(null);
@@ -91,11 +121,11 @@ export default function MenuPage({ onOpenEnquiry }) {
   // Fast category lookup for search matching and labels
   const categoryLookup = useMemo(() => {
     const map = {};
-    MENU_CATEGORIES.forEach((cat) => {
+    menuCategories.forEach((cat) => {
       map[cat.id] = cat;
     });
     return map;
-  }, []);
+  }, [menuCategories]);
 
   // Curated editorial showcase spotlight dishes
   const spotlightCurations = [
@@ -225,17 +255,17 @@ export default function MenuPage({ onOpenEnquiry }) {
 
   // Dietary counts calculated accurately against active category & search or global totals
   const dietaryCounts = useMemo(() => ({
-    all: MENU_ITEMS.length,
-    veg: MENU_ITEMS.filter((i) => i.isVeg).length,
-    nonveg: MENU_ITEMS.filter((i) => !i.isVeg).length,
-    special: MENU_ITEMS.filter((i) => i.chefSpecial).length,
-  }), []);
+    all: menuItems.length,
+    veg: menuItems.filter((i) => i.isVeg).length,
+    nonveg: menuItems.filter((i) => !i.isVeg).length,
+    special: menuItems.filter((i) => i.chefSpecial).length,
+  }), [menuItems]);
 
   // Filtered menu items for Stage 2 (matches name, description, pairing, and category metadata)
   const filteredItems = useMemo(() => {
     const normalizedQuery = searchQuery.trim().toLowerCase();
 
-    return MENU_ITEMS.filter((item) => {
+    return menuItems.filter((item) => {
       const matchesCategory = activeCategory === 'all' || item.category === activeCategory;
       const matchesDietary =
         dietaryFilter === 'all' ||
@@ -255,7 +285,7 @@ export default function MenuPage({ onOpenEnquiry }) {
         (catMeta && catMeta.tag.toLowerCase().includes(normalizedQuery))
       );
     });
-  }, [activeCategory, dietaryFilter, searchQuery, categoryLookup]);
+  }, [activeCategory, dietaryFilter, searchQuery, categoryLookup, menuItems]);
 
   // Group filtered dishes cleanly by category
   const groupedCategories = useMemo(() => {
@@ -265,13 +295,13 @@ export default function MenuPage({ onOpenEnquiry }) {
       return [{ category: cat, items: filteredItems }];
     }
 
-    return MENU_CATEGORIES.filter((c) => c.id !== 'all')
+    return menuCategories.filter((c) => c.id !== 'all')
       .map((cat) => {
         const items = filteredItems.filter((i) => i.category === cat.id);
         return { category: cat, items };
       })
       .filter((group) => group.items.length > 0);
-  }, [activeCategory, filteredItems, categoryLookup]);
+  }, [activeCategory, filteredItems, categoryLookup, menuCategories]);
 
   const scrollToCatalog = useCallback(() => {
     if (!fullCatalogRef.current) return;

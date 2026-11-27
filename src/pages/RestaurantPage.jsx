@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Phone, Clock, Users, Calendar, Sparkles, CheckCircle2, ChevronRight, MessageSquare, Utensils, Star, ShieldCheck, HeartHandshake, Baby } from 'lucide-react';
 import { BUSINESS_INFO } from '../data/businessInfo';
+import { apiClient } from '../services/apiClient';
 import { GildedDivider, NumberedPill, WheatFlourish, SpiceStar } from '../components/DecorativeGraphics';
 import {
   FloatingDishPortal,
@@ -71,13 +72,28 @@ export default function RestaurantPage({ onOpenEnquiry, onOpenVerification }) {
     }
   ];
 
-  const handleReservationSubmit = (e) => {
+  const handleReservationSubmit = async (e) => {
     e.preventDefault();
     if (!reservation.name || !reservation.phone) return;
 
     const message = `Hello Sharda Dinings, please confirm table reservation:\n\nGuest: ${reservation.name}\nPhone: ${reservation.phone}\nDate: ${reservation.date || 'Flexible'} at ${reservation.time}\nGuests: ${reservation.guests}\nSeating: ${reservation.seating}\nNotes: ${reservation.notes || 'None'}`;
     const whatsappUrl = `https://wa.me/${BUSINESS_INFO.whatsapp.number.replace('+', '')}?text=${encodeURIComponent(message)}`;
-    
+
+    try {
+      await apiClient.submitReservation({
+        enquiryType: 'restaurant',
+        name: reservation.name,
+        phone: reservation.phone,
+        date: reservation.date,
+        time: reservation.time,
+        guests: reservation.guests,
+        seating: reservation.seating,
+        notes: reservation.notes,
+      });
+    } catch {
+      // Preserve WhatsApp handoff even when backend API is offline
+    }
+
     setFormSubmitted(true);
     window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
   };

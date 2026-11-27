@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Calendar, Users, Phone, Sparkles, CheckCircle2, ChevronRight, MessageSquare, ShieldCheck, HeartHandshake, Building2, Flame, Award } from 'lucide-react';
 import { BUSINESS_INFO } from '../data/businessInfo';
+import { apiClient } from '../services/apiClient';
 import { GildedDivider, NumberedPill, SpiceStar, WheatFlourish } from '../components/DecorativeGraphics';
 import {
   FloatingDishPortal,
@@ -61,12 +62,25 @@ export default function BanquetsPage({ onOpenEnquiry, onOpenVerification }) {
     }
   ];
 
-  const handleQuotationSubmit = (e) => {
+  const handleQuotationSubmit = async (e) => {
     e.preventDefault();
     if (!organizerName || !organizerPhone) return;
 
     const message = `Hello Sharda Dinings Banquet Desk, I would like to enquire about Event Booking:\n\nOrganizer: ${organizerName}\nPhone: ${organizerPhone}\nEvent Type: ${eventType}\nGuest Count: ${guestCount} Guests\nCatering: ${foodPreference}\nTentative Date: ${eventDate || 'Flexible'}\n\nPlease share hall availability and menu packages.`;
     const whatsappUrl = `https://wa.me/${BUSINESS_INFO.phones[1].number.replace('+', '')}?text=${encodeURIComponent(message)}`;
+
+    try {
+      await apiClient.submitBanquetEnquiry({
+        organizerName,
+        organizerPhone,
+        eventType,
+        guestCount,
+        eventDate,
+        foodPreference,
+      });
+    } catch {
+      // Preserve WhatsApp handoff even when backend API is offline
+    }
 
     setSubmitted(true);
     window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
